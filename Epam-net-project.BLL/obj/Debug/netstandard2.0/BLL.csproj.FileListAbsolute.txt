@@ -1,0 +1,5 @@
+C:\projects\Epam-net-project\BLL\bin\Debug\netstandard2.0\DAL.dll
+C:\projects\Epam-net-project\BLL\obj\Debug\netstandard2.0\BLL.csprojAssemblyReference.cache
+C:\projects\Epam-net-project\BLL\obj\Debug\netstandard2.0\BLL.csproj.CoreCompileInputs.cache
+C:\projects\Epam-net-project\BLL\obj\Debug\netstandard2.0\BLL.AssemblyInfoInputs.cache
+C:\projects\Epam-net-project\BLL\obj\Debug\netstandard2.0\BLL.AssemblyInfo.cs

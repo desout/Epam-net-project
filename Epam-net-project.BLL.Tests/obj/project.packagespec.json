@@ -1,0 +1,55 @@
+﻿{
+  "version": "1.0.0",
+  "restore": {
+    "projectUniqueName": "/Users/andrei_anelkin/projects/Epam-net-project/Epam-net-project.BLL.Tests/Epam-net-project.BLL.Tests.csproj",
+    "projectName": "Epam-net-project.BLL.Tests",
+    "projectPath": "/Users/andrei_anelkin/projects/Epam-net-project/Epam-net-project.BLL.Tests/Epam-net-project.BLL.Tests.csproj",
+    "outputPath": "/Users/andrei_anelkin/projects/Epam-net-project/Epam-net-project.BLL.Tests/obj/",
+    "projectStyle": "PackageReference",
+    "originalTargetFrameworks": [
+      "net472"
+    ],
+    "sources": {
+      "https://api.nuget.org/v3/index.json": {}
+    },
+    "frameworks": {
+      "net472": {
+        "projectReferences": {
+          "/Users/andrei_anelkin/projects/Epam-net-project/DAL/DAL.csproj": {
+            "projectPath": "/Users/andrei_anelkin/projects/Epam-net-project/DAL/DAL.csproj"
+          },
+          "/Users/andrei_anelkin/projects/Epam-net-project/Epam-net-project.BLL/Epam-net-project.BLL.csproj": {
+            "projectPath": "/Users/andrei_anelkin/projects/Epam-net-project/Epam-net-project.BLL/Epam-net-project.BLL.csproj"
+          }
+        }
+      }
+    },
+    "warningProperties": {
+      "warnAsError": [
+        "NU1605"
+      ]
+    }
+  },
+  "frameworks": {
+    "net472": {
+      "dependencies": {
+        "Microsoft.NET.Test.Sdk": {
+          "target": "Package",
+          "version": "[15.9.0, )"
+        },
+        "Moq": {
+          "target": "Package",
+          "version": "[4.12.0, )"
+        },
+        "NUnit3TestAdapter": {
+          "target": "Package",
+          "version": "[3.11.0, )"
+        },
+        "nunit": {
+          "target": "Package",
+          "version": "[3.11.0, )"
+        }
+      }
+    }
+  }
+}

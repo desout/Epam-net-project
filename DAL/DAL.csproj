@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <LangVersion>preview</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <None Remove="Repositories\LayoutRepository.cs___jb_tmp___" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="EntityFramework" Version="6.2.0" />
+        <PackageReference Include="System.Data.SqlClient" Version="4.6.1" />
+    </ItemGroup>
+
+</Project>

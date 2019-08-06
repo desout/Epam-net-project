@@ -1,0 +1,59 @@
+﻿{
+  "version": "1.0.0",
+  "restore": {
+    "projectUniqueName": "/Users/andrei_anelkin/projects/Epam-net-project/Epam-net-project.BLL/Epam-net-project.BLL.csproj",
+    "projectName": "Epam-net-project.BLL",
+    "projectPath": "/Users/andrei_anelkin/projects/Epam-net-project/Epam-net-project.BLL/Epam-net-project.BLL.csproj",
+    "outputPath": "/Users/andrei_anelkin/projects/Epam-net-project/Epam-net-project.BLL/obj/",
+    "projectStyle": "PackageReference",
+    "originalTargetFrameworks": [
+      "netstandard2.0"
+    ],
+    "sources": {
+      "https://api.nuget.org/v3/index.json": {}
+    },
+    "frameworks": {
+      "netstandard2.0": {
+        "projectReferences": {
+          "/Users/andrei_anelkin/projects/Epam-net-project/DAL/DAL.csproj": {
+            "projectPath": "/Users/andrei_anelkin/projects/Epam-net-project/DAL/DAL.csproj"
+          }
+        }
+      }
+    },
+    "warningProperties": {
+      "warnAsError": [
+        "NU1605"
+      ]
+    }
+  },
+  "frameworks": {
+    "netstandard2.0": {
+      "dependencies": {
+        "AutoMapper": {
+          "target": "Package",
+          "version": "[5.1.1, )"
+        },
+        "Autofac": {
+          "target": "Package",
+          "version": "[4.9.3, )"
+        },
+        "NETStandard.Library": {
+          "suppressParent": "All",
+          "target": "Package",
+          "version": "[2.0.3, )",
+          "autoReferenced": true
+        },
+        "Ninject": {
+          "target": "Package",
+          "version": "[4.0.0-beta-0134, )"
+        }
+      },
+      "imports": [
+        "net461"
+      ],
+      "assetTargetFallback": true,
+      "warn": true
+    }
+  }
+}
