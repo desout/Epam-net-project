@@ -32,47 +32,47 @@ namespace UnitTests
                     new Event
                     {
                         Id = 1, Name = "First Event", Description = "Description", LayoutId = 1,
-                        EventDate = DateTime.Now.Add(TimeSpan.FromDays(10))
+                        EventDate = DateTime.Today.Add(TimeSpan.FromDays(10))
                     },
                     new Event
                     {
                         Id = 2, Name = "Second Event", Description = "Description", LayoutId = 2,
-                        EventDate = DateTime.Now.Add(TimeSpan.FromDays(20))
+                        EventDate = DateTime.Today.Add(TimeSpan.FromDays(20))
                     },
                     new Event
                     {
                         Id = 3, Name = "Third Event", Description = "Description", LayoutId = 3,
-                        EventDate = DateTime.Now.Add(TimeSpan.FromDays(30))
+                        EventDate = DateTime.Today.Add(TimeSpan.FromDays(30))
                     },
                     new Event
                     {
                         Id = 4, Name = "Fourth Event", Description = "Description", LayoutId = 1,
-                        EventDate = DateTime.Now.Add(TimeSpan.FromDays(40))
+                        EventDate = DateTime.Today.Add(TimeSpan.FromDays(40))
                     },
                     new Event
                     {
                         Id = 5, Name = "Fifth Event", Description = "Description", LayoutId = 2,
-                        EventDate = DateTime.Now.Add(TimeSpan.FromDays(50))
+                        EventDate = DateTime.Today.Add(TimeSpan.FromDays(50))
                     },
                     new Event
                     {
                         Id = 6, Name = "Sixth Event", Description = "Description", LayoutId = 3,
-                        EventDate = DateTime.Now.Add(TimeSpan.FromDays(60))
+                        EventDate = DateTime.Today.Add(TimeSpan.FromDays(60))
                     },
                     new Event
                     {
                         Id = 7, Name = "Seventh Event", Description = "Description", LayoutId = 3,
-                        EventDate = DateTime.Now.Add(TimeSpan.FromDays(70))
+                        EventDate = DateTime.Today.Add(TimeSpan.FromDays(70))
                     },
                     new Event
                     {
                         Id = 8, Name = "Eighth Event", Description = "Description", LayoutId = 2,
-                        EventDate = DateTime.Now.Add(TimeSpan.FromDays(80))
+                        EventDate = DateTime.Today.Add(TimeSpan.FromDays(80))
                     },
                     new Event
                     {
                         Id = 9, Name = "Ninth Event", Description = "Description", LayoutId = 1,
-                        EventDate = DateTime.Now.Add(TimeSpan.FromDays(90))
+                        EventDate = DateTime.Today.Add(TimeSpan.FromDays(90))
                     }
                 });
             _eventRepository.Setup(x => x.Add(It.IsAny<Event>()))
@@ -114,12 +114,12 @@ namespace UnitTests
         }
 
         [Test]
-        public void CreateEvent_Success_ShouldReturnNewId()
+        public void xCreateEvent_Success_ShouldReturnNewId()
         {
             var sEvent = new EventDto
             {
                 Name = "New Event", Description = "Description", LayoutId = 1,
-                EventDate = DateTime.Now.Add(TimeSpan.FromDays(20))
+                EventDate = DateTime.Today.Add(TimeSpan.FromDays(1))
             };
 
             var result = _eventService.CreateEvent(sEvent);
@@ -133,7 +133,7 @@ namespace UnitTests
             var sEvent = new EventDto
             {
                 Name = "New Event", Description = "Description", LayoutId = 1,
-                EventDate = DateTime.Now.Add(TimeSpan.FromDays(10))
+                EventDate = DateTime.Today.Add(TimeSpan.FromDays(10))
             };
 
             var exception = Assert.Throws<Exception>(() => _eventService.CreateEvent(sEvent));
@@ -147,7 +147,7 @@ namespace UnitTests
             var sEvent = new EventDto
             {
                 Name = "New Event", Description = "Description", LayoutId = 1,
-                EventDate = DateTime.Now.Subtract(TimeSpan.FromDays(20))
+                EventDate = DateTime.Today.Subtract(TimeSpan.FromDays(20))
             };
 
             var exception = Assert.Throws<Exception>(() => _eventService.CreateEvent(sEvent));
@@ -161,7 +161,7 @@ namespace UnitTests
             var sEvent = new EventDto
             {
                 Name = "New Event", Description = "Description", LayoutId = 3,
-                EventDate = DateTime.Now.Add(TimeSpan.FromDays(20))
+                EventDate = DateTime.Today.Add(TimeSpan.FromDays(1))
             };
 
             var exception = Assert.Throws<Exception>(() => _eventService.CreateEvent(sEvent));
