@@ -6,6 +6,9 @@
     "projectPath": "/Users/andrei_anelkin/projects/Epam-net-project/Epam-net-project.BLL.Tests/Epam-net-project.BLL.Tests.csproj",
     "outputPath": "/Users/andrei_anelkin/projects/Epam-net-project/Epam-net-project.BLL.Tests/obj/",
     "projectStyle": "PackageReference",
+    "fallbackFolders": [
+      "/Users/andrei_anelkin/.dotnet/sdk/NuGetFallbackFolder"
+    ],
     "originalTargetFrameworks": [
       "net472"
     ],
@@ -15,11 +18,11 @@
     "frameworks": {
       "net472": {
         "projectReferences": {
-          "/Users/andrei_anelkin/projects/Epam-net-project/DAL/DAL.csproj": {
-            "projectPath": "/Users/andrei_anelkin/projects/Epam-net-project/DAL/DAL.csproj"
-          },
           "/Users/andrei_anelkin/projects/Epam-net-project/Epam-net-project.BLL/Epam-net-project.BLL.csproj": {
             "projectPath": "/Users/andrei_anelkin/projects/Epam-net-project/Epam-net-project.BLL/Epam-net-project.BLL.csproj"
+          },
+          "/Users/andrei_anelkin/projects/Epam-net-project/Epam-net-project.DAL/Epam-net-project.DAL.csproj": {
+            "projectPath": "/Users/andrei_anelkin/projects/Epam-net-project/Epam-net-project.DAL/Epam-net-project.DAL.csproj"
           }
         }
       }

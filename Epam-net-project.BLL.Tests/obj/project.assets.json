@@ -157,27 +157,13 @@
           "lib/netstandard2.0/System.Threading.Tasks.Extensions.dll": {}
         }
       },
-      "DAL/1.0.0": {
-        "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
-        "dependencies": {
-          "EntityFramework": "6.2.0",
-          "System.Data.SqlClient": "4.6.1"
-        },
-        "compile": {
-          "bin/placeholder/DAL.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/DAL.dll": {}
-        }
-      },
       "Epam-net-project.BLL/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
           "AutoMapper": "5.1.1",
           "Autofac": "4.9.3",
-          "DAL": "1.0.0",
+          "Epam-net-project.DAL": "1.0.0",
           "Ninject": "4.0.0-beta-0134"
         },
         "compile": {
@@ -185,6 +171,20 @@
         },
         "runtime": {
           "bin/placeholder/Epam-net-project.BLL.dll": {}
+        }
+      },
+      "Epam-net-project.DAL/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "dependencies": {
+          "EntityFramework": "6.2.0",
+          "System.Data.SqlClient": "4.6.1"
+        },
+        "compile": {
+          "bin/placeholder/Epam-net-project.DAL.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Epam-net-project.DAL.dll": {}
         }
       }
     }
@@ -564,21 +564,21 @@
         "version.txt"
       ]
     },
-    "DAL/1.0.0": {
-      "type": "project",
-      "path": "../DAL/DAL.csproj",
-      "msbuildProject": "../DAL/DAL.csproj"
-    },
     "Epam-net-project.BLL/1.0.0": {
       "type": "project",
       "path": "../Epam-net-project.BLL/Epam-net-project.BLL.csproj",
       "msbuildProject": "../Epam-net-project.BLL/Epam-net-project.BLL.csproj"
+    },
+    "Epam-net-project.DAL/1.0.0": {
+      "type": "project",
+      "path": "../Epam-net-project.DAL/Epam-net-project.DAL.csproj",
+      "msbuildProject": "../Epam-net-project.DAL/Epam-net-project.DAL.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETFramework,Version=v4.7.2": [
-      "DAL >= 1.0.0",
       "Epam-net-project.BLL >= 1.0.0",
+      "Epam-net-project.DAL >= 1.0.0",
       "Microsoft.NET.Test.Sdk >= 15.9.0",
       "Moq >= 4.12.0",
       "NUnit3TestAdapter >= 3.11.0",
@@ -586,7 +586,8 @@
     ]
   },
   "packageFolders": {
-    "/Users/andrei_anelkin/.nuget/packages/": {}
+    "/Users/andrei_anelkin/.nuget/packages/": {},
+    "/Users/andrei_anelkin/.dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
@@ -597,6 +598,9 @@
       "packagesPath": "/Users/andrei_anelkin/.nuget/packages/",
       "outputPath": "/Users/andrei_anelkin/projects/Epam-net-project/Epam-net-project.BLL.Tests/obj/",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "/Users/andrei_anelkin/.dotnet/sdk/NuGetFallbackFolder"
+      ],
       "configFilePaths": [
         "/Users/andrei_anelkin/.config/NuGet/NuGet.Config"
       ],
@@ -609,11 +613,11 @@
       "frameworks": {
         "net472": {
           "projectReferences": {
-            "/Users/andrei_anelkin/projects/Epam-net-project/DAL/DAL.csproj": {
-              "projectPath": "/Users/andrei_anelkin/projects/Epam-net-project/DAL/DAL.csproj"
-            },
             "/Users/andrei_anelkin/projects/Epam-net-project/Epam-net-project.BLL/Epam-net-project.BLL.csproj": {
               "projectPath": "/Users/andrei_anelkin/projects/Epam-net-project/Epam-net-project.BLL/Epam-net-project.BLL.csproj"
+            },
+            "/Users/andrei_anelkin/projects/Epam-net-project/Epam-net-project.DAL/Epam-net-project.DAL.csproj": {
+              "projectPath": "/Users/andrei_anelkin/projects/Epam-net-project/Epam-net-project.DAL/Epam-net-project.DAL.csproj"
             }
           }
         }

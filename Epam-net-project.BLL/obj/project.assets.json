@@ -805,7 +805,7 @@
           "ref/netstandard1.3/System.Threading.Tasks.dll": {}
         }
       },
-      "DAL/1.0.0": {
+      "Epam-net-project.DAL/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
@@ -813,10 +813,10 @@
           "System.Data.SqlClient": "4.6.1"
         },
         "compile": {
-          "bin/placeholder/DAL.dll": {}
+          "bin/placeholder/Epam-net-project.DAL.dll": {}
         },
         "runtime": {
-          "bin/placeholder/DAL.dll": {}
+          "bin/placeholder/Epam-net-project.DAL.dll": {}
         }
       }
     }
@@ -3598,23 +3598,24 @@
         "system.threading.tasks.nuspec"
       ]
     },
-    "DAL/1.0.0": {
+    "Epam-net-project.DAL/1.0.0": {
       "type": "project",
-      "path": "../DAL/DAL.csproj",
-      "msbuildProject": "../DAL/DAL.csproj"
+      "path": "../Epam-net-project.DAL/Epam-net-project.DAL.csproj",
+      "msbuildProject": "../Epam-net-project.DAL/Epam-net-project.DAL.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.0": [
       "AutoMapper >= 5.1.1",
       "Autofac >= 4.9.3",
-      "DAL >= 1.0.0",
+      "Epam-net-project.DAL >= 1.0.0",
       "NETStandard.Library >= 2.0.3",
       "Ninject >= 4.0.0-beta-0134"
     ]
   },
   "packageFolders": {
-    "/Users/andrei_anelkin/.nuget/packages/": {}
+    "/Users/andrei_anelkin/.nuget/packages/": {},
+    "/Users/andrei_anelkin/.dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
@@ -3625,6 +3626,9 @@
       "packagesPath": "/Users/andrei_anelkin/.nuget/packages/",
       "outputPath": "/Users/andrei_anelkin/projects/Epam-net-project/Epam-net-project.BLL/obj/",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "/Users/andrei_anelkin/.dotnet/sdk/NuGetFallbackFolder"
+      ],
       "configFilePaths": [
         "/Users/andrei_anelkin/.config/NuGet/NuGet.Config"
       ],
@@ -3637,8 +3641,8 @@
       "frameworks": {
         "netstandard2.0": {
           "projectReferences": {
-            "/Users/andrei_anelkin/projects/Epam-net-project/DAL/DAL.csproj": {
-              "projectPath": "/Users/andrei_anelkin/projects/Epam-net-project/DAL/DAL.csproj"
+            "/Users/andrei_anelkin/projects/Epam-net-project/Epam-net-project.DAL/Epam-net-project.DAL.csproj": {
+              "projectPath": "/Users/andrei_anelkin/projects/Epam-net-project/Epam-net-project.DAL/Epam-net-project.DAL.csproj"
             }
           }
         }

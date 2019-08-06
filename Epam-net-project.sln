@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{87C0C8E5-6D1F-4F1A-9099-4A8CC79C4842}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epam-net-project.DAL", "Epam-net-project.DAL\Epam-net-project.DAL.csproj", "{87C0C8E5-6D1F-4F1A-9099-4A8CC79C4842}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Epam-net-project.BLL", "Epam-net-project.BLL\Epam-net-project.BLL.csproj", "{3BF7774A-D957-495D-BEC7-40B1FFFCE3EF}"
 EndProject

@@ -16,8 +16,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DAL\DAL.csproj" />
       <ProjectReference Include="..\Epam-net-project.BLL\Epam-net-project.BLL.csproj" />
+      <ProjectReference Include="..\Epam-net-project.DAL\Epam-net-project.DAL.csproj" />
     </ItemGroup>
 
 </Project>
