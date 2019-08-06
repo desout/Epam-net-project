@@ -34,27 +34,27 @@ namespace UnitTests
                 {
                     new Venue
                     {
-                        Id = 1, Name = "First Event", Description = "Description", Address = "Address",
+                        Id = 1, Name = "First Venue", Description = "Description", Address = "Address",
                         Phone = "8-800-555-35-35"
                     },
                     new Venue
                     {
-                        Id = 2, Name = "Second Event", Description = "Description", Address = "Address",
+                        Id = 2, Name = "Second Venue", Description = "Description", Address = "Address",
                         Phone = "8-800-555-35-35"
                     },
                     new Venue
                     {
-                        Id = 3, Name = "Third Event", Description = "Description", Address = "Address",
+                        Id = 3, Name = "Third Venue", Description = "Description", Address = "Address",
                         Phone = "8-800-555-35-35"
                     },
                     new Venue
                     {
-                        Id = 4, Name = "Fourth Event", Description = "Description", Address = "Address",
+                        Id = 4, Name = "Fourth Venue", Description = "Description", Address = "Address",
                         Phone = "8-800-555-35-35"
                     },
                     new Venue
                     {
-                        Id = 5, Name = "Fifth Event", Description = "Description", Address = "Address",
+                        Id = 5, Name = "Fifth Venue", Description = "Description", Address = "Address",
                         Phone = "8-800-555-35-35"
                     }
                 });
@@ -107,13 +107,13 @@ namespace UnitTests
         {
             var venue = new VenueDto
             {
-                Name = "New Event", Description = "Description", Address = "Address",
+                Name = "New Venue", Description = "Description", Address = "Address",
                 Phone = "8-800-555-35-35"
             };
 
             var result = _venueService.CreateVenue(venue);
 
-            Assert.Equals(result, ReturnIdVenue);
+            Assert.AreEqual(result, ReturnIdVenue);
         }
 
         [Test]
@@ -121,7 +121,7 @@ namespace UnitTests
         {
             var venue = new VenueDto
             {
-                Name = "New Event", Description = "Description", Address = "Address",
+                Name = "First Venue", Description = "Description", Address = "Address",
                 Phone = "8-800-555-35-35"
             };
 
@@ -138,7 +138,7 @@ namespace UnitTests
 
             var result = _venueService.CreateLayout(layout);
 
-            Assert.Equals(result, ReturnIdLayout);
+            Assert.AreEqual(result, ReturnIdLayout);
         }
 
         [Test]
@@ -160,7 +160,7 @@ namespace UnitTests
 
             var result = _venueService.CreateArea(area);
 
-            Assert.Equals(result, ReturnIdArea);
+            Assert.AreEqual(result, ReturnIdArea);
         }
 
         [Test]
@@ -182,7 +182,7 @@ namespace UnitTests
 
             var result = _venueService.CreateSeat(seat);
 
-            Assert.Equals(result, ReturnIdSeat);
+            Assert.AreEqual(result, ReturnIdSeat);
         }
 
         [Test]

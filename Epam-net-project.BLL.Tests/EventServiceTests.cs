@@ -114,7 +114,7 @@ namespace UnitTests
         }
 
         [Test]
-        public void xCreateEvent_Success_ShouldReturnNewId()
+        public void CreateEvent_Success_ShouldReturnNewId()
         {
             var sEvent = new EventDto
             {
@@ -124,7 +124,7 @@ namespace UnitTests
 
             var result = _eventService.CreateEvent(sEvent);
 
-            Assert.Equals(result, ReturnId);
+            Assert.AreEqual(result, ReturnId);
         }
 
         [Test]
