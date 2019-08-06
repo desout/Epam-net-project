@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
-using BLL.Models;
-using BLL.Services;
-using DAL.Interfaces;
-using DAL.models;
+using EpamNetProject.BLL.Models;
+using EpamNetProject.BLL.Services;
+using EpamNetProject.DAL.Interfaces;
+using EpamNetProject.DAL.models;
 using Moq;
 using NUnit.Framework;
 
-namespace UnitTests
+namespace EpamNetProject.BLL.Tests
 {
     public class EventServiceTests
     {

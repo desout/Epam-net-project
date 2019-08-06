@@ -1,4 +1,4 @@
-﻿namespace BLL.Models
+﻿namespace EpamNetProject.BLL.Models
 {
     public class SeatDto
     {

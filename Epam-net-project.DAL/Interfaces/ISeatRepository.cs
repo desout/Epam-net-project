@@ -1,6 +1,6 @@
-﻿using DAL.models;
+﻿using EpamNetProject.DAL.models;
 
-namespace DAL.Interfaces
+namespace EpamNetProject.DAL.Interfaces
 {
     public interface ISeatRepository : IRepository<Seat>
     {

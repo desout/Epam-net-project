@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
-using DAL.Interfaces;
-using DAL.models;
+using EpamNetProject.DAL.Interfaces;
+using EpamNetProject.DAL.models;
 
-namespace DAL.Repositories
+namespace EpamNetProject.DAL.Repositories
 {
     public class LayoutRepository : ILayoutRepository
     {

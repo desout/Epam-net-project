@@ -1,8 +1,8 @@
 using AutoMapper;
-using BLL.Models;
-using DAL.models;
+using EpamNetProject.BLL.Models;
+using EpamNetProject.DAL.models;
 
-namespace BLL.Infrastucture
+namespace EpamNetProject.BLL.Infrastucture
 {
     internal static class MapperConfigurationProvider
     {

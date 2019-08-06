@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
 using AutoMapper;
-using BLL.Infrastucture;
-using BLL.Interfaces;
-using BLL.Models;
-using DAL.Interfaces;
-using DAL.models;
+using EpamNetProject.BLL.Infrastucture;
+using EpamNetProject.BLL.Interfaces;
+using EpamNetProject.BLL.Models;
+using EpamNetProject.DAL.Interfaces;
+using EpamNetProject.DAL.models;
 
-namespace BLL.Services
+namespace EpamNetProject.BLL.Services
 {
     public class VenueService : IVenueService
     {

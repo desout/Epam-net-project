@@ -1,10 +1,10 @@
 ﻿using Autofac;
-using BLL.Interfaces;
-using BLL.Services;
-using DAL.Interfaces;
-using DAL.Repositories;
+using EpamNetProject.BLL.Interfaces;
+using EpamNetProject.BLL.Services;
+using EpamNetProject.DAL.Interfaces;
+using EpamNetProject.DAL.Repositories;
 
-namespace BLL.Infrastucture
+namespace EpamNetProject.BLL.Infrastucture
 {
     public class ServiceModule : Module
     {

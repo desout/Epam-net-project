@@ -1,4 +1,4 @@
-﻿namespace DAL.models
+﻿namespace EpamNetProject.DAL.models
 {
     public class Area
     {

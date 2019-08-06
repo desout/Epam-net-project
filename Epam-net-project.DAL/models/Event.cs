@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DAL.models
+namespace EpamNetProject.DAL.models
 {
     public class Event
     {

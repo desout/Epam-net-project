@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using DAL.Interfaces;
+using EpamNetProject.DAL.Interfaces;
 
-namespace DAL.Repositories
+namespace EpamNetProject.DAL.Repositories
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {

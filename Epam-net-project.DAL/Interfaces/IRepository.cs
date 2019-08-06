@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DAL.Interfaces
+namespace EpamNetProject.DAL.Interfaces
 {
     public interface IRepository<TEntity> where TEntity : class
     {

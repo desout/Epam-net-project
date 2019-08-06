@@ -1,6 +1,6 @@
-﻿using BLL.Models;
+﻿using EpamNetProject.BLL.Models;
 
-namespace BLL.Interfaces
+namespace EpamNetProject.BLL.Interfaces
 {
     public interface IEventService
     {

@@ -5,7 +5,7 @@
 
         <IsPackable>false</IsPackable>
 
-        <RootNamespace>UnitTests</RootNamespace>
+        <RootNamespace>EpamNetProject.BLL.Tests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
