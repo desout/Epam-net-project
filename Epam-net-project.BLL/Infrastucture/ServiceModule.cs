@@ -17,7 +17,7 @@ namespace EpamNetProject.BLL.Infrastucture
 
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<EventService>().As<IEventService>()
+            /*builder.RegisterType<EventService>().As<IEventService>()
                 .WithParameter(new TypedParameter(typeof(string), _connectionString))
                 .InstancePerLifetimeScope();
             builder.RegisterType<VenueService>().As<IVenueService>()
@@ -43,7 +43,7 @@ namespace EpamNetProject.BLL.Infrastucture
                 .InstancePerLifetimeScope();
             builder.RegisterType<EventRepository>().As<IEventRepository>()
                 .WithParameter(new TypedParameter(typeof(string), _connectionString))
-                .InstancePerLifetimeScope();
+                .InstancePerLifetimeScope();*/
         }
     }
 }

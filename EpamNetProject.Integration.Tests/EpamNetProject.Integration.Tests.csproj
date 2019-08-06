@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net472</TargetFramework>
+
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="nunit" Version="3.11.0" />
+        <PackageReference Include="NUnit3TestAdapter" Version="3.11.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Epam-net-project.BLL\Epam-net-project.BLL.csproj" />
+      <ProjectReference Include="..\Epam-net-project.DAL\Epam-net-project.DAL.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="System.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+        <HintPath>..\..\..\..\..\Library\Frameworks\Mono.framework\Versions\5.18.0\lib\mono\4.7.2-api\System.Configuration.dll</HintPath>
+      </Reference>
+      <Reference Include="System.Transactions" />
+    </ItemGroup>
+
+</Project>

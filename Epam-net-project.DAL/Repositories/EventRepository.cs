@@ -26,8 +26,14 @@ namespace EpamNetProject.DAL.Repositories
                 conn.Open();
                 command.Parameters.Add(new SqlParameter("@Name", entity.Name));
                 command.Parameters.Add(new SqlParameter("@Descr", entity.Description));
+                command.Parameters.Add(new SqlParameter("@EventDate", entity.EventDate));
                 command.Parameters.Add(new SqlParameter("@LayoutId", entity.LayoutId));
-                return (int) command.ExecuteScalar();
+
+                using (var insertedOutput = command.ExecuteReader())
+                {
+                    insertedOutput.Read();
+                    return insertedOutput.GetInt32(0);
+                }
             }
         }
 

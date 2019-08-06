@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BLL", "BLL", "{F7CA2435-CFC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{9715D0D2-478D-43EA-848C-B79C70C0F97B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EpamNetProject.Integration.Tests", "EpamNetProject.Integration.Tests\EpamNetProject.Integration.Tests.csproj", "{3E603848-4288-4ABF-A318-E1E838D25ACF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{308AEBAB-01A6-45E4-94A1-C8AC1BAF1AFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{308AEBAB-01A6-45E4-94A1-C8AC1BAF1AFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{308AEBAB-01A6-45E4-94A1-C8AC1BAF1AFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E603848-4288-4ABF-A318-E1E838D25ACF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E603848-4288-4ABF-A318-E1E838D25ACF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E603848-4288-4ABF-A318-E1E838D25ACF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E603848-4288-4ABF-A318-E1E838D25ACF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
