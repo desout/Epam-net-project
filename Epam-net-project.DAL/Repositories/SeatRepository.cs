@@ -32,6 +32,13 @@ namespace EpamNetProject.DAL.Repositories
                        (@AreaId
                        ,@Row
                        ,@Number)";
+        
+        private const string UpdateQuery = @"
+                UPDATE [dbo].[Seat]
+                   SET [AreaId] = @AreaId
+                      ,[Row] = @Row
+                      ,[Number] = @Number
+                WHERE Id= @Id";
 
         private const string RemoveQuery = @"
             DELETE FROM [dbo].[Seat]
@@ -103,6 +110,22 @@ namespace EpamNetProject.DAL.Repositories
             }
 
             return id;
+        }
+        
+        public int Update(Seat entity)
+        {
+            using (var conn = new SqlConnection(SqlConnectionString))
+            using (var command = new SqlCommand(UpdateQuery, conn))
+            {
+                conn.Open();
+                command.Parameters.Add(new SqlParameter("@AreaId", entity.AreaId));
+                command.Parameters.Add(new SqlParameter("@Row", entity.Row));
+                command.Parameters.Add(new SqlParameter("@Number", entity.Number));
+                command.Parameters.Add(new SqlParameter("@Id", entity.Id));
+                command.ExecuteNonQuery();
+            }
+
+            return entity.Id;
         }
     }
 }

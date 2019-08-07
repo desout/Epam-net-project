@@ -37,6 +37,14 @@ namespace EpamNetProject.DAL.Repositories
                        ,@Number
                        ,@State)";
 
+        private const string UpdateQuery = @"
+                UPDATE [dbo].[EventSeat]
+                   SET [Row] = @Row
+                      ,[EventAreaId] = @EventAreaId
+                      ,[Number] = @Number
+                      ,[State] = @State
+                 WHERE Id= @Id";
+        
         private const string RemoveQuery = @"
             DELETE FROM [dbo].[EventSeat]
             WHERE Id = @Id";
@@ -109,6 +117,23 @@ namespace EpamNetProject.DAL.Repositories
             }
 
             return id;
+        }
+        
+        public int Update(EventSeat entity)
+        {
+            using (var conn = new SqlConnection(_sqlConnectionString))
+            using (var command = new SqlCommand(UpdateQuery, conn))
+            {
+                conn.Open();
+                command.Parameters.Add(new SqlParameter("@Row", entity.Row));
+                command.Parameters.Add(new SqlParameter("@Number", entity.Number));
+                command.Parameters.Add(new SqlParameter("@EventAreaId", entity.EventAreaId));
+                command.Parameters.Add(new SqlParameter("@State", entity.State));
+                command.Parameters.Add(new SqlParameter("@Id", entity.Id));
+                command.ExecuteNonQuery();
+            }
+
+            return entity.Id;
         }
     }
 }

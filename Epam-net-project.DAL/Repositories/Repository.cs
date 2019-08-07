@@ -82,5 +82,10 @@ namespace EpamNetProject.DAL.Repositories
 
             return -1;
         }
+
+        public int Update(TEntity entity)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

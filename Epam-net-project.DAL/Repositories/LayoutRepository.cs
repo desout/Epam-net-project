@@ -32,7 +32,14 @@ namespace EpamNetProject.DAL.Repositories
                        (@VenueId
                        ,@Descr
                        ,@LayoutName)";
-
+        
+        private const string UpdateQuery = @"
+            UPDATE [dbo].[Layout]
+               SET [VenueId] = @VenueId
+                  ,[LayoutName] = @LayoutName
+                  ,[Description] = @Descr
+             WHERE Id= @Id";
+        
         private const string RemoveQuery = @"
             DELETE FROM [dbo].[Layout]
             WHERE Id = @Id";
@@ -103,6 +110,22 @@ namespace EpamNetProject.DAL.Repositories
             }
 
             return id;
+        }
+        
+        public int Update(Layout entity)
+        {
+            using (var conn = new SqlConnection(_sqlConnectionString))
+            using (var command = new SqlCommand(UpdateQuery, conn))
+            {
+                conn.Open();
+                command.Parameters.Add(new SqlParameter("@VenueId", entity.VenueId));
+                command.Parameters.Add(new SqlParameter("@Descr", entity.Description));
+                command.Parameters.Add(new SqlParameter("@LayoutName", entity.LayoutName));
+                command.Parameters.Add(new SqlParameter("@Id", entity.Id));
+                command.ExecuteNonQuery();
+            }
+
+            return entity.Id;
         }
     }
 }

@@ -28,12 +28,7 @@ namespace EpamNetProject.DAL.Repositories
                 command.Parameters.Add(new SqlParameter("@Descr", entity.Description));
                 command.Parameters.Add(new SqlParameter("@EventDate", entity.EventDate));
                 command.Parameters.Add(new SqlParameter("@LayoutId", entity.LayoutId));
-
-                using (var insertedOutput = command.ExecuteReader())
-                {
-                    insertedOutput.Read();
-                    return insertedOutput.GetInt32(0);
-                }
+                return (int) command.ExecuteScalar();
             }
         }
 
@@ -93,6 +88,26 @@ namespace EpamNetProject.DAL.Repositories
             }
 
             return id;
+        }
+        
+        public int Update(Event entity)
+        {
+            using (var conn = new SqlConnection(SqlConnectionString))
+            using (var command = new SqlCommand("EventUpdate", conn)
+            {
+                CommandType = CommandType.StoredProcedure
+            })
+            {
+                conn.Open();
+                command.Parameters.Add(new SqlParameter("@Name", entity.Name));
+                command.Parameters.Add(new SqlParameter("@Descr", entity.Description));
+                command.Parameters.Add(new SqlParameter("@EventDate", entity.EventDate));
+                command.Parameters.Add(new SqlParameter("@LayoutId", entity.LayoutId));
+                command.Parameters.Add(new SqlParameter("@Id", entity.Id));
+                command.ExecuteNonQuery();
+            }
+
+            return entity.Id;
         }
     }
 }

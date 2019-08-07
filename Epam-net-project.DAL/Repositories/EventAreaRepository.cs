@@ -17,7 +17,7 @@ namespace EpamNetProject.DAL.Repositories
                 FROM [dbo].[EventArea]";
 
         private const string GetQuery = @"
-=                SELECT [Id]
+                SELECT [Id]
                   ,[EventId]
                   ,[Description]
                   ,[CoordX]
@@ -27,7 +27,7 @@ namespace EpamNetProject.DAL.Repositories
                 WHERE Id= @Id";
 
         private const string AddQuery = @"
-=            INSERT INTO [dbo].[EventArea]
+           INSERT INTO [dbo].[EventArea]
                ([EventId]
                ,[Description]
                ,[CoordX]
@@ -40,7 +40,16 @@ namespace EpamNetProject.DAL.Repositories
                ,@CoordX
                ,@CoordY
                ,@Price)";
-
+        
+        private const string UpdateQuery = @"
+            UPDATE [dbo].[EventArea]
+               SET [EventId] = @EventId
+                  ,[Description] = @Descr
+                  ,[CoordX] = @CoordX
+                  ,[CoordY] = @CoordY
+                  ,[Price] = @Price
+              WHERE Id= @Id";
+        
         private const string RemoveQuery = @"
             DELETE FROM [dbo].[EventArea]
             WHERE Id = @Id";
@@ -116,5 +125,24 @@ namespace EpamNetProject.DAL.Repositories
 
             return id;
         }
+        
+        public int Update(EventArea entity)
+        {
+            using (var conn = new SqlConnection(SqlConnectionString))
+            using (var command = new SqlCommand(UpdateQuery, conn))
+            {
+                conn.Open();
+                command.Parameters.Add(new SqlParameter("@Id", entity.Id));
+                command.Parameters.Add(new SqlParameter("@EventId", entity.EventId));
+                command.Parameters.Add(new SqlParameter("@Descr", entity.Description));
+                command.Parameters.Add(new SqlParameter("@CoordX", entity.CoordX));
+                command.Parameters.Add(new SqlParameter("@CoordY", entity.CoordY));
+                command.Parameters.Add(new SqlParameter("@Price", entity.Price));
+                command.ExecuteNonQuery();
+            }
+
+            return entity.Id;
+        }
+        
     }
 }

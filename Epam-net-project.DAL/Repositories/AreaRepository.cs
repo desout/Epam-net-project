@@ -36,7 +36,15 @@ namespace EpamNetProject.DAL.Repositories
                ,@Descr
                ,@CoordX
                ,@CoordY)";
-
+        
+        private const string UpdateQuery = @"
+            UPDATE [dbo].[Area]
+               SET [LayoutId] = @LayoutId
+                  ,[Description] = @Descr
+                  ,[CoordX] = @CoordX
+                  ,[CoordY] = @CoordY
+             WHERE Id= @Id";
+        
         private const string RemoveQuery = @"
             DELETE FROM [dbo].[Area]
             WHERE Id = @Id";
@@ -109,6 +117,23 @@ namespace EpamNetProject.DAL.Repositories
             }
 
             return id;
+        }
+
+        public int Update(Area entity)
+        {
+            using (var conn = new SqlConnection(SqlConnectionString))
+            using (var command = new SqlCommand(UpdateQuery, conn))
+            {
+                conn.Open();
+                command.Parameters.Add(new SqlParameter("@Id", entity.Id));
+                command.Parameters.Add(new SqlParameter("@LayoutId", entity.LayoutId));
+                command.Parameters.Add(new SqlParameter("@Descr", entity.Description));
+                command.Parameters.Add(new SqlParameter("@CoordX", entity.CoordX));
+                command.Parameters.Add(new SqlParameter("@CoordY", entity.CoordY));
+                command.ExecuteNonQuery();
+            }
+
+            return entity.Id;
         }
     }
 }

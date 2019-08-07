@@ -8,5 +8,6 @@ namespace EpamNetProject.DAL.Interfaces
         IEnumerable<TEntity> GetAll();
         int Add(TEntity entity);
         int Remove(int id);
+        int Update(TEntity entity);
     }
 }
