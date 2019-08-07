@@ -16,7 +16,6 @@ namespace EpamNetProject.DAL.Repositories
             FROM [dbo].[Area]";
 
         private const string GetQuery = @"
-            DECLARE @Id int;
             SELECT [Id]
             ,[LayoutId]
             ,[Description]
@@ -26,7 +25,6 @@ namespace EpamNetProject.DAL.Repositories
             WHERE Id= @Id";
 
         private const string AddQuery = @"
-            DECLARE @LayoutId int, @Descr varchar(50), @CoordX int, @CoordY int
             INSERT INTO [dbo].[Area]
                ([LayoutId]
                ,[Description]
@@ -40,7 +38,6 @@ namespace EpamNetProject.DAL.Repositories
                ,@CoordY)";
 
         private const string RemoveQuery = @"
-            DECLARE @Id int;
             DELETE FROM [dbo].[Area]
             WHERE Id = @Id";
 

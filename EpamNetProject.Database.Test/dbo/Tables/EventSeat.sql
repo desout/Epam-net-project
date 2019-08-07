@@ -1,0 +1,17 @@
+﻿CREATE TABLE [dbo].[EventSeat](
+	[Id] [int] IDENTITY(1,1),
+	[Row] [int] NOT NULL,
+	[EventAreaId] [int] NOT NULL,
+	[Number] [int] NOT NULL,
+	[State] [int] NOT NULL,
+ CONSTRAINT [PK_EventSeat] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[EventSeat]  WITH CHECK ADD  CONSTRAINT [FK_EventSeat_EventArea] FOREIGN KEY([EventAreaId])
+REFERENCES [dbo].[EventArea] ([Id])
+GO
+
+ALTER TABLE [dbo].[EventSeat] CHECK CONSTRAINT [FK_EventSeat_EventArea]

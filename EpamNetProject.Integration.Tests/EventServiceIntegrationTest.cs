@@ -16,7 +16,7 @@ namespace EpamNetProject.Integration.Tests
         private EventService _eventService;
         private ILayoutRepository _layoutRepository;
         private ISeatRepository _seatRepository;
-        private const int ReturnId = 11;
+        private const int ReturnId = 10;
         
         [SetUp]
         public void SetUp()
@@ -43,7 +43,7 @@ namespace EpamNetProject.Integration.Tests
                 var sEvent = new EventDto
                 {
                     Name = "New Event", Description = "Description", LayoutId = 1,
-                    EventDate = DateTime.Today.Add(TimeSpan.FromDays(1))
+                    EventDate = DateTime.Today.Add(TimeSpan.FromDays(23))
                 };
 
                 var result = _eventService.CreateEvent(sEvent);
@@ -94,7 +94,7 @@ namespace EpamNetProject.Integration.Tests
                 var sEvent = new EventDto
                 {
                     Name = "New Event", Description = "Description", LayoutId = 3,
-                    EventDate = DateTime.Today.Add(TimeSpan.FromDays(1))
+                    EventDate = DateTime.Today.Add(TimeSpan.FromDays(21))
                 };
 
                 var exception = Assert.Throws<Exception>(() => _eventService.CreateEvent(sEvent));

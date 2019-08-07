@@ -30,8 +30,8 @@ namespace EpamNetProject.BLL.Services
         public int CreateVenue(VenueDto venue)
         {
             if (IsVenueExist(venue)) throw new Exception("Venue can't be created for this name");
-
-            return _venueRepository.Add(_mapper.Map<Venue>(venue));
+            var ven = _mapper.Map<Venue>(venue);
+            return _venueRepository.Add(ven);
         }
 
         public int CreateLayout(LayoutDto layout)
