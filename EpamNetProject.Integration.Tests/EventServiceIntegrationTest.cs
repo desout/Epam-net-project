@@ -49,6 +49,7 @@ namespace EpamNetProject.Integration.Tests
 
                 var result = _eventService.CreateEvent(sEvent);
                 sEvent.Id = result;
+                sEvent.Sh
                 Assert.AreSame(_eventService.GetEvent(result), sEvent);
             }
         }

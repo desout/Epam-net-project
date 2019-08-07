@@ -7,6 +7,7 @@ using EpamNetProject.BLL.Models;
 using EpamNetProject.BLL.Services;
 using EpamNetProject.DAL.Interfaces;
 using EpamNetProject.DAL.Repositories;
+using FluentAssertions;
 using NUnit.Framework;
 
 namespace EpamNetProject.Integration.Tests
@@ -53,7 +54,7 @@ namespace EpamNetProject.Integration.Tests
                 var result = _venueService.CreateVenue(venue);
                 venue.Id = result;
                 
-                Assert.AreEqual(_venueService.GetVenue(result), venue);
+                venue.Should().BeEquivalentTo(_venueService.GetVenue(result));
             }
         }
 
@@ -85,7 +86,7 @@ namespace EpamNetProject.Integration.Tests
                 var result = _venueService.CreateLayout(layout);
                 layout.Id = result;
                 
-                Assert.AreEqual(_venueService.GetLayout(result), layout);
+                layout.Should().BeEquivalentTo(_venueService.GetLayout(result));
             }
         }
 
@@ -114,8 +115,8 @@ namespace EpamNetProject.Integration.Tests
 
                 var result = _venueService.CreateArea(area);
                 area.Id = result;
-                
-                Assert.AreSame(_venueService.GetArea(result), area);
+
+                area.Should().BeEquivalentTo(_venueService.GetArea(result));
             }
         }
 
@@ -144,8 +145,8 @@ namespace EpamNetProject.Integration.Tests
 
                 var result = _venueService.CreateSeat(seat);
                 seat.Id = result;
-                
-                Assert.AreEqual(_venueService.GetSeat(result), seat);
+
+                seat.Should().BeEquivalentTo(_venueService.GetSeat(result));
             }
         }
 
