@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using AutoMapper;
 using EpamNetProject.BLL.Infrastucture;
@@ -26,19 +27,20 @@ namespace EpamNetProject.BLL.Services
             _seatRepository = seatRepository;
             _mapper = MapperConfigurationProvider.GetMapperConfig();
         }
+        public EventDto GetEvent(int id) => _mapper.Map<EventDto>(_eventRepository.Get(id));
 
         public int CreateEvent(EventDto Event)
         {
             var validationResult = ModelValidation.IsValidModel(Event);
             if ( validationResult != null)
             {
-                throw new Exception(validationResult);
+                throw new ArgumentException(validationResult);
             }
-            if (Event.EventDate.CompareTo(DateTime.Now) < 0) throw new Exception("Event can't be added in past");
+            if (Event.EventDate.CompareTo(DateTime.Now) < 0) throw new ValidationException("Event can't be added in past");
 
-            if (IsEventExist(Event)) throw new Exception("Event can't be created for one venue in the same time");
+            if (IsEventExist(Event)) throw new ValidationException("Event can't be created for one venue in the same time");
 
-            if (!IsSeatsExist(Event)) throw new Exception("Event can't be created due to no seats exist");
+            if (!IsSeatsExist(Event)) throw new ValidationException("Event can't be created due to no seats exist");
 
             return _eventRepository.Add(_mapper.Map<Event>(Event));
         }

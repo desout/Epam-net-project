@@ -1,5 +1,7 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Configuration;
+using System.Linq;
 using System.Transactions;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.BLL.Services;
@@ -18,7 +20,7 @@ namespace EpamNetProject.Integration.Tests
         private ILayoutRepository _layoutRepository;
         private ISeatRepository _seatRepository;
         private const int ReturnId = 10;
-
+        private const int EventListLength = 10;
         [SetUp]
         public void SetUp()
         {
@@ -46,8 +48,8 @@ namespace EpamNetProject.Integration.Tests
                 };
 
                 var result = _eventService.CreateEvent(sEvent);
-
-                Assert.AreEqual(result, ReturnId);
+                sEvent.Id = result;
+                Assert.AreSame(_eventService.GetEvent(result), sEvent);
             }
         }
 
@@ -62,26 +64,9 @@ namespace EpamNetProject.Integration.Tests
                     EventDate = DateTime.Today.Add(TimeSpan.FromDays(1))
                 };
 
-                var exception = Assert.Throws<Exception>(() => _eventService.CreateEvent(sEvent));
+                var exception = Assert.Throws<ValidationException>(() => _eventService.CreateEvent(sEvent));
 
                 Assert.AreEqual("Event can't be created for one venue in the same time", exception.Message);
-            }
-        }
-
-        [Test]
-        public void CreateEvent_Fail_DateInPast()
-        {
-            using (var scope = new TransactionScope())
-            {
-                var sEvent = new EventDto
-                {
-                    Name = "New Event", Description = "Description", LayoutId = 1,
-                    EventDate = DateTime.Today.Subtract(TimeSpan.FromDays(20))
-                };
-
-                var exception = Assert.Throws<Exception>(() => _eventService.CreateEvent(sEvent));
-
-                Assert.AreEqual("Event can't be added in past", exception.Message);
             }
         }
 
@@ -96,27 +81,9 @@ namespace EpamNetProject.Integration.Tests
                     EventDate = DateTime.Today.Add(TimeSpan.FromDays(21))
                 };
 
-                var exception = Assert.Throws<Exception>(() => _eventService.CreateEvent(sEvent));
+                var exception = Assert.Throws<ValidationException>(() => _eventService.CreateEvent(sEvent));
 
                 Assert.AreEqual("Event can't be created due to no seats exist", exception.Message);
-            }
-        }
-        [Test]
-        public void CreateEvent_Fail_NameRequired()
-        {
-            using (var scope = new TransactionScope())
-            {
-                var sEvent = new EventDto
-                {
-                    Name = null,
-                    Description = "Description",
-                    LayoutId = 3,
-                    EventDate = DateTime.Today.Add(TimeSpan.FromDays(1))
-                };
-
-                var exception = Assert.Throws<Exception>(() => _eventService.CreateEvent(sEvent));
-
-                Assert.AreEqual("The Name field is required.", exception.Message);
             }
         }
     }

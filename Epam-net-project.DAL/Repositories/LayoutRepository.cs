@@ -18,7 +18,7 @@ namespace EpamNetProject.DAL.Repositories
                 SELECT [Id]
                   ,[LayoutName]
                   ,[VenueId]
-                  ,[Description],
+                  ,[Description]
                 FROM [dbo].[Layout]
                 WHERE Id= @Id";
 
@@ -71,8 +71,17 @@ namespace EpamNetProject.DAL.Repositories
             {
                 command.Parameters.Add(new SqlParameter("@Id", id));
                 conn.Open();
-                var tempEvent = (Layout) command.ExecuteScalar();
-                return tempEvent;
+                using (var insertedOutput = command.ExecuteReader())
+                {
+                    insertedOutput.Read();
+                    return new Layout
+                    {
+                        Id = insertedOutput.GetInt32(0),
+                        LayoutName = insertedOutput.GetString(1),
+                        VenueId = insertedOutput.GetInt32(2),
+                        Description = insertedOutput.GetString(3)
+                    };
+                }
             }
         }
 

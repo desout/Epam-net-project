@@ -77,8 +77,18 @@ namespace EpamNetProject.DAL.Repositories
             {
                 command.Parameters.Add(new SqlParameter("@Id", id));
                 conn.Open();
-                var tempEvent = (Venue) command.ExecuteScalar();
-                return tempEvent;
+                using (var insertedOutput = command.ExecuteReader())
+                {
+                    insertedOutput.Read();
+                    return new Venue
+                    {
+                        Id = insertedOutput.GetInt32(0),
+                        Name = insertedOutput.GetString(1),
+                        Description = insertedOutput.GetString(2),
+                        Address = insertedOutput.GetString(3),
+                        Phone = insertedOutput.GetString(4)
+                    };
+                }
             }
         }
 

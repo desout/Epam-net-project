@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.BLL.Services;
 using EpamNetProject.DAL.Interfaces;
@@ -126,7 +127,7 @@ namespace EpamNetProject.BLL.Tests
                 Phone = "8-800-555-35-35"
             };
 
-            var exception = Assert.Throws<Exception>(() => _venueService.CreateVenue(venue));
+            var exception = Assert.Throws<ValidationException>(() => _venueService.CreateVenue(venue));
 
             Assert.AreEqual("Venue can't be created for this name", exception.Message);
         }
@@ -142,7 +143,7 @@ namespace EpamNetProject.BLL.Tests
                 Phone = "8-800-555-35-35"
             };
 
-            var exception = Assert.Throws<Exception>(() => _venueService.CreateVenue(venue));
+            var exception = Assert.Throws<ArgumentException>(() => _venueService.CreateVenue(venue));
 
             Assert.AreEqual("The Name field is required.", exception.Message);
         }
@@ -163,7 +164,7 @@ namespace EpamNetProject.BLL.Tests
             var layout = new LayoutDto
             { Description = "Description", LayoutName = "1 layout name", VenueId = 1 };
 
-            var exception = Assert.Throws<Exception>(() => _venueService.CreateLayout(layout));
+            var exception = Assert.Throws<ValidationException>(() => _venueService.CreateLayout(layout));
 
             Assert.AreEqual("Layout can't be created for this name", exception.Message);
         }
@@ -174,7 +175,7 @@ namespace EpamNetProject.BLL.Tests
             var layout = new LayoutDto
             { Description = "Description", LayoutName = null, VenueId = 1 };
 
-            var exception = Assert.Throws<Exception>(() => _venueService.CreateLayout(layout));
+            var exception = Assert.Throws<ArgumentException>(() => _venueService.CreateLayout(layout));
 
             Assert.AreEqual("The LayoutName field is required.", exception.Message);
         }
@@ -196,7 +197,7 @@ namespace EpamNetProject.BLL.Tests
             var area = new AreaDto
                 {Description = "Description", CoordX = 10, CoordY = 20, LayoutId = 1};
 
-            var exception = Assert.Throws<Exception>(() => _venueService.CreateArea(area));
+            var exception = Assert.Throws<ValidationException>(() => _venueService.CreateArea(area));
 
             Assert.AreEqual("Area can't be created with this description", exception.Message);
         }
@@ -207,7 +208,7 @@ namespace EpamNetProject.BLL.Tests
             var area = new AreaDto
             { Description = null, CoordX = 10, CoordY = 20, LayoutId = 1 };
 
-            var exception = Assert.Throws<Exception>(() => _venueService.CreateArea(area));
+            var exception = Assert.Throws<ArgumentException>(() => _venueService.CreateArea(area));
 
             Assert.AreEqual("The Description field is required.", exception.Message);
         }
@@ -229,7 +230,7 @@ namespace EpamNetProject.BLL.Tests
             var seat = new SeatDto
                 {Number = 10, AreaId = 1, Row = 1};
 
-            var exception = Assert.Throws<Exception>(() => _venueService.CreateSeat(seat));
+            var exception = Assert.Throws<ValidationException>(() => _venueService.CreateSeat(seat));
 
             Assert.AreEqual("Seat can't be created with this seat and row", exception.Message);
         }

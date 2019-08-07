@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.BLL.Services;
 using EpamNetProject.DAL.Interfaces;
@@ -137,7 +138,7 @@ namespace EpamNetProject.BLL.Tests
                 EventDate = DateTime.Today.Add(TimeSpan.FromDays(10))
             };
 
-            var exception = Assert.Throws<Exception>(() => _eventService.CreateEvent(sEvent));
+            var exception = Assert.Throws<ValidationException>(() => _eventService.CreateEvent(sEvent));
 
             Assert.AreEqual("Event can't be created for one venue in the same time", exception.Message);
         }
@@ -151,7 +152,7 @@ namespace EpamNetProject.BLL.Tests
                 EventDate = DateTime.Today.Subtract(TimeSpan.FromDays(20))
             };
 
-            var exception = Assert.Throws<Exception>(() => _eventService.CreateEvent(sEvent));
+            var exception = Assert.Throws<ValidationException>(() => _eventService.CreateEvent(sEvent));
 
             Assert.AreEqual("Event can't be added in past", exception.Message);
         }
@@ -165,7 +166,7 @@ namespace EpamNetProject.BLL.Tests
                 EventDate = DateTime.Today.Add(TimeSpan.FromDays(1))
             };
 
-            var exception = Assert.Throws<Exception>(() => _eventService.CreateEvent(sEvent));
+            var exception = Assert.Throws<ValidationException>(() => _eventService.CreateEvent(sEvent));
 
             Assert.AreEqual("Event can't be created due to no seats exist", exception.Message);
         }
@@ -181,7 +182,7 @@ namespace EpamNetProject.BLL.Tests
                 EventDate = DateTime.Today.Add(TimeSpan.FromDays(1))
             };
 
-            var exception = Assert.Throws<Exception>(() => _eventService.CreateEvent(sEvent));
+            var exception = Assert.Throws<ArgumentException>(() => _eventService.CreateEvent(sEvent));
 
             Assert.AreEqual("The Name field is required.", exception.Message);
         }

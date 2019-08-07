@@ -1,5 +1,7 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Configuration;
+using System.Linq;
 using System.Transactions;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.BLL.Services;
@@ -49,8 +51,9 @@ namespace EpamNetProject.Integration.Tests
                 };
 
                 var result = _venueService.CreateVenue(venue);
-
-                Assert.AreEqual(result, ReturnIdVenue);
+                venue.Id = result;
+                
+                Assert.AreEqual(_venueService.GetVenue(result), venue);
             }
         }
 
@@ -65,28 +68,9 @@ namespace EpamNetProject.Integration.Tests
                     Phone = "8-800-555-35-35"
                 };
 
-                var exception = Assert.Throws<Exception>(() => _venueService.CreateVenue(venue));
+                var exception = Assert.Throws<ValidationException>(() => _venueService.CreateVenue(venue));
 
                 Assert.AreEqual("Venue can't be created for this name", exception.Message);
-            }
-        }
-
-        [Test]
-        public void CreateVenue_Fail_VenueNameRequired()
-        {
-            using (var scope = new TransactionScope())
-            {
-                var venue = new VenueDto
-                {
-                    Name = null,
-                    Description = "Description",
-                    Address = "Address",
-                    Phone = "8-800-555-35-35"
-                };
-
-                var exception = Assert.Throws<Exception>(() => _venueService.CreateVenue(venue));
-
-                Assert.AreEqual("The Name field is required.", exception.Message);
             }
         }
 
@@ -99,8 +83,9 @@ namespace EpamNetProject.Integration.Tests
                     {Description = "Description", LayoutName = "new layout name", VenueId = 1};
 
                 var result = _venueService.CreateLayout(layout);
-
-                Assert.AreEqual(result, ReturnIdLayout);
+                layout.Id = result;
+                
+                Assert.AreEqual(_venueService.GetLayout(result), layout);
             }
         }
 
@@ -112,25 +97,12 @@ namespace EpamNetProject.Integration.Tests
                 var layout = new LayoutDto
                     {Description = "Description", LayoutName = "1 layout name", VenueId = 1};
 
-                var exception = Assert.Throws<Exception>(() => _venueService.CreateLayout(layout));
+                var exception = Assert.Throws<ValidationException>(() => _venueService.CreateLayout(layout));
 
                 Assert.AreEqual("Layout can't be created for this name", exception.Message);
             }
         }
-
-        [Test]
-        public void CreateLayout_Fail_LayoutNameRequired()
-        {
-            using (var scope = new TransactionScope())
-            {
-                var layout = new LayoutDto
-                { Description = "Description", LayoutName = null, VenueId = 1 };
-
-                var exception = Assert.Throws<Exception>(() => _venueService.CreateLayout(layout));
-
-                Assert.AreEqual("The LayoutName field is required.", exception.Message);
-            }
-        }
+        
 
         [Test]
         public void CreateArea_Success_ShouldReturnNewId()
@@ -141,8 +113,9 @@ namespace EpamNetProject.Integration.Tests
                     {Description = "new Description", CoordX = 10, CoordY = 20, LayoutId = 1};
 
                 var result = _venueService.CreateArea(area);
-
-                Assert.AreEqual(result, ReturnIdArea);
+                area.Id = result;
+                
+                Assert.AreSame(_venueService.GetArea(result), area);
             }
         }
 
@@ -154,25 +127,12 @@ namespace EpamNetProject.Integration.Tests
                 var area = new AreaDto
                     {Description = "Description", CoordX = 10, CoordY = 20, LayoutId = 1};
 
-                var exception = Assert.Throws<Exception>(() => _venueService.CreateArea(area));
+                var exception = Assert.Throws<ValidationException>(() => _venueService.CreateArea(area));
 
                 Assert.AreEqual("Area can't be created with this description", exception.Message);
             }
         }
-
-        [Test]
-        public void CreateArea_Fail_AreaDescriptionRequired()
-        {
-            using (var scope = new TransactionScope())
-            {
-                var area = new AreaDto
-                { Description = null, CoordX = 10, CoordY = 20, LayoutId = 1 };
-
-                var exception = Assert.Throws<Exception>(() => _venueService.CreateArea(area));
-
-                Assert.AreEqual("The Description field is required.", exception.Message);
-            }
-        }
+        
 
         [Test]
         public void CreateSeat_Success_ShouldReturnNewId()
@@ -183,8 +143,9 @@ namespace EpamNetProject.Integration.Tests
                     {Number = 11, AreaId = 1, Row = 12};
 
                 var result = _venueService.CreateSeat(seat);
-
-                Assert.AreEqual(result, ReturnIdSeat);
+                seat.Id = result;
+                
+                Assert.AreEqual(_venueService.GetSeat(result), seat);
             }
         }
 
@@ -196,7 +157,7 @@ namespace EpamNetProject.Integration.Tests
                 var seat = new SeatDto
                     {Number = 10, AreaId = 1, Row = 1};
 
-                var exception = Assert.Throws<Exception>(() => _venueService.CreateSeat(seat));
+                var exception = Assert.Throws<ValidationException>(() => _venueService.CreateSeat(seat));
 
                 Assert.AreEqual("Seat can't be created with this seat and row", exception.Message);
             }
