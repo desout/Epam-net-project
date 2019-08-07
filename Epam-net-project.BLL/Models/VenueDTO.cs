@@ -1,15 +1,14 @@
-﻿namespace EpamNetProject.BLL.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace EpamNetProject.BLL.Models
 {
     public class VenueDto
     {
         public int Id { get; set; }
 
-        public string Name { get; set; }
-
-        public string Description { get; set; }
-
-        public string Address { get; set; }
-
-        public string Phone { get; set; }
+        [Required] public string Name { get; set; }
+        [Required] public string Description { get; set; }
+        [Required] public string Address { get; set; }
+        [Required] public string Phone { get; set; }
     }
 }

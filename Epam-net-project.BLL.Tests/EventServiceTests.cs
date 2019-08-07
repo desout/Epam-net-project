@@ -9,6 +9,7 @@ using NUnit.Framework;
 
 namespace EpamNetProject.BLL.Tests
 {
+    [TestFixture]
     public class EventServiceTests
     {
         private const int ReturnId = 10;
@@ -167,6 +168,22 @@ namespace EpamNetProject.BLL.Tests
             var exception = Assert.Throws<Exception>(() => _eventService.CreateEvent(sEvent));
 
             Assert.AreEqual("Event can't be created due to no seats exist", exception.Message);
+        }
+
+        [Test]
+        public void CreateEvent_Fail_NameRequired()
+        {
+            var sEvent = new EventDto
+            {
+                Name= null,
+                Description = "Description",
+                LayoutId = 3,
+                EventDate = DateTime.Today.Add(TimeSpan.FromDays(1))
+            };
+
+            var exception = Assert.Throws<Exception>(() => _eventService.CreateEvent(sEvent));
+
+            Assert.AreEqual("The Name field is required.", exception.Message);
         }
     }
 }

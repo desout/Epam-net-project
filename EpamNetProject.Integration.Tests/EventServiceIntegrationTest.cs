@@ -9,6 +9,7 @@ using NUnit.Framework;
 
 namespace EpamNetProject.Integration.Tests
 {
+    [TestFixture]
     public class EventServiceIntegrationTest
     {
         private IAreaRepository _areaRepository;
@@ -17,27 +18,25 @@ namespace EpamNetProject.Integration.Tests
         private ILayoutRepository _layoutRepository;
         private ISeatRepository _seatRepository;
         private const int ReturnId = 10;
-        
+
         [SetUp]
         public void SetUp()
         {
-            var sqlConnectionString = 
-                ConfigurationManager.
-                    ConnectionStrings["SqlConnectionString"].ConnectionString;
-            
+            var sqlConnectionString =
+                ConfigurationManager.ConnectionStrings["SqlConnectionString"].ConnectionString;
+
             _eventRepository = new EventRepository(sqlConnectionString);
             _layoutRepository = new LayoutRepository(sqlConnectionString);
             _areaRepository = new AreaRepository(sqlConnectionString);
             _seatRepository = new SeatRepository(sqlConnectionString);
-            
+
             _eventService = new EventService(_eventRepository, _layoutRepository,
                 _areaRepository, _seatRepository);
         }
-        
+
         [Test]
         public void CreateEvent_Success_ShouldReturnNewId()
         {
-            
             using (var scope = new TransactionScope())
             {
                 var sEvent = new EventDto
@@ -51,7 +50,7 @@ namespace EpamNetProject.Integration.Tests
                 Assert.AreEqual(result, ReturnId);
             }
         }
-        
+
         [Test]
         public void CreateEvent_Fail_SameTimeException()
         {
@@ -100,6 +99,24 @@ namespace EpamNetProject.Integration.Tests
                 var exception = Assert.Throws<Exception>(() => _eventService.CreateEvent(sEvent));
 
                 Assert.AreEqual("Event can't be created due to no seats exist", exception.Message);
+            }
+        }
+        [Test]
+        public void CreateEvent_Fail_NameRequired()
+        {
+            using (var scope = new TransactionScope())
+            {
+                var sEvent = new EventDto
+                {
+                    Name = null,
+                    Description = "Description",
+                    LayoutId = 3,
+                    EventDate = DateTime.Today.Add(TimeSpan.FromDays(1))
+                };
+
+                var exception = Assert.Throws<Exception>(() => _eventService.CreateEvent(sEvent));
+
+                Assert.AreEqual("The Name field is required.", exception.Message);
             }
         }
     }

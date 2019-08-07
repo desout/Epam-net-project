@@ -74,5 +74,6 @@
     <Build Include="dbo\Stored Procedures\EventSelectAll.sql" />
     <Build Include="dbo\Stored Procedures\EventSelectById.sql" />
     <PostDeploy Include="dbo\Post\GenerateInitialValues.sql" />
+    <Build Include="dbo\Stored Procedures\EventUpdate.sql" />
   </ItemGroup>
 </Project>

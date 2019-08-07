@@ -40,7 +40,7 @@ namespace EpamNetProject.DAL.Repositories
                ,@CoordX
                ,@CoordY
                ,@Price)";
-        
+
         private const string UpdateQuery = @"
             UPDATE [dbo].[EventArea]
                SET [EventId] = @EventId
@@ -49,7 +49,7 @@ namespace EpamNetProject.DAL.Repositories
                   ,[CoordY] = @CoordY
                   ,[Price] = @Price
               WHERE Id= @Id";
-        
+
         private const string RemoveQuery = @"
             DELETE FROM [dbo].[EventArea]
             WHERE Id = @Id";
@@ -125,7 +125,7 @@ namespace EpamNetProject.DAL.Repositories
 
             return id;
         }
-        
+
         public int Update(EventArea entity)
         {
             using (var conn = new SqlConnection(SqlConnectionString))
@@ -143,6 +143,5 @@ namespace EpamNetProject.DAL.Repositories
 
             return entity.Id;
         }
-        
     }
 }

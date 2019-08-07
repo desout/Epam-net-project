@@ -9,6 +9,7 @@ using NUnit.Framework;
 
 namespace EpamNetProject.BLL.Tests
 {
+    [TestFixture]
     public class VenueServiceTests
     {
         private const int ReturnIdVenue = 10;
@@ -131,10 +132,25 @@ namespace EpamNetProject.BLL.Tests
         }
 
         [Test]
+        public void CreateVenue_Fail_VenueNameRequired()
+        {
+            var venue = new VenueDto
+            {
+                Name = null,
+                Description = "Description",
+                Address = "Address",
+                Phone = "8-800-555-35-35"
+            };
+
+            var exception = Assert.Throws<Exception>(() => _venueService.CreateVenue(venue));
+
+            Assert.AreEqual("The Name field is required.", exception.Message);
+        }
+        [Test]
         public void CreateLayout_Success_ShouldReturnNewId()
         {
             var layout = new LayoutDto
-                {Description = "Description", LayoutName = "new layout name", VenueId = 1};
+            { Description = "Description", LayoutName = "new layout name", VenueId = 1 };
 
             var result = _venueService.CreateLayout(layout);
 
@@ -145,11 +161,22 @@ namespace EpamNetProject.BLL.Tests
         public void CreateLayout_Fail_VenueExistException()
         {
             var layout = new LayoutDto
-                {Description = "Description", LayoutName = "1 layout name", VenueId = 1};
+            { Description = "Description", LayoutName = "1 layout name", VenueId = 1 };
 
             var exception = Assert.Throws<Exception>(() => _venueService.CreateLayout(layout));
 
             Assert.AreEqual("Layout can't be created for this name", exception.Message);
+        }
+
+        [Test]
+        public void CreateLayout_Fail_LayoutNameRequired()
+        {
+            var layout = new LayoutDto
+            { Description = "Description", LayoutName = null, VenueId = 1 };
+
+            var exception = Assert.Throws<Exception>(() => _venueService.CreateLayout(layout));
+
+            Assert.AreEqual("The LayoutName field is required.", exception.Message);
         }
 
         [Test]
@@ -172,6 +199,17 @@ namespace EpamNetProject.BLL.Tests
             var exception = Assert.Throws<Exception>(() => _venueService.CreateArea(area));
 
             Assert.AreEqual("Area can't be created with this description", exception.Message);
+        }
+
+        [Test]
+        public void CreateArea_Fail_AreaDescriptionRequired()
+        {
+            var area = new AreaDto
+            { Description = null, CoordX = 10, CoordY = 20, LayoutId = 1 };
+
+            var exception = Assert.Throws<Exception>(() => _venueService.CreateArea(area));
+
+            Assert.AreEqual("The Description field is required.", exception.Message);
         }
 
         [Test]

@@ -1,10 +1,12 @@
-﻿namespace EpamNetProject.BLL.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace EpamNetProject.BLL.Models
 {
     public class LayoutDto
     {
         public int Id { get; set; }
-        public int VenueId { get; set; }
-        public string LayoutName { get; set; }
-        public string Description { get; set; }
+        [Required] public int VenueId { get; set; }
+        [Required] public string LayoutName { get; set; }
+        [Required] public string Description { get; set; }
     }
 }

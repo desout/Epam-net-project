@@ -29,6 +29,11 @@ namespace EpamNetProject.BLL.Services
 
         public int CreateEvent(EventDto Event)
         {
+            var validationResult = ModelValidation.IsValidModel(Event);
+            if ( validationResult != null)
+            {
+                throw new Exception(validationResult);
+            }
             if (Event.EventDate.CompareTo(DateTime.Now) < 0) throw new Exception("Event can't be added in past");
 
             if (IsEventExist(Event)) throw new Exception("Event can't be created for one venue in the same time");

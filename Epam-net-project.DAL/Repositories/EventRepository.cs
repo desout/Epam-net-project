@@ -89,7 +89,7 @@ namespace EpamNetProject.DAL.Repositories
 
             return id;
         }
-        
+
         public int Update(Event entity)
         {
             using (var conn = new SqlConnection(SqlConnectionString))

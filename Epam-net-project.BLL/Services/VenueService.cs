@@ -29,6 +29,11 @@ namespace EpamNetProject.BLL.Services
 
         public int CreateVenue(VenueDto venue)
         {
+            var validationResult = ModelValidation.IsValidModel(venue);
+            if ( validationResult != null)
+            {
+                throw new Exception(validationResult);
+            }
             if (IsVenueExist(venue)) throw new Exception("Venue can't be created for this name");
             var ven = _mapper.Map<Venue>(venue);
             return _venueRepository.Add(ven);
@@ -36,6 +41,11 @@ namespace EpamNetProject.BLL.Services
 
         public int CreateLayout(LayoutDto layout)
         {
+            var validationResult = ModelValidation.IsValidModel(layout);
+            if ( validationResult != null)
+            {
+                throw new Exception(validationResult);
+            }
             if (IsLayoutExist(layout)) throw new Exception("Layout can't be created for this name");
 
             return _layoutRepository.Add(_mapper.Map<Layout>(layout));
@@ -43,6 +53,11 @@ namespace EpamNetProject.BLL.Services
 
         public int CreateSeat(SeatDto seat)
         {
+            var validationResult = ModelValidation.IsValidModel(seat);
+            if ( validationResult != null)
+            {
+                throw new Exception(validationResult);
+            }
             if (IsSeatExist(seat)) throw new Exception("Seat can't be created with this seat and row");
 
             return _seatRepository.Add(_mapper.Map<Seat>(seat));
@@ -50,6 +65,11 @@ namespace EpamNetProject.BLL.Services
 
         public int CreateArea(AreaDto area)
         {
+            var validationResult = ModelValidation.IsValidModel(area);
+            if ( validationResult != null)
+            {
+                throw new Exception(validationResult);
+            }
             if (IsAreaExist(area)) throw new Exception("Area can't be created with this description");
 
             return _areaRepository.Add(_mapper.Map<Area>(area));

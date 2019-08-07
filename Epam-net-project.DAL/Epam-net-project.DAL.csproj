@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <None Remove="Repositories\LayoutRepository.cs___jb_tmp___" />
+        <None Remove="Repositories\LayoutRepository.cs___jb_tmp___" />
     </ItemGroup>
 
     <ItemGroup>

@@ -1,8 +1,7 @@
 ﻿namespace EpamNetProject.DAL.models
 {
-    public class EventArea
+    public class EventArea : BaseEntity
     {
-        public int Id { get; set; }
         public int EventId { get; set; }
         public string Description { get; set; }
         public int CoordX { get; set; }

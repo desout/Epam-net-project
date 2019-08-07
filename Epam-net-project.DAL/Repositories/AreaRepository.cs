@@ -36,7 +36,7 @@ namespace EpamNetProject.DAL.Repositories
                ,@Descr
                ,@CoordX
                ,@CoordY)";
-        
+
         private const string UpdateQuery = @"
             UPDATE [dbo].[Area]
                SET [LayoutId] = @LayoutId
@@ -44,7 +44,7 @@ namespace EpamNetProject.DAL.Repositories
                   ,[CoordX] = @CoordX
                   ,[CoordY] = @CoordY
              WHERE Id= @Id";
-        
+
         private const string RemoveQuery = @"
             DELETE FROM [dbo].[Area]
             WHERE Id = @Id";

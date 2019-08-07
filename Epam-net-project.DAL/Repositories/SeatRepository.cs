@@ -32,7 +32,7 @@ namespace EpamNetProject.DAL.Repositories
                        (@AreaId
                        ,@Row
                        ,@Number)";
-        
+
         private const string UpdateQuery = @"
                 UPDATE [dbo].[Seat]
                    SET [AreaId] = @AreaId
@@ -111,7 +111,7 @@ namespace EpamNetProject.DAL.Repositories
 
             return id;
         }
-        
+
         public int Update(Seat entity)
         {
             using (var conn = new SqlConnection(SqlConnectionString))

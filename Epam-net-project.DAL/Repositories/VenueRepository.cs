@@ -36,7 +36,7 @@ namespace EpamNetProject.DAL.Repositories
                            ,@Address
                            ,@Phone
                            ,@Name)";
-        
+
         private const string UpdateQuery = @"
             UPDATE [dbo].[Venue]
                SET [Name] = @Name
@@ -44,7 +44,7 @@ namespace EpamNetProject.DAL.Repositories
                   ,[Address] = @Address
                   ,[Phone] = @Phone
                 WHERE Id= @Id";
-        
+
         private const string RemoveQuery = @"
             DELETE FROM [dbo].[Venue]
             WHERE Id = @Id";
@@ -118,7 +118,7 @@ namespace EpamNetProject.DAL.Repositories
 
             return id;
         }
-        
+
         public int Update(Venue entity)
         {
             using (var conn = new SqlConnection(_sqlConnectionString))

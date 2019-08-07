@@ -44,7 +44,7 @@ namespace EpamNetProject.DAL.Repositories
                       ,[Number] = @Number
                       ,[State] = @State
                  WHERE Id= @Id";
-        
+
         private const string RemoveQuery = @"
             DELETE FROM [dbo].[EventSeat]
             WHERE Id = @Id";
@@ -118,7 +118,7 @@ namespace EpamNetProject.DAL.Repositories
 
             return id;
         }
-        
+
         public int Update(EventSeat entity)
         {
             using (var conn = new SqlConnection(_sqlConnectionString))

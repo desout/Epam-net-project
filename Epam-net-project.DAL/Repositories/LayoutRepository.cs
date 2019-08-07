@@ -32,14 +32,14 @@ namespace EpamNetProject.DAL.Repositories
                        (@VenueId
                        ,@Descr
                        ,@LayoutName)";
-        
+
         private const string UpdateQuery = @"
             UPDATE [dbo].[Layout]
                SET [VenueId] = @VenueId
                   ,[LayoutName] = @LayoutName
                   ,[Description] = @Descr
              WHERE Id= @Id";
-        
+
         private const string RemoveQuery = @"
             DELETE FROM [dbo].[Layout]
             WHERE Id = @Id";
@@ -111,7 +111,7 @@ namespace EpamNetProject.DAL.Repositories
 
             return id;
         }
-        
+
         public int Update(Layout entity)
         {
             using (var conn = new SqlConnection(_sqlConnectionString))

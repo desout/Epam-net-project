@@ -9,6 +9,7 @@ using NUnit.Framework;
 
 namespace EpamNetProject.Integration.Tests
 {
+    [TestFixture]
     public class VenueServiceIntegrationTest
     {
         private const int ReturnIdVenue = 6;
@@ -20,23 +21,22 @@ namespace EpamNetProject.Integration.Tests
         private ISeatRepository _seatRepository;
         private IVenueRepository _venueRepository;
         private VenueService _venueService;
-        
+
         [SetUp]
         public void SetUp()
         {
-            var sqlConnectionString = 
-                ConfigurationManager.
-                    ConnectionStrings["SqlConnectionString"].ConnectionString;
-            
+            var sqlConnectionString =
+                ConfigurationManager.ConnectionStrings["SqlConnectionString"].ConnectionString;
+
             _venueRepository = new VenueRepository(sqlConnectionString);
             _layoutRepository = new LayoutRepository(sqlConnectionString);
             _areaRepository = new AreaRepository(sqlConnectionString);
             _seatRepository = new SeatRepository(sqlConnectionString);
-            
+
             _venueService = new VenueService(_seatRepository, _layoutRepository,
                 _venueRepository, _areaRepository);
         }
-        
+
         [Test]
         public void CreateVenue_Success_ShouldReturnNewId()
         {
@@ -72,6 +72,25 @@ namespace EpamNetProject.Integration.Tests
         }
 
         [Test]
+        public void CreateVenue_Fail_VenueNameRequired()
+        {
+            using (var scope = new TransactionScope())
+            {
+                var venue = new VenueDto
+                {
+                    Name = null,
+                    Description = "Description",
+                    Address = "Address",
+                    Phone = "8-800-555-35-35"
+                };
+
+                var exception = Assert.Throws<Exception>(() => _venueService.CreateVenue(venue));
+
+                Assert.AreEqual("The Name field is required.", exception.Message);
+            }
+        }
+
+        [Test]
         public void CreateLayout_Success_ShouldReturnNewId()
         {
             using (var scope = new TransactionScope())
@@ -100,6 +119,20 @@ namespace EpamNetProject.Integration.Tests
         }
 
         [Test]
+        public void CreateLayout_Fail_LayoutNameRequired()
+        {
+            using (var scope = new TransactionScope())
+            {
+                var layout = new LayoutDto
+                { Description = "Description", LayoutName = null, VenueId = 1 };
+
+                var exception = Assert.Throws<Exception>(() => _venueService.CreateLayout(layout));
+
+                Assert.AreEqual("The LayoutName field is required.", exception.Message);
+            }
+        }
+
+        [Test]
         public void CreateArea_Success_ShouldReturnNewId()
         {
             using (var scope = new TransactionScope())
@@ -124,6 +157,20 @@ namespace EpamNetProject.Integration.Tests
                 var exception = Assert.Throws<Exception>(() => _venueService.CreateArea(area));
 
                 Assert.AreEqual("Area can't be created with this description", exception.Message);
+            }
+        }
+
+        [Test]
+        public void CreateArea_Fail_AreaDescriptionRequired()
+        {
+            using (var scope = new TransactionScope())
+            {
+                var area = new AreaDto
+                { Description = null, CoordX = 10, CoordY = 20, LayoutId = 1 };
+
+                var exception = Assert.Throws<Exception>(() => _venueService.CreateArea(area));
+
+                Assert.AreEqual("The Description field is required.", exception.Message);
             }
         }
 

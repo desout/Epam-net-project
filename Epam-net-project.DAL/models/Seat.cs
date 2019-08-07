@@ -1,8 +1,7 @@
 ﻿namespace EpamNetProject.DAL.models
 {
-    public class Seat
+    public class Seat : BaseEntity
     {
-        public int Id { get; set; }
         public int AreaId { get; set; }
         public int Row { get; set; }
         public int Number { get; set; }
