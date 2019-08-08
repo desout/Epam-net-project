@@ -20,8 +20,6 @@ namespace EpamNetProject.Integration.Tests
         private EventService _eventService;
         private ILayoutRepository _layoutRepository;
         private ISeatRepository _seatRepository;
-        private const int ReturnId = 10;
-        private const int EventListLength = 10;
         [SetUp]
         public void SetUp()
         {
@@ -38,7 +36,7 @@ namespace EpamNetProject.Integration.Tests
         }
 
         [Test]
-        public void CreateEvent_Success_ShouldInsertEvent()
+        public void CreateEvent_WhenModelValid_ShouldInsertNewEvent()
         {
             using (var scope = new TransactionScope())
             {
@@ -55,7 +53,7 @@ namespace EpamNetProject.Integration.Tests
         }
 
         [Test]
-        public void CreateEvent_Fail_SameTimeException()
+        public void CreateEvent_WhenEventWithSameTimeExists_ShouldReturnSameTimeValidationException()
         {
             using (var scope = new TransactionScope())
             {
@@ -72,7 +70,7 @@ namespace EpamNetProject.Integration.Tests
         }
 
         [Test]
-        public void CreateEvent_Fail_NoSeats()
+        public void CreateEvent_WhenSeatsNotExists_ShouldReturnNoSeatsValidationException()
         {
             using (var scope = new TransactionScope())
             {

@@ -15,10 +15,6 @@ namespace EpamNetProject.Integration.Tests
     [TestFixture]
     public class VenueServiceIntegrationTest
     {
-        private const int ReturnIdVenue = 6;
-        private const int ReturnIdSeat = 11;
-        private const int ReturnIdLayout = 4;
-        private const int ReturnIdArea = 7;
         private IAreaRepository _areaRepository;
         private ILayoutRepository _layoutRepository;
         private ISeatRepository _seatRepository;
@@ -41,7 +37,7 @@ namespace EpamNetProject.Integration.Tests
         }
 
         [Test]
-        public void CreateVenue_Success_ShouldInsertVenue()
+        public void CreateVenue_WhenModelValid_ShouldInsertNewVenue()
         {
             using (var scope = new TransactionScope())
             {
@@ -59,7 +55,7 @@ namespace EpamNetProject.Integration.Tests
         }
 
         [Test]
-        public void CreateVenue_Fail_VenueExistException()
+        public void CreateVenue_WhenVenueExists_ShouldReturnValidationException()
         {
             using (var scope = new TransactionScope())
             {
@@ -69,14 +65,12 @@ namespace EpamNetProject.Integration.Tests
                     Phone = "8-800-555-35-35"
                 };
 
-                var exception = Assert.Throws<ValidationException>(() => _venueService.CreateVenue(venue));
-
-                Assert.AreEqual("Venue can't be created for this name", exception.Message);
+                Assert.Throws<ValidationException>(() => _venueService.CreateVenue(venue));
             }
         }
 
         [Test]
-        public void CreateLayout_Success_ShouldInsertLayout()
+        public void CreateLayout_WhenModelValid_ShouldInsertNewLayout()
         {
             using (var scope = new TransactionScope())
             {
@@ -91,22 +85,20 @@ namespace EpamNetProject.Integration.Tests
         }
 
         [Test]
-        public void CreateLayout_Fail_VenueExistException()
+        public void CreateLayout_WhenLayoutNameExists_ShouldReturnValidationException()
         {
             using (var scope = new TransactionScope())
             {
                 var layout = new LayoutDto
                     {Description = "Description", LayoutName = "1 layout name", VenueId = 1};
 
-                var exception = Assert.Throws<ValidationException>(() => _venueService.CreateLayout(layout));
-
-                Assert.AreEqual("Layout can't be created for this name", exception.Message);
+                Assert.Throws<ValidationException>(() => _venueService.CreateLayout(layout));
             }
         }
         
 
         [Test]
-        public void CreateArea_Success_ShouldInsertArea()
+        public void CreateArea_WhenModelValid_ShouldInsertNewArea()
         {
             using (var scope = new TransactionScope())
             {
@@ -121,22 +113,20 @@ namespace EpamNetProject.Integration.Tests
         }
 
         [Test]
-        public void CreateArea_Fail_AreaExistException()
+        public void CreateArea_WhenAreaDescriptionExists_ShouldReturnValidationException()
         {
             using (var scope = new TransactionScope())
             {
                 var area = new AreaDto
                     {Description = "Description", CoordX = 10, CoordY = 20, LayoutId = 1};
 
-                var exception = Assert.Throws<ValidationException>(() => _venueService.CreateArea(area));
-
-                Assert.AreEqual("Area can't be created with this description", exception.Message);
+                Assert.Throws<ValidationException>(() => _venueService.CreateArea(area));
             }
         }
         
 
         [Test]
-        public void CreateSeat_Success_ShouldInsertSeat()
+        public void CreateSeat_WhenModelValid_ShouldInsertNewSeat()
         {
             using (var scope = new TransactionScope())
             {
@@ -151,16 +141,14 @@ namespace EpamNetProject.Integration.Tests
         }
 
         [Test]
-        public void CreateSeat_Fail_SeatExistException()
+        public void CreateSeat_WhenSeatWithSeatAndRowExists_ShouldReturnValidationException()
         {
             using (var scope = new TransactionScope())
             {
                 var seat = new SeatDto
                     {Number = 10, AreaId = 1, Row = 1};
 
-                var exception = Assert.Throws<ValidationException>(() => _venueService.CreateSeat(seat));
-
-                Assert.AreEqual("Seat can't be created with this seat and row", exception.Message);
+                Assert.Throws<ValidationException>(() => _venueService.CreateSeat(seat));
             }
         }
     }

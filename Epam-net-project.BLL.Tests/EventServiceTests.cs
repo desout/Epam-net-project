@@ -116,7 +116,7 @@ namespace EpamNetProject.BLL.Tests
         }
 
         [Test]
-        public void CreateEvent_Success_ShouldReturnNewId()
+        public void CreateEvent_WhenModelValid_ShouldReturnNewId()
         {
             var sEvent = new EventDto
             {
@@ -130,7 +130,7 @@ namespace EpamNetProject.BLL.Tests
         }
 
         [Test]
-        public void CreateEvent_Fail_SameTimeException()
+        public void CreateEvent_WhenEventWithSameTimeExists_ShouldReturnSameTimeValidationException()
         {
             var sEvent = new EventDto
             {
@@ -144,7 +144,7 @@ namespace EpamNetProject.BLL.Tests
         }
 
         [Test]
-        public void CreateEvent_Fail_DateInPast()
+        public void CreateEvent_WhenEventWithDateInPast_ShouldReturnDateInPastValidationException()
         {
             var sEvent = new EventDto
             {
@@ -158,7 +158,7 @@ namespace EpamNetProject.BLL.Tests
         }
 
         [Test]
-        public void CreateEvent_Fail_NoSeats()
+        public void CreateEvent_WhenSeatsNotExists_ShouldReturnNoSeatsValidationException()
         {
             var sEvent = new EventDto
             {
@@ -172,7 +172,7 @@ namespace EpamNetProject.BLL.Tests
         }
 
         [Test]
-        public void CreateEvent_Fail_NameRequired()
+        public void CreateEvent_WhenModelNotValid_ShouldReturnArgumentException()
         {
             var sEvent = new EventDto
             {
@@ -182,9 +182,7 @@ namespace EpamNetProject.BLL.Tests
                 EventDate = DateTime.Today.Add(TimeSpan.FromDays(1))
             };
 
-            var exception = Assert.Throws<ArgumentException>(() => _eventService.CreateEvent(sEvent));
-
-            Assert.AreEqual("The Name field is required.", exception.Message);
+            Assert.Throws<ArgumentException>(() => _eventService.CreateEvent(sEvent));
         }
     }
 }
