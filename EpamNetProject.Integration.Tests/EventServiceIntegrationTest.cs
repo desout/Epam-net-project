@@ -7,6 +7,7 @@ using EpamNetProject.BLL.Models;
 using EpamNetProject.BLL.Services;
 using EpamNetProject.DAL.Interfaces;
 using EpamNetProject.DAL.Repositories;
+using FluentAssertions;
 using NUnit.Framework;
 
 namespace EpamNetProject.Integration.Tests
@@ -37,7 +38,7 @@ namespace EpamNetProject.Integration.Tests
         }
 
         [Test]
-        public void CreateEvent_Success_ShouldReturnNewId()
+        public void CreateEvent_Success_ShouldInsertEvent()
         {
             using (var scope = new TransactionScope())
             {
@@ -49,8 +50,7 @@ namespace EpamNetProject.Integration.Tests
 
                 var result = _eventService.CreateEvent(sEvent);
                 sEvent.Id = result;
-                sEvent.Sh
-                Assert.AreSame(_eventService.GetEvent(result), sEvent);
+                sEvent.Should().BeEquivalentTo(_eventService.GetEvent(result));
             }
         }
 

@@ -41,7 +41,7 @@ namespace EpamNetProject.Integration.Tests
         }
 
         [Test]
-        public void CreateVenue_Success_ShouldReturnNewId()
+        public void CreateVenue_Success_ShouldInsertVenue()
         {
             using (var scope = new TransactionScope())
             {
@@ -76,7 +76,7 @@ namespace EpamNetProject.Integration.Tests
         }
 
         [Test]
-        public void CreateLayout_Success_ShouldReturnNewId()
+        public void CreateLayout_Success_ShouldInsertLayout()
         {
             using (var scope = new TransactionScope())
             {
@@ -106,7 +106,7 @@ namespace EpamNetProject.Integration.Tests
         
 
         [Test]
-        public void CreateArea_Success_ShouldReturnNewId()
+        public void CreateArea_Success_ShouldInsertArea()
         {
             using (var scope = new TransactionScope())
             {
@@ -136,7 +136,7 @@ namespace EpamNetProject.Integration.Tests
         
 
         [Test]
-        public void CreateSeat_Success_ShouldReturnNewId()
+        public void CreateSeat_Success_ShouldInsertSeat()
         {
             using (var scope = new TransactionScope())
             {
