@@ -6,5 +6,6 @@
         public int Row { get; set; }
         public int Number { get; set; }
         public int State { get; set; }
+        public string UserId { get; set; }
     }
 }

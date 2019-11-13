@@ -5,7 +5,9 @@ using System.Linq;
 using System.Transactions;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.BLL.Services;
+using EpamNetProject.DAL;
 using EpamNetProject.DAL.Interfaces;
+using EpamNetProject.DAL.models;
 using EpamNetProject.DAL.Repositories;
 using FluentAssertions;
 using NUnit.Framework;
@@ -15,10 +17,10 @@ namespace EpamNetProject.Integration.Tests
     [TestFixture]
     public class VenueServiceIntegrationTest
     {
-        private IAreaRepository _areaRepository;
-        private ILayoutRepository _layoutRepository;
-        private ISeatRepository _seatRepository;
-        private IVenueRepository _venueRepository;
+        private IRepository<Area> _areaRepository;
+        private IRepository<Layout> _layoutRepository;
+        private IRepository<Seat> _seatRepository;
+        private IRepository<Venue> _venueRepository;
         private VenueService _venueService;
 
         [SetUp]
@@ -26,11 +28,11 @@ namespace EpamNetProject.Integration.Tests
         {
             var sqlConnectionString =
                 ConfigurationManager.ConnectionStrings["SqlConnectionString"].ConnectionString;
-
-            _venueRepository = new VenueRepository(sqlConnectionString);
-            _layoutRepository = new LayoutRepository(sqlConnectionString);
-            _areaRepository = new AreaRepository(sqlConnectionString);
-            _seatRepository = new SeatRepository(sqlConnectionString);
+            var context = new MyContext(sqlConnectionString);
+            _venueRepository = new Repository<Venue>(context);
+            _layoutRepository = new Repository<Layout>(context);
+            _areaRepository = new Repository<Area>(context);
+            _seatRepository = new Repository<Seat>(context);
 
             _venueService = new VenueService(_seatRepository, _layoutRepository,
                 _venueRepository, _areaRepository);
@@ -49,7 +51,7 @@ namespace EpamNetProject.Integration.Tests
 
                 var result = _venueService.CreateVenue(venue);
                 venue.Id = result;
-                
+
                 venue.Should().BeEquivalentTo(_venueService.GetVenue(result));
             }
         }
@@ -79,7 +81,7 @@ namespace EpamNetProject.Integration.Tests
 
                 var result = _venueService.CreateLayout(layout);
                 layout.Id = result;
-                
+
                 layout.Should().BeEquivalentTo(_venueService.GetLayout(result));
             }
         }
@@ -95,7 +97,7 @@ namespace EpamNetProject.Integration.Tests
                 Assert.Throws<ValidationException>(() => _venueService.CreateLayout(layout));
             }
         }
-        
+
 
         [Test]
         public void CreateArea_WhenModelValid_ShouldInsertNewArea()
@@ -123,7 +125,7 @@ namespace EpamNetProject.Integration.Tests
                 Assert.Throws<ValidationException>(() => _venueService.CreateArea(area));
             }
         }
-        
+
 
         [Test]
         public void CreateSeat_WhenModelValid_ShouldInsertNewSeat()

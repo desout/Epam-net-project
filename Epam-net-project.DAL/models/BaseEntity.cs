@@ -1,3 +1,4 @@
+
 namespace EpamNetProject.DAL.models
 {
     public class BaseEntity

@@ -1,122 +1,61 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
 using System.Data.SqlClient;
+using System.Linq;
 using EpamNetProject.DAL.Interfaces;
 using EpamNetProject.DAL.models;
 
 namespace EpamNetProject.DAL.Repositories
 {
-    public class EventRepository : IEventRepository
+    public class EventRepository : IRepository<Event>
     {
-        private readonly string SqlConnectionString;
+        internal MyContext _context;
 
-        public EventRepository(string connectionString)
+        internal DbSet<Event> _dbSet;
+
+        public EventRepository(MyContext context)
         {
-            SqlConnectionString = connectionString;
+            _context = context;
+            _dbSet = _context.Set<Event>();
         }
 
         public int Add(Event entity)
         {
-            using (var conn = new SqlConnection(SqlConnectionString))
-            using (var command = new SqlCommand("EventInsert", conn)
-            {
-                CommandType = CommandType.StoredProcedure
-            })
-            {
-                conn.Open();
-                command.Parameters.Add(new SqlParameter("@Name", entity.Name));
-                command.Parameters.Add(new SqlParameter("@Descr", entity.Description));
-                command.Parameters.Add(new SqlParameter("@EventDate", entity.EventDate));
-                command.Parameters.Add(new SqlParameter("@LayoutId", entity.LayoutId));
-                return (int) command.ExecuteScalar();
-            }
+            var returnedId = Int32.Parse(_dbSet.SqlQuery("exec EventInsert @Name @Descr @EventDate @LayoutId",
+                    new SqlParameter("@Name", entity.Name), new SqlParameter("@Descr", entity.Description),
+                    new SqlParameter("@EventDate", entity.EventDate), new SqlParameter("@LayoutId", entity.LayoutId))
+                .First().ToString());
+            _context.SaveChanges();
+            return returnedId;
         }
 
         public Event Get(int id)
         {
-            using (var conn = new SqlConnection(SqlConnectionString))
-            using (var command = new SqlCommand("EventSelectById", conn)
-            {
-                CommandType = CommandType.StoredProcedure
-            })
-            {
-                command.Parameters.Add(new SqlParameter("@Id", id));
-                conn.Open();
-                using (var insertedOutput = command.ExecuteReader())
-                {
-                    insertedOutput.Read();
-                    return new Event
-                    {
-                        Id = insertedOutput.GetInt32(0),
-                        Name = insertedOutput.GetString(1),
-                        Description = insertedOutput.GetString(2),
-                        EventDate = insertedOutput.GetDateTime(3),
-                        LayoutId = insertedOutput.GetInt32(4)
-                    };
-                }
-            }
+            return _dbSet.SqlQuery("exec EventSelectById @Id", new SqlParameter("@Id", id)).First();
         }
 
         public IEnumerable<Event> GetAll()
         {
-            var list = new List<Event>();
-            using (var conn = new SqlConnection(SqlConnectionString))
-            using (var command = new SqlCommand("EventSelectAll", conn)
-            {
-                CommandType = CommandType.StoredProcedure
-            })
-            {
-                conn.Open();
-                using (var insertedOutput = command.ExecuteReader())
-                {
-                    while (insertedOutput.Read())
-                        list.Add(new Event
-                        {
-                            Id = insertedOutput.GetInt32(0),
-                            Name = insertedOutput.GetString(1),
-                            Description = insertedOutput.GetString(2),
-                            EventDate = insertedOutput.GetDateTime(3),
-                            LayoutId = insertedOutput.GetInt32(4)
-                        });
-                }
-            }
-
-            return list;
+            return _dbSet.SqlQuery("exec EventSelectAll");
         }
 
         public int Remove(int id)
         {
-            using (var conn = new SqlConnection(SqlConnectionString))
-            using (var command = new SqlCommand("EventDeleteById", conn)
-            {
-                CommandType = CommandType.StoredProcedure
-            })
-            {
-                conn.Open();
-                command.Parameters.Add(new SqlParameter("@Id", id));
-                command.ExecuteNonQuery();
-            }
-
-            return id;
+            var returnedId = Int32.Parse(_dbSet.SqlQuery("exec EventDeleteById @Id", new SqlParameter("@Id", id))
+                .First().ToString());
+            _context.SaveChanges();
+            return returnedId;
         }
 
         public int Update(Event entity)
         {
-            using (var conn = new SqlConnection(SqlConnectionString))
-            using (var command = new SqlCommand("EventUpdate", conn)
-            {
-                CommandType = CommandType.StoredProcedure
-            })
-            {
-                conn.Open();
-                command.Parameters.Add(new SqlParameter("@Name", entity.Name));
-                command.Parameters.Add(new SqlParameter("@Descr", entity.Description));
-                command.Parameters.Add(new SqlParameter("@EventDate", entity.EventDate));
-                command.Parameters.Add(new SqlParameter("@LayoutId", entity.LayoutId));
-                command.Parameters.Add(new SqlParameter("@Id", entity.Id));
-                command.ExecuteNonQuery();
-            }
-
+            _dbSet.SqlQuery("exec EventUpdate @Name @Descr @EventDate @LayoutId @Id",
+                new SqlParameter("@Name", entity.Name), new SqlParameter("@Descr", entity.Description),
+                new SqlParameter("@EventDate", entity.EventDate), new SqlParameter("@LayoutId", entity.LayoutId),
+                new SqlParameter("@Id", entity.Id));
+            _context.SaveChanges();
             return entity.Id;
         }
     }

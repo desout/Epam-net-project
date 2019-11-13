@@ -1,0 +1,6 @@
+@model EpamNetProject.BLL.Models.EventDto
+
+<div class="event--item">
+    @Html.ActionLink(Model.Name, "Event", "Events", new {id = Model.Id}, new {@class = "event--item__name"})
+    <p class="event--item__eventDate">@Html.DisplayFor(x => x.EventDate)</p>
+</div>

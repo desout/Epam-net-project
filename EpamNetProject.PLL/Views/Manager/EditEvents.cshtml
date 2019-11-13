@@ -1,0 +1,22 @@
+@model System.Collections.Generic.List<EpamNetProject.BLL.Models.EventDto>
+
+@foreach (var item in Model)
+{
+    <p data-eventId="@item.Id">
+        @item.Name <a href="@Url.Action("Edit", new {id = item.Id})">edit</a> <button onclick="function f() {deleteEvent(@item.Id)}">delete</button>
+    </p>
+}
+ <a href="@Url.Action("Edit")">Add</a>
+<script>
+    function deleteEvent(id) {
+      $.ajax({
+      url:@Url.Action("DeleteEvent"),
+      method: "POST",
+      data: {id:id}
+      }).done(function(result) {
+        if(result){
+        	$("[data-eventId="+id+"]").remove();
+        }
+      })
+    }
+</script>

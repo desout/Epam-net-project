@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[Layout](
+﻿CREATE TABLE [dbo].[Layouts](
 	[Id] [int] IDENTITY(1,1),
 	[VenueId] [int] NOT NULL,
 	[LayoutName] [varchar](50) NOT NULL,
@@ -9,8 +9,8 @@
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[Layout]  WITH CHECK ADD  CONSTRAINT [FK_Layout_Venue] FOREIGN KEY([VenueId])
-REFERENCES [dbo].[Venue] ([Id])
+ALTER TABLE [dbo].[Layouts]  WITH CHECK ADD  CONSTRAINT [FK_Layout_Venue] FOREIGN KEY([VenueId])
+REFERENCES [dbo].[Venues] ([Id])
 GO
 
-ALTER TABLE [dbo].[Layout] CHECK CONSTRAINT [FK_Layout_Venue]
+ALTER TABLE [dbo].[Layouts] CHECK CONSTRAINT [FK_Layout_Venue]

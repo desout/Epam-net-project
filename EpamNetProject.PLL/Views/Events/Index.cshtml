@@ -1,0 +1,9 @@
+@model List<EpamNetProject.BLL.Models.EventDto>
+@{
+    ViewBag.Title = "Events";
+}
+<h2>Event list</h2>
+@foreach (var ev in Model)
+{
+    @Html.DisplayFor(x => ev);
+}

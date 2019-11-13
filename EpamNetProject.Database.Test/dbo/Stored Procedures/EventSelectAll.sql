@@ -5,4 +5,4 @@ AS
       ,[Description]
       ,[EventDate]
       ,[LayoutId]
-	FROM [dbo].[Event]
+	FROM [dbo].[Events]

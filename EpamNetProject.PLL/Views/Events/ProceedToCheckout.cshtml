@@ -1,0 +1,14 @@
+@model System.Collections.Generic.IEnumerable<EpamNetProject.PLL.Models.PriceSeat>
+
+<h1>You can pay just with cash</h1>
+@using (Html.BeginForm("Buy", "Events", FormMethod.Post))
+{
+    decimal fullPrice = 0;
+    foreach (var seat in Model)
+    {
+        <p>[@seat.Seat.Row,@seat.Seat.Number] @seat.Price</p>
+        @(fullPrice += seat.Price)
+    }
+    <p>full price - @fullPrice</p>
+    <button type="submit"></button>
+}

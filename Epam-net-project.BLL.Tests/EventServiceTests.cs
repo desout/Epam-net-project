@@ -14,20 +14,23 @@ namespace EpamNetProject.BLL.Tests
     public class EventServiceTests
     {
         private const int ReturnId = 10;
-        private Mock<IAreaRepository> _areaRepository;
-        private Mock<IEventRepository> _eventRepository;
+        private Mock<IRepository<Area>> _areaRepository;
+        private Mock<IRepository<Event>> _eventRepository;
         private EventService _eventService;
-        private Mock<ILayoutRepository> _layoutRepository;
-        private Mock<ISeatRepository> _seatRepository;
+        private Mock<IRepository<Layout>> _layoutRepository;
+        private Mock<IRepository<Seat>> _seatRepository;
+        private Mock<IRepository<EventSeat>> _eventSeatRepository;
+        private Mock<IRepository<EventArea>> _eventAreaRepository;
 
         [SetUp]
         public void SetUp()
         {
-            _eventRepository = new Mock<IEventRepository>();
-            _layoutRepository = new Mock<ILayoutRepository>();
-            _areaRepository = new Mock<IAreaRepository>();
-            _seatRepository = new Mock<ISeatRepository>();
-
+            _eventRepository = new Mock<IRepository<Event>>();
+            _layoutRepository = new Mock<IRepository<Layout>>();
+            _areaRepository = new Mock<IRepository<Area>>();
+            _seatRepository = new Mock<IRepository<Seat>>();
+            _eventSeatRepository = new Mock<IRepository<EventSeat>>();
+            _eventAreaRepository = new Mock<IRepository<EventArea>>();
             _eventRepository.Setup(x => x.GetAll())
                 .Returns(new List<Event>
                 {
@@ -112,7 +115,7 @@ namespace EpamNetProject.BLL.Tests
                 });
 
             _eventService = new EventService(_eventRepository.Object, _layoutRepository.Object,
-                _areaRepository.Object, _seatRepository.Object);
+                _areaRepository.Object, _seatRepository.Object, _eventSeatRepository.Object, _eventAreaRepository.Object);
         }
 
         [Test]

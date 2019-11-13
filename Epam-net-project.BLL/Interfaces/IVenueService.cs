@@ -1,4 +1,5 @@
-﻿using EpamNetProject.BLL.Models;
+﻿using System.Collections.Generic;
+using EpamNetProject.BLL.Models;
 
 namespace EpamNetProject.BLL.Interfaces
 {
@@ -7,5 +8,6 @@ namespace EpamNetProject.BLL.Interfaces
         int CreateVenue(VenueDto venue);
         int CreateSeat(SeatDto seat);
         int CreateLayout(LayoutDto layout);
+        List<LayoutDto> GetLayouts();
     }
 }

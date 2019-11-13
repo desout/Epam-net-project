@@ -5,7 +5,9 @@ using System.Linq;
 using System.Transactions;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.BLL.Services;
+using EpamNetProject.DAL;
 using EpamNetProject.DAL.Interfaces;
+using EpamNetProject.DAL.models;
 using EpamNetProject.DAL.Repositories;
 using FluentAssertions;
 using NUnit.Framework;
@@ -15,24 +17,29 @@ namespace EpamNetProject.Integration.Tests
     [TestFixture]
     public class EventServiceIntegrationTest
     {
-        private IAreaRepository _areaRepository;
-        private IEventRepository _eventRepository;
+        private IRepository<Area> _areaRepository;
+        private IRepository<Event> _eventRepository;
         private EventService _eventService;
-        private ILayoutRepository _layoutRepository;
-        private ISeatRepository _seatRepository;
+        private IRepository<Layout> _layoutRepository;
+        private IRepository<Seat> _seatRepository;
+        private IRepository<EventSeat> _eventSeatRepository;
+        private IRepository<EventArea> _eventAreaRepository;
         [SetUp]
         public void SetUp()
         {
             var sqlConnectionString =
                 ConfigurationManager.ConnectionStrings["SqlConnectionString"].ConnectionString;
-
-            _eventRepository = new EventRepository(sqlConnectionString);
-            _layoutRepository = new LayoutRepository(sqlConnectionString);
-            _areaRepository = new AreaRepository(sqlConnectionString);
-            _seatRepository = new SeatRepository(sqlConnectionString);
+            var context = new MyContext(sqlConnectionString);
+            
+            _eventRepository = new EventRepository(context);
+            _layoutRepository = new Repository<Layout>(context);
+            _areaRepository = new Repository<Area>(context);
+            _seatRepository = new Repository<Seat>(context);
+            _eventSeatRepository = new Repository<EventSeat>(context);
+            _eventAreaRepository = new Repository<EventArea>(context);
 
             _eventService = new EventService(_eventRepository, _layoutRepository,
-                _areaRepository, _seatRepository);
+                _areaRepository, _seatRepository, _eventSeatRepository, _eventAreaRepository);
         }
 
         [Test]

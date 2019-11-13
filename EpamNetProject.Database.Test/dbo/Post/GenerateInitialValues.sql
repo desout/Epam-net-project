@@ -1,6 +1,6 @@
 ﻿-- INITIAL VALUES DATABASE
 --- VENUES
-INSERT INTO dbo.Venue (Name,Description,Address,Phone)
+INSERT INTO dbo.Venues (Name,Description,Address,Phone)
 VALUES
 ('First Venue', 'Description', 'Address', '8-800-555-35-35'),
 ('Second Venue', 'Description', 'Address', '8-800-555-35-35'),
@@ -9,14 +9,14 @@ VALUES
 ('Fifth Venue', 'Description', 'Address', '8-800-555-35-35')
 
 --- LAYOUTS
-INSERT INTO dbo.Layout (Description, LayoutName, VenueId)
+INSERT INTO dbo.Layouts (Description, LayoutName, VenueId)
 VALUES
 ('Description', '1 layout name', 1),
 ('Description', '2 layout name', 2),
 ('Description', '3 layout name', 3)
 
 --- Area
-INSERT INTO dbo.Area (Description, CoordX, CoordY, LayoutId)
+INSERT INTO dbo.Areas (Description, CoordX, CoordY, LayoutId)
 VALUES
 ('Description', 10,20,1),
 ('Description', 20,30,2),
@@ -26,7 +26,7 @@ VALUES
 ('Description', 60,70,3)
 
 --- SEATS
-INSERT INTO dbo.Seat(Number,AreaId,Row)
+INSERT INTO dbo.Seats(Number,AreaId,Row)
 VALUES
 (10,1,1),
 (20,2,2),
@@ -40,7 +40,7 @@ VALUES
 (110,1,10)
 
 --- EVENTS
-INSERT INTO dbo.Event (Name,Description,EventDate,LayoutId)
+INSERT INTO dbo.Events (Name,Description,EventDate,LayoutId)
 VALUES 
 ('First Event', 'Description', DATEADD(day, (DATEDIFF(day, 0, GETDATE()) + 1), 0), 1),
 ('Second Event', 'Description', DATEADD(day,(DATEDIFF(day, 0, GETDATE()) + 2),0), 2),

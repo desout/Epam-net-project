@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using AutoMapper;
@@ -12,14 +13,14 @@ namespace EpamNetProject.BLL.Services
 {
     public class VenueService : IVenueService
     {
-        private readonly IAreaRepository _areaRepository;
-        private readonly ILayoutRepository _layoutRepository;
+        private readonly IRepository<Area> _areaRepository;
+        private readonly IRepository<Layout> _layoutRepository;
         private readonly IMapper _mapper;
-        private readonly ISeatRepository _seatRepository;
-        private readonly IVenueRepository _venueRepository;
+        private readonly IRepository<Seat> _seatRepository;
+        private readonly IRepository<Venue> _venueRepository;
 
-        public VenueService(ISeatRepository seatRepository, ILayoutRepository layoutRepository,
-            IVenueRepository venueRepository, IAreaRepository areaRepository)
+        public VenueService(IRepository<Seat> seatRepository, IRepository<Layout> layoutRepository,
+            IRepository<Venue> venueRepository, IRepository<Area> areaRepository)
         {
             _venueRepository = venueRepository;
             _layoutRepository = layoutRepository;
@@ -41,7 +42,7 @@ namespace EpamNetProject.BLL.Services
             return _venueRepository.Add(ven);
         }
         public LayoutDto GetLayout(int id) => _mapper.Map<LayoutDto>(_layoutRepository.Get(id));
-
+        public List<LayoutDto> GetLayouts() => _mapper.Map<List<LayoutDto>>(_layoutRepository.GetAll());
         public int CreateLayout(LayoutDto layout)
         {
             var validationResult = ModelValidation.IsValidModel(layout);

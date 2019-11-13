@@ -2,7 +2,7 @@
 AS
 	DECLARE @OutputId int
 
-	INSERT INTO [dbo].[Event]
+	INSERT INTO [dbo].[Events]
            ([Name]
            ,[Description]
 		   ,[EventDate]
@@ -12,14 +12,14 @@ AS
           (@Name, @Descr, @EventDate, @LayoutId)
 	SELECT @OutputId
 
-	INSERT INTO dbo.EventArea(EventId,Description, CoordX,CoordY,Price) 
+	INSERT INTO dbo.EventAreas(EventId,Description, CoordX,CoordY,Price) 
 	SELECT @OutputId, Description, CoordX, CoordY, 0
-	FROM dbo.Area
+	FROM dbo.Areas
 	WHERE LayoutId = @LayoutId
 
-	INSERT INTO dbo.EventSeat(EventAreaId, Row, Number, State)
+	INSERT INTO dbo.EventSeats(EventAreaId, Row, Number, State)
 	SELECT AreaId, Row, Number, 0
-	FROM dbo.Seat
-	INNER JOIN dbo.Area ON LayoutId = @LayoutId
+	FROM dbo.Seats
+	INNER JOIN dbo.Areas ON LayoutId = @LayoutId
 	RETURN @OutputId
 

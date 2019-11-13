@@ -1,0 +1,18 @@
+@using EpamNetProject.PLL.Models
+@model EpamNetProject.PLL.Models.EventViewModel
+
+@{
+    ViewBag.Title = "Event information";
+}
+
+<div>
+    <p>@Model.Event.EventDate</p>
+    <p>@Model.Event.Description</p>
+    <p>availability - @Html.DisplayFor(x=>x.Event.EventAvailability)</p>
+</div>
+
+@if (User.Identity.IsAuthenticated)
+{
+    @Ism.ISM(Model.EventAreas, Model.EventSeats, Url.Action("Select"))
+    <a href=@Url.Action("ProceedToCheckout", new {EventId = Model.Event.Id})></a>
+}

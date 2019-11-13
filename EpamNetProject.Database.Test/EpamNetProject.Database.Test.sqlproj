@@ -75,5 +75,13 @@
     <Build Include="dbo\Stored Procedures\EventSelectById.sql" />
     <PostDeploy Include="dbo\Post\GenerateInitialValues.sql" />
     <Build Include="dbo\Stored Procedures\EventUpdate.sql" />
+    <Build Include="dbo\Tables\AspNetUsers.sql" />
+    <Build Include="dbo\Tables\AspNetRoles.sql" />
+    <Build Include="dbo\Tables\AspNetUserClaims.sql" />
+    <Build Include="dbo\Tables\AspNetUserLogins.sql" />
+    <Build Include="dbo\Tables\AspNetUserRoles.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="dbo\Post\GenerateIdentityTables.sql" />
   </ItemGroup>
 </Project>

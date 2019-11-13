@@ -17,19 +17,19 @@ namespace EpamNetProject.BLL.Tests
         private const int ReturnIdSeat = 20;
         private const int ReturnIdLayout = 30;
         private const int ReturnIdArea = 40;
-        private Mock<IAreaRepository> _areaRepository;
-        private Mock<ILayoutRepository> _layoutRepository;
-        private Mock<ISeatRepository> _seatRepository;
-        private Mock<IVenueRepository> _venueRepository;
+        private Mock<IRepository<Area>> _areaRepository;
+        private Mock<IRepository<Layout>> _layoutRepository;
+        private Mock<IRepository<Seat>> _seatRepository;
+        private Mock<IRepository<Venue>> _venueRepository;
         private VenueService _venueService;
 
         [SetUp]
         public void SetUp()
         {
-            _venueRepository = new Mock<IVenueRepository>();
-            _layoutRepository = new Mock<ILayoutRepository>();
-            _areaRepository = new Mock<IAreaRepository>();
-            _seatRepository = new Mock<ISeatRepository>();
+            _venueRepository = new Mock<IRepository<Venue>>();
+            _layoutRepository = new Mock<IRepository<Layout>>();
+            _areaRepository = new Mock<IRepository<Area>>();
+            _seatRepository = new Mock<IRepository<Seat>>();
 
             _venueRepository.Setup(x => x.GetAll())
                 .Returns(new List<Venue>

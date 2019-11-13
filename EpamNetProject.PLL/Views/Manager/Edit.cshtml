@@ -1,0 +1,9 @@
+@model EpamNetProject.PLL.Models.EditEventViewModel
+@using (Html.BeginForm("Add", "Manager"))
+{
+    @Html.HiddenFor(x=>x.Id);
+    @Html.EditorFor(x=>x.Description);
+    @Html.EditorFor(x=>x.Time);
+    @Html.EditorFor(x=>x.Title);
+    @Html.DropDownListFor(x => x.Layout, new SelectList(ViewBag.Layouts, "Id", "LayoutName"))
+}
