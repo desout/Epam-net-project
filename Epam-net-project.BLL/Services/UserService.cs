@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using EpamNetProject.BLL.Infrastucture;
 using EpamNetProject.BLL.Interfaces;
-using EpamNetProject.BLL.models;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.DAL.Interfaces;
 using EpamNetProject.DAL.models;

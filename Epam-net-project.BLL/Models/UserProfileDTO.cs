@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace EpamNetProject.BLL.models
+namespace EpamNetProject.BLL.Models
 {
     public class UserProfileDTO
     {

@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using EpamNetProject.BLL.Infrastucture;
-using EpamNetProject.BLL.models;
 using EpamNetProject.BLL.Models;
 
 namespace EpamNetProject.BLL.Interfaces

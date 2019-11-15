@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using EpamNetProject.BLL.Interfaces;
-using EpamNetProject.BLL.models;
 using EpamNetProject.BLL.Models;
 
 namespace EpamNetProject.PLL.Controllers

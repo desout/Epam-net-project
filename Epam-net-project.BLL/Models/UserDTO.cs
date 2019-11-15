@@ -1,4 +1,3 @@
-using EpamNetProject.BLL.models;
 
 namespace EpamNetProject.BLL.Models
 {
