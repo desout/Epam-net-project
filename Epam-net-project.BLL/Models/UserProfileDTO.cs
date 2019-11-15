@@ -13,7 +13,7 @@ namespace EpamNetProject.BLL.models
         [Required]public string Surname;
         [Required]public string UserId;
         [Required]public decimal Balance;
-        public DateTime ReserveDate { get; set; }
+        public DateTime? ReserveDate { get; set; }
         
 
     }

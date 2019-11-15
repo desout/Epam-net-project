@@ -46,7 +46,6 @@ namespace EpamNetProject.BLL.Services
                 await _applicationUserManager.AddToRoleAsync(user.Id, userDto.Role);
                 userDto.UserProfile.UserId = user.Id;
                 _userProfileRepository.Add(_mapper.Map<UserProfile>(userDto.UserProfile));
-                //await _applicationUserManager.SaveAsync();
                 return new OperationDetails(true, "Регистрация успешно пройдена", "");
             }
             else

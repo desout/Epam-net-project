@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace EpamNetProject.PLL.Statics
 {
@@ -13,7 +14,7 @@ namespace EpamNetProject.PLL.Statics
 
     public class Language
     {
-        public string Code;
-        public string Description;
+        public string Code { get; set; }
+        public string Description { get; set; }
     }
 }

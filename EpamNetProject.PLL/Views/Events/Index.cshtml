@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Events";
 }
-<h2>Event list</h2>
+<h2>@Resources.Resource.EVENTS_EVENTLISTTITLE</h2>
 @foreach (var ev in Model)
 {
     @Html.DisplayFor(x => ev);

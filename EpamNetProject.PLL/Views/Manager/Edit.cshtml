@@ -2,10 +2,10 @@
 @using (Html.BeginForm("Add", "Manager"))
 {
     @Html.HiddenFor(x=>x.Id);
-    @Html.EditorFor(x=>x.Description);
-    @Html.EditorFor(x=>x.Time);
-    @Html.EditorFor(x=>x.Title);
-    @Html.EditorFor(x=>x.imgUrl);
-    @Html.DropDownListFor(x => x.Layout, new SelectList(ViewBag.Layouts, "Id", "LayoutName"))
-    <button type="submit">Save</button>
+    <label>@Resources.Resource.MANAGER_EDIT_DESCRIPTION @Html.EditorFor(x=>x.Description)</label>
+    <label>@Resources.Resource.MANAGER_EDIT_TIME @Html.EditorFor(x=>x.Time)</label>
+    <label>@Resources.Resource.MANAGER_EDIT_TITLE @Html.EditorFor(x=>x.Title)</label>
+    <label>@Resources.Resource.MANAGER_EDIT_IMGURL @Html.EditorFor(x=>x.imgUrl)</label>
+    <label>@Resources.Resource.MANAGER_EDIT_LAYOUT @Html.DropDownListFor(x => x.Layout, new SelectList(ViewBag.Layouts, "Id", "LayoutName"))</label>
+    <button type="submit">@Resources.Resource.MANAGER_EDIT_SAVE</button>
 }

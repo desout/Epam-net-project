@@ -27,7 +27,7 @@ namespace EpamNetProject.PLL.Controllers
             }
         }
         
-        AccountController(IUserService userService, IEventService eventService)
+        public AccountController(IUserService userService, IEventService eventService)
         {
             _userService = userService;
             _eventService = eventService;
@@ -136,7 +136,16 @@ namespace EpamNetProject.PLL.Controllers
                     Email = model.Email,
                     Password = model.Password,
                     UserName = model.UserName,
-                    Role = "user"
+                    Role = "user",
+                    UserProfile = new UserProfileDTO
+                    {
+                        Balance = 0,
+                        FirstName = model.FirstName,
+                        Language = model.Language,
+                        ReserveDate = null,
+                        Surname = model.Surname,
+                        TimeZone = model.TimeZone
+                    }
                 };
                 OperationDetails operationDetails = await _userService.Create(userDto);
                 if (operationDetails.Succedeed)

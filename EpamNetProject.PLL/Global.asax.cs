@@ -52,7 +52,9 @@ namespace EpamNetProject.PLL
             builder.RegisterType(typeof(ApplicationUserManager)).AsSelf().InstancePerRequest();
             builder.RegisterType(typeof(ApplicationRoleManager)).AsSelf().InstancePerRequest();
             builder.RegisterType<UserService>().As<IUserService>()
-                .InstancePerRequest().OnActivated(async c => await c.Instance.SetInitialData(new UserDTO
+                .InstancePerRequest();
+            /*
+             .OnActivated(async c => await c.Instance.SetInitialData(new UserDTO
                 {
                     Email = "3809766@mail.ru",
                     UserName = "desout",
@@ -61,6 +63,7 @@ namespace EpamNetProject.PLL
                     UserProfile = new UserProfileDTO
                         {FirstName = "Andrei", Surname = "Anelkin", Language = "en", TimeZone = "UTC-11"}
                 }, new List<string> {"user", "admin"}));
+             */
 
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));

@@ -1,15 +1,16 @@
 @model System.Collections.Generic.IEnumerable<EpamNetProject.BLL.Models.PriceSeat>
 
-<h1>You can pay just with cash</h1>
+<h1>@Resources.Resource.PAYMENT_METHOD</h1>
 @using (Html.BeginForm("Buy", "Events", FormMethod.Post))
 {
+    <h3>@Resources.Resource.PAYMENT_SEATSTITLE</h3>
     decimal fullPrice = 0;
     foreach (var seat in Model)
     {
         <p>[@seat.Seat.Row,@seat.Seat.Number] @seat.Price</p>
         @(fullPrice += seat.Price)
     }
-    <p>full price - @fullPrice</p>
+    <p>@Resources.Resource.PAYMENT_FULLPRICETITLE - @fullPrice</p>
     @Html.Hidden("totalAmount", fullPrice);
     <button type="submit"></button>
 }

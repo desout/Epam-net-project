@@ -1,4 +1,7 @@
-﻿using System;
+﻿using EpamNetProject.BLL.Interfaces;
+using EpamNetProject.BLL.models;
+using EpamNetProject.BLL.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,47 +11,50 @@ namespace EpamNetProject.PLL.Controllers
 {
     public class HomeController : Controller
     {
+        public HomeController(IUserService userService)
+        {
+            userService.SetInitialData(new UserDTO
+            {
+                Email = "3809766@mail.ru",
+                UserName = "desout",
+                Password = "Desoutside1",
+                Role = "admin",
+                UserProfile = new UserProfileDTO
+                { FirstName = "Andrei", Surname = "Anelkin", Language = "en", TimeZone = "UTC-11" }
+            }, new List<string> { "user", "admin" });
+        }
         [HttpGet]
         public ActionResult Index()
         {
             return View();
         }
-        
+
         [HttpGet]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
             return View();
         }
-        
+
         [HttpGet]
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
             return View();
         }
-        
+
         [HttpPost]
-        public ActionResult ChangeCulture(string lang)
+        public ActionResult ChangeCulture(string newCulture)
         {
-            
             var returnUrl = Request.UrlReferrer.AbsolutePath;
-            List<string> cultures = new List<string>() { "ru", "en", "blr" };
-            if (!cultures.Contains(lang))
+            List<string> cultures = new List<string>() {"ru", "en", "blr"};
+            if (!cultures.Contains(newCulture))
             {
-                lang = "en";
+                newCulture = "en";
             }
-            var cookie = Request.Cookies["lang"];
-            if (cookie != null)
-                cookie.Value = lang;
-            else
-            {
-                cookie = new HttpCookie("lang");
-                cookie.HttpOnly = false;
-                cookie.Value = lang;
-                cookie.Expires = DateTime.Now.AddYears(1);
-            }
-            Response.Cookies.Add(cookie);
+
+            var cookie = new HttpCookie("lang") {HttpOnly = false, Value = newCulture, Expires = DateTime.Now.AddYears(1)};
+            Response.Cookies.Set(cookie);
             return Redirect(returnUrl);
         }
     }

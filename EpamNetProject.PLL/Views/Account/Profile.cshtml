@@ -1,8 +1,8 @@
 @model EpamNetProject.BLL.models.UserProfileDTO
 
-<p>@Html.ActionLink("Edit profile", "Edit", "Account")</p>
-<p id="Balance">@Html.DisplayFor(x => x.Balance)</p>
-<input type="number" id="BalanceCount"/> <button onclick="">Add to Balance</button>
+<p>@Html.ActionLink(Resources.Resource.ACCOUNT_EDITPROFILE, "Edit", "Account")</p>
+<p id="Balance">@Resources.Resource.ACCOUNT_BALANCE - @Html.DisplayFor(x => x.Balance)</p>
+<input type="number" id="BalanceCount"/> <button onclick="">@Resources.Resource.ACCOUNT_ADDTOBALANCE</button>
 @{
     Html.RenderAction("PurchaseHistory");
 }

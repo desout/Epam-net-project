@@ -4,9 +4,9 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace EpamNetProject.DAL.Repositories
 {
-    public class ApplicationRoleManager : RoleManager<UserRole>
+    public class ApplicationRoleManager : RoleManager<UserRole,string>
     {
-        public ApplicationRoleManager(RoleStore<UserRole> store)
+        public ApplicationRoleManager(IRoleStore<UserRole,string> store)
             : base(store)
         { }
     }
