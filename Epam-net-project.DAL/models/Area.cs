@@ -1,10 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace EpamNetProject.DAL.models
+﻿namespace EpamNetProject.DAL.models
 {
     public class Area : BaseEntity
     {
-        
         public int LayoutId { get; set; }
         public string Description { get; set; }
         public int CoordX { get; set; }
