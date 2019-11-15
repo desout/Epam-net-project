@@ -5,7 +5,6 @@ using EpamNetProject.BLL.Models;
 using EpamNetProject.BLL.Services;
 using EpamNetProject.DAL.Interfaces;
 using EpamNetProject.DAL.models;
-using EpamNetProject.DAL.Repositories;
 using Moq;
 using NUnit.Framework;
 
@@ -14,16 +13,6 @@ namespace EpamNetProject.BLL.Tests
     [TestFixture]
     public class EventServiceTests
     {
-        private const int ReturnId = 10;
-        private Mock<IRepository<Area>> _areaRepository;
-        private Mock<IRepository<Event>> _eventRepository;
-        private EventService _eventService;
-        private Mock<IRepository<Layout>> _layoutRepository;
-        private Mock<IRepository<Seat>> _seatRepository;
-        private Mock<IRepository<EventSeat>> _eventSeatRepository;
-        private Mock<IRepository<EventArea>> _eventAreaRepository;
-        private Mock<IRepository<UserProfile>> _userProfileRepository;
-
         [SetUp]
         public void SetUp()
         {
@@ -118,21 +107,32 @@ namespace EpamNetProject.BLL.Tests
                 });
 
             _eventService = new EventService(_eventRepository.Object, _layoutRepository.Object,
-                _areaRepository.Object, _seatRepository.Object, _eventSeatRepository.Object, _eventAreaRepository.Object, _userProfileRepository.Object);
+                _areaRepository.Object, _seatRepository.Object, _eventSeatRepository.Object,
+                _eventAreaRepository.Object, _userProfileRepository.Object);
         }
 
+        private const int ReturnId = 10;
+        private Mock<IRepository<Area>> _areaRepository;
+        private Mock<IRepository<Event>> _eventRepository;
+        private EventService _eventService;
+        private Mock<IRepository<Layout>> _layoutRepository;
+        private Mock<IRepository<Seat>> _seatRepository;
+        private Mock<IRepository<EventSeat>> _eventSeatRepository;
+        private Mock<IRepository<EventArea>> _eventAreaRepository;
+        private Mock<IRepository<UserProfile>> _userProfileRepository;
+
         [Test]
-        public void CreateEvent_WhenModelValid_ShouldReturnNewId()
+        public void CreateEvent_WhenEventWithDateInPast_ShouldReturnDateInPastValidationException()
         {
             var sEvent = new EventDto
             {
                 Name = "New Event", Description = "Description", LayoutId = 1,
-                EventDate = DateTime.Today.Add(TimeSpan.FromDays(1))
+                EventDate = DateTime.Today.Subtract(TimeSpan.FromDays(20))
             };
 
-            var result = _eventService.CreateEvent(sEvent);
+            var exception = Assert.Throws<ValidationException>(() => _eventService.CreateEvent(sEvent));
 
-            Assert.AreEqual(result, ReturnId);
+            Assert.AreEqual("Event can't be added in past", exception.Message);
         }
 
         [Test]
@@ -150,17 +150,31 @@ namespace EpamNetProject.BLL.Tests
         }
 
         [Test]
-        public void CreateEvent_WhenEventWithDateInPast_ShouldReturnDateInPastValidationException()
+        public void CreateEvent_WhenModelNotValid_ShouldReturnArgumentException()
+        {
+            var sEvent = new EventDto
+            {
+                Name = null,
+                Description = "Description",
+                LayoutId = 3,
+                EventDate = DateTime.Today.Add(TimeSpan.FromDays(1))
+            };
+
+            Assert.Throws<ArgumentException>(() => _eventService.CreateEvent(sEvent));
+        }
+
+        [Test]
+        public void CreateEvent_WhenModelValid_ShouldReturnNewId()
         {
             var sEvent = new EventDto
             {
                 Name = "New Event", Description = "Description", LayoutId = 1,
-                EventDate = DateTime.Today.Subtract(TimeSpan.FromDays(20))
+                EventDate = DateTime.Today.Add(TimeSpan.FromDays(1))
             };
 
-            var exception = Assert.Throws<ValidationException>(() => _eventService.CreateEvent(sEvent));
+            var result = _eventService.CreateEvent(sEvent);
 
-            Assert.AreEqual("Event can't be added in past", exception.Message);
+            Assert.AreEqual(result, ReturnId);
         }
 
         [Test]
@@ -175,20 +189,6 @@ namespace EpamNetProject.BLL.Tests
             var exception = Assert.Throws<ValidationException>(() => _eventService.CreateEvent(sEvent));
 
             Assert.AreEqual("Event can't be created due to no seats exist", exception.Message);
-        }
-
-        [Test]
-        public void CreateEvent_WhenModelNotValid_ShouldReturnArgumentException()
-        {
-            var sEvent = new EventDto
-            {
-                Name= null,
-                Description = "Description",
-                LayoutId = 3,
-                EventDate = DateTime.Today.Add(TimeSpan.FromDays(1))
-            };
-
-            Assert.Throws<ArgumentException>(() => _eventService.CreateEvent(sEvent));
         }
     }
 }

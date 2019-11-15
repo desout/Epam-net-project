@@ -1,9 +1,10 @@
-@model System.Collections.Generic.List<EpamNetProject.BLL.Models.EventDto>
-<h1>@Resources.Resource.MANAGER_EDIT_EVENTSTITLE</h1>
+@using Resources
+@model List<EpamNetProject.BLL.Models.EventDto>
+<h1>@Resource.MANAGER_EDIT_EVENTSTITLE</h1>
 @foreach (var item in Model)
 {
     <p data-eventId="@item.Id">
-        @item.Name <a href="@Url.Action(Resources.Resource.MANAGER_EDIT_EDIT, new {id = item.Id})">edit</a> <button onclick="function f() {deleteEvent(@item.Id)}">@Resources.Resource.MANAGER_EDIT_DELETEEVENT</button>
+        @item.Name <a href="@Url.Action(Resource.MANAGER_EDIT_EDIT, new {id = item.Id})">edit</a> <button onclick="function f() {deleteEvent(@item.Id)}">@Resource.MANAGER_EDIT_DELETEEVENT</button>
     </p>
 }
 <a href="@Url.Action("Edit")">Add</a>

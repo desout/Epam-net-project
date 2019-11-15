@@ -1,19 +1,18 @@
 @using EpamNetProject.BLL.Models
-
 @helper ISM(List<EventAreaDto> areas, List<EventSeatDto> seats, string link)
 {
     <table id="ISM__TABLE__MAP">
-        @for (int i = 0; i < 1000; i++)
+        @for (var i = 0; i < 1000; i++)
         {
             <tr>
-                @for (int j = 0; j < 1000; j++)
+                @for (var j = 0; j < 1000; j++)
                 {
                     <td>
                         <table>
-                            @for (int k = 0; k < 1000; k++)
+                            @for (var k = 0; k < 1000; k++)
                             {
                                 <tr>
-                                    @for (int l = 0; l < 1000; l++)
+                                    @for (var l = 0; l < 1000; l++)
                                     {
                                         <td></td>
                                     }

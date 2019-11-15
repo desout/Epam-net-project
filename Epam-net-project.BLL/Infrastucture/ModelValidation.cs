@@ -8,14 +8,14 @@ namespace EpamNetProject.BLL.Infrastucture
     {
         public static string IsValidModel<T>(T entity)
         {
-            var context = new ValidationContext(entity, serviceProvider: null, items: null);
+            var context = new ValidationContext(entity, null, null);
             ICollection<ValidationResult> results = new List<ValidationResult>();
             Validator.TryValidateObject(
-                entity, context, results, 
-                validateAllProperties: true
+                entity, context, results,
+                true
             );
             var result = results.FirstOrDefault();
-            return result != null ? result.ToString(): null;
+            return result != null ? result.ToString() : null;
         }
     }
 }

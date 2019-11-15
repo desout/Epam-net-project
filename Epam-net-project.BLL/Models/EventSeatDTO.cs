@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace EpamNetProject.BLL.Models
 {
@@ -9,7 +8,7 @@ namespace EpamNetProject.BLL.Models
         [Required] public int EventAreaId { get; set; }
         [Required] public int Row { get; set; }
         [Required] public int Number { get; set; }
-        [Required] public int State { get; set; } 
+        [Required] public int State { get; set; }
         public string UserId { get; set; }
     }
 }

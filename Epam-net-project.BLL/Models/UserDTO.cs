@@ -9,7 +9,7 @@ namespace EpamNetProject.BLL.Models
         public string Password { get; set; }
         public string UserName { get; set; }
         public string Role { get; set; }
-        
+
         public UserProfileDTO UserProfile { get; set; }
     }
 }

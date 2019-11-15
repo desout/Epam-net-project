@@ -28,53 +28,63 @@ namespace EpamNetProject.BLL.Services
             _areaRepository = areaRepository;
             _mapper = MapperConfigurationProvider.GetMapperConfig();
         }
-        public VenueDto GetVenue(int id) => _mapper.Map<VenueDto>(_venueRepository.Get(id));
 
         public int CreateVenue(VenueDto venue)
         {
             var validationResult = ModelValidation.IsValidModel(venue);
-            if ( validationResult != null)
-            {
-                throw new ArgumentException(validationResult);
-            }
+            if (validationResult != null) throw new ArgumentException(validationResult);
             if (IsVenueExist(venue)) throw new ValidationException("Venue can't be created for this name");
             var ven = _mapper.Map<Venue>(venue);
             return _venueRepository.Add(ven);
         }
-        public LayoutDto GetLayout(int id) => _mapper.Map<LayoutDto>(_layoutRepository.Get(id));
-        public List<LayoutDto> GetLayouts() => _mapper.Map<List<LayoutDto>>(_layoutRepository.GetAll());
+
+        public List<LayoutDto> GetLayouts()
+        {
+            return _mapper.Map<List<LayoutDto>>(_layoutRepository.GetAll());
+        }
+
         public int CreateLayout(LayoutDto layout)
         {
             var validationResult = ModelValidation.IsValidModel(layout);
-            if ( validationResult != null)
-            {
-                throw new ArgumentException(validationResult);
-            }
+            if (validationResult != null) throw new ArgumentException(validationResult);
             if (IsLayoutExist(layout)) throw new ValidationException("Layout can't be created for this name");
 
             return _layoutRepository.Add(_mapper.Map<Layout>(layout));
         }
-        public SeatDto GetSeat(int id) => _mapper.Map<SeatDto>(_seatRepository.Get(id));
+
         public int CreateSeat(SeatDto seat)
         {
             var validationResult = ModelValidation.IsValidModel(seat);
-            if ( validationResult != null)
-            {
-                throw new ArgumentException(validationResult);
-            }
+            if (validationResult != null) throw new ArgumentException(validationResult);
             if (IsSeatExist(seat)) throw new ValidationException("Seat can't be created with this seat and row");
 
             return _seatRepository.Add(_mapper.Map<Seat>(seat));
         }
-        public AreaDto GetArea(int id) => _mapper.Map<AreaDto>(_areaRepository.Get(id));
+
+        public VenueDto GetVenue(int id)
+        {
+            return _mapper.Map<VenueDto>(_venueRepository.Get(id));
+        }
+
+        public LayoutDto GetLayout(int id)
+        {
+            return _mapper.Map<LayoutDto>(_layoutRepository.Get(id));
+        }
+
+        public SeatDto GetSeat(int id)
+        {
+            return _mapper.Map<SeatDto>(_seatRepository.Get(id));
+        }
+
+        public AreaDto GetArea(int id)
+        {
+            return _mapper.Map<AreaDto>(_areaRepository.Get(id));
+        }
 
         public int CreateArea(AreaDto area)
         {
             var validationResult = ModelValidation.IsValidModel(area);
-            if ( validationResult != null)
-            {
-                throw new ArgumentException(validationResult);
-            }
+            if (validationResult != null) throw new ArgumentException(validationResult);
             if (IsAreaExist(area)) throw new ValidationException("Area can't be created with this description");
 
             return _areaRepository.Add(_mapper.Map<Area>(area));

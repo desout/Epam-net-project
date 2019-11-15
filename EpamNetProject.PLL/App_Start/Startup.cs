@@ -1,8 +1,9 @@
+using EpamNetProject.PLL;
 using Microsoft.Owin;
-using Owin;
 using Microsoft.Owin.Security.Cookies;
- 
-[assembly: OwinStartup(typeof(EpamNetProject.PLL.Startup))]
+using Owin;
+
+[assembly: OwinStartup(typeof(Startup))]
 
 namespace EpamNetProject.PLL
 {
@@ -13,7 +14,7 @@ namespace EpamNetProject.PLL
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = "ApplicationCookie",
-                LoginPath = new PathString("/Account/Login"),
+                LoginPath = new PathString("/Account/Login")
             });
         }
     }

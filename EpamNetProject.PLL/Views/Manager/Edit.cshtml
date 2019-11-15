@@ -1,11 +1,13 @@
+@using Resources
 @model EpamNetProject.PLL.Models.EditEventViewModel
 @using (Html.BeginForm("Add", "Manager"))
 {
-    @Html.HiddenFor(x=>x.Id);
-    <label>@Resources.Resource.MANAGER_EDIT_DESCRIPTION @Html.EditorFor(x=>x.Description)</label>
-    <label>@Resources.Resource.MANAGER_EDIT_TIME @Html.EditorFor(x=>x.Time)</label>
-    <label>@Resources.Resource.MANAGER_EDIT_TITLE @Html.EditorFor(x=>x.Title)</label>
-    <label>@Resources.Resource.MANAGER_EDIT_IMGURL @Html.EditorFor(x=>x.imgUrl)</label>
-    <label>@Resources.Resource.MANAGER_EDIT_LAYOUT @Html.DropDownListFor(x => x.Layout, new SelectList(ViewBag.Layouts, "Id", "LayoutName"))</label>
-    <button type="submit">@Resources.Resource.MANAGER_EDIT_SAVE</button>
+    @Html.HiddenFor(x => x.Id)
+    ;
+    <label>@Resource.MANAGER_EDIT_DESCRIPTION @Html.EditorFor(x => x.Description)</label>
+    <label>@Resource.MANAGER_EDIT_TIME @Html.EditorFor(x => x.Time)</label>
+    <label>@Resource.MANAGER_EDIT_TITLE @Html.EditorFor(x => x.Title)</label>
+    <label>@Resource.MANAGER_EDIT_IMGURL @Html.EditorFor(x => x.imgUrl)</label>
+    <label>@Resource.MANAGER_EDIT_LAYOUT @Html.DropDownListFor(x => x.Layout, new SelectList(ViewBag.Layouts, "Id", "LayoutName"))</label>
+    <button type="submit">@Resource.MANAGER_EDIT_SAVE</button>
 }

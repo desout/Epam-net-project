@@ -15,12 +15,12 @@ namespace EpamNetProject.BLL.Services
     public class EventService : IEventService
     {
         private readonly IRepository<Area> _areaRepository;
+        private readonly IRepository<EventArea> _eventAreaRepository;
         private readonly IRepository<Event> _eventRepository;
+        private readonly IRepository<EventSeat> _eventSeatRepository;
         private readonly IRepository<Layout> _layoutRepository;
         private readonly IMapper _mapper;
         private readonly IRepository<Seat> _seatRepository;
-        private readonly IRepository<EventSeat> _eventSeatRepository;
-        private readonly IRepository<EventArea> _eventAreaRepository;
         private readonly IRepository<UserProfile> _userProfileRepository;
 
         public EventService(IRepository<Event> eventRepository, IRepository<Layout> layoutRepository,
@@ -90,10 +90,7 @@ namespace EpamNetProject.BLL.Services
         public List<EventDto> GetAllEvents()
         {
             var items = _mapper.Map<List<EventDto>>(_eventRepository.GetAll());
-            foreach (var item in items)
-            {
-                item.EventAvailability = GetAvailabilityPercentage(item.LayoutId);
-            }
+            foreach (var item in items) item.EventAvailability = GetAvailabilityPercentage(item.LayoutId);
 
             return items;
         }
@@ -101,10 +98,7 @@ namespace EpamNetProject.BLL.Services
         public int CreateEvent(EventDto Event)
         {
             var validationResult = ModelValidation.IsValidModel(Event);
-            if (validationResult != null)
-            {
-                throw new ArgumentException(validationResult);
-            }
+            if (validationResult != null) throw new ArgumentException(validationResult);
 
             if (Event.EventDate.CompareTo(DateTime.Now) < 0)
                 throw new ValidationException("Event can't be added in past");
@@ -113,7 +107,7 @@ namespace EpamNetProject.BLL.Services
                 throw new ValidationException("Event can't be created for one venue in the same time");
 
             if (!IsSeatsExist(Event)) throw new ValidationException("Event can't be created due to no seats exist");
-            
+
             var areas = _areaRepository.GetAll().Where(x => x.LayoutId == Event.LayoutId).ToList();
             areas.Map(x => _eventAreaRepository.Add(_mapper.Map<EventArea>(x)));
             _seatRepository.GetAll().Join(areas, x => x.AreaId, a => a.Id, (x, a) => x)
@@ -125,10 +119,7 @@ namespace EpamNetProject.BLL.Services
         {
             var seats = _eventSeatRepository.GetAll().Where(x => x.EventAreaId == layoutId).ToList();
             var availableSeatsCount = seats.Count(x => x.State == 0);
-            if (availableSeatsCount == 0 || !seats.Any())
-            {
-                return 0;
-            }
+            if (availableSeatsCount == 0 || !seats.Any()) return 0;
 
             return seats.Count() / availableSeatsCount;
         }
@@ -175,20 +166,15 @@ namespace EpamNetProject.BLL.Services
         public bool ChangeStatusToBuy(List<EventSeatDto> seats, string userId, decimal totalAmount)
         {
             var userProfile = _userProfileRepository.GetAll().FirstOrDefault(x => x.UserId == userId);
-            if (userProfile.Balance < totalAmount)
-            {
-                return false;
-            }
+            if (userProfile.Balance < totalAmount) return false;
 
             if (userProfile.ReserveDate?.AddMinutes(15) >= DateTime.Now)
-            {
                 foreach (var seat in seats)
                 {
                     seat.State = 0;
                     seat.UserId = null;
                     _eventSeatRepository.Update(_mapper.Map<EventSeat>(seat));
                 }
-            }
 
             foreach (var seat in seats)
             {
@@ -208,7 +194,8 @@ namespace EpamNetProject.BLL.Services
 
         public List<PriceSeat> GetReservedSeatByUser(string userId)
         {
-            var seats = _mapper.Map<List<EventSeatDto>>(_eventSeatRepository.GetAll().Where(x => x.State == 1 && x.UserId == userId).ToList());
+            var seats = _mapper.Map<List<EventSeatDto>>(_eventSeatRepository.GetAll()
+                .Where(x => x.State == 1 && x.UserId == userId).ToList());
             return _eventAreaRepository.GetAll().Join(seats, x => x.Id, c => c.EventAreaId,
                 (x, c) => new PriceSeat {Seat = c, Price = x.Price}).ToList();
         }

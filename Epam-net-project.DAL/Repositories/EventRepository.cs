@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
@@ -23,7 +21,7 @@ namespace EpamNetProject.DAL.Repositories
 
         public int Add(Event entity)
         {
-            var returnedId = Int32.Parse(_dbSet.SqlQuery("exec EventInsert @Name @Descr @EventDate @LayoutId",
+            var returnedId = int.Parse(_dbSet.SqlQuery("exec EventInsert @Name @Descr @EventDate @LayoutId",
                     new SqlParameter("@Name", entity.Name), new SqlParameter("@Descr", entity.Description),
                     new SqlParameter("@EventDate", entity.EventDate), new SqlParameter("@LayoutId", entity.LayoutId))
                 .First().ToString());
@@ -43,7 +41,7 @@ namespace EpamNetProject.DAL.Repositories
 
         public int Remove(int id)
         {
-            var returnedId = Int32.Parse(_dbSet.SqlQuery("exec EventDeleteById @Id", new SqlParameter("@Id", id))
+            var returnedId = int.Parse(_dbSet.SqlQuery("exec EventDeleteById @Id", new SqlParameter("@Id", id))
                 .First().ToString());
             _context.SaveChanges();
             return returnedId;

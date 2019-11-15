@@ -1,3 +1,4 @@
+@using Resources
 @model EpamNetProject.PLL.Models.EventViewModel
 
 @{
@@ -6,14 +7,14 @@
 
 <div>
     <img src="@Model.Event.ImgUrl"/>
-    <p>@Resources.Resource.EVENT_EVENTDATE - @Model.Event.EventDate</p>
-    <p>@Resources.Resource.EVENT_DESCRIPTION @Model.Event.Description</p>
-    <p>@Resources.Resource.EVENT_AVAILABILITY - @Html.DisplayFor(x => x.Event.EventAvailability)</p>
+    <p>@Resource.EVENT_EVENTDATE - @Model.Event.EventDate</p>
+    <p>@Resource.EVENT_DESCRIPTION @Model.Event.Description</p>
+    <p>@Resource.EVENT_AVAILABILITY - @Html.DisplayFor(x => x.Event.EventAvailability)</p>
 </div>
 
 @if (User.Identity.IsAuthenticated)
 {
-    <h4> @Resources.Resource.EVENT_ISMTITLE</h4>
+    <h4> @Resource.EVENT_ISMTITLE</h4>
     @Ism.ISM(Model.EventAreas, Model.EventSeats, Url.Action("Select"))
     <a href=@Url.Action("ProceedToCheckout", new {EventId = Model.Event.Id})></a>
 }

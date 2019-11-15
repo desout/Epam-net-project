@@ -1,11 +1,10 @@
-﻿using EpamNetProject.BLL.Interfaces;
-using EpamNetProject.BLL.models;
-using EpamNetProject.BLL.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using EpamNetProject.BLL.Interfaces;
+using EpamNetProject.BLL.models;
+using EpamNetProject.BLL.Models;
 
 namespace EpamNetProject.PLL.Controllers
 {
@@ -20,9 +19,10 @@ namespace EpamNetProject.PLL.Controllers
                 Password = "Desoutside1",
                 Role = "admin",
                 UserProfile = new UserProfileDTO
-                { FirstName = "Andrei", Surname = "Anelkin", Language = "en", TimeZone = "UTC-11" }
-            }, new List<string> { "user", "admin" });
+                    {FirstName = "Andrei", Surname = "Anelkin", Language = "en", TimeZone = "UTC-11"}
+            }, new List<string> {"user", "admin"});
         }
+
         [HttpGet]
         public ActionResult Index()
         {
@@ -47,13 +47,11 @@ namespace EpamNetProject.PLL.Controllers
         public ActionResult ChangeCulture(string newCulture)
         {
             var returnUrl = Request.UrlReferrer.AbsolutePath;
-            List<string> cultures = new List<string>() {"ru", "en", "blr"};
-            if (!cultures.Contains(newCulture))
-            {
-                newCulture = "en";
-            }
+            var cultures = new List<string> {"ru", "en", "blr"};
+            if (!cultures.Contains(newCulture)) newCulture = "en";
 
-            var cookie = new HttpCookie("lang") {HttpOnly = false, Value = newCulture, Expires = DateTime.Now.AddYears(1)};
+            var cookie = new HttpCookie("lang")
+                {HttpOnly = false, Value = newCulture, Expires = DateTime.Now.AddYears(1)};
             Response.Cookies.Set(cookie);
             return Redirect(returnUrl);
         }

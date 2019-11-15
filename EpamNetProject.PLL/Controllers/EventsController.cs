@@ -30,15 +30,15 @@ namespace EpamNetProject.PLL.Controllers
         public ActionResult Event(int id)
         {
             var returnedEvent = _eventService.GetEvent(id);
-            
+
             var seats = new List<EventSeatDto>();
             var areas = new List<EventAreaDto>();
             if (User.Identity.IsAuthenticated)
             {
-                
                 seats = _eventService.GetSeatsByEvent(id);
                 areas = _eventService.GetAreasByEvent(id);
             }
+
             var returnedModel = new EventViewModel
             {
                 Event = returnedEvent,
@@ -68,7 +68,7 @@ namespace EpamNetProject.PLL.Controllers
         {
             var userId = User.Identity.GetUserId();
             var seats = _eventService.GetSeatsByUser(userId).Where(x => x.State == 1 && x.UserId == userId).ToList();
-            var isSuccess = _eventService.ChangeStatusToBuy(seats, userId,totalAmount);
+            var isSuccess = _eventService.ChangeStatusToBuy(seats, userId, totalAmount);
             return View(isSuccess ? "PaymentSuccess" : "PaymentFailed");
         }
     }

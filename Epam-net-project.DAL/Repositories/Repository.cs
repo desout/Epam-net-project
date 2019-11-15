@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using EpamNetProject.DAL.Interfaces;
 using EpamNetProject.DAL.models;
@@ -9,7 +8,7 @@ namespace EpamNetProject.DAL.Repositories
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
     {
         internal MyContext _context;
-        
+
         internal DbSet<TEntity> _dbSet;
 
         public Repository(MyContext context)

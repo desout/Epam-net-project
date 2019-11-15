@@ -16,6 +16,5 @@ namespace EpamNetProject.BLL.Interfaces
         UserDTO getUserInfo(string userId);
         decimal addBalance(string userId, decimal amount);
         bool UpdateUserInfo(UserDTO user);
-
     }
 }

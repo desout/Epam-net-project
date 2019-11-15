@@ -1,8 +1,9 @@
+@using Resources
 @model EpamNetProject.PLL.Models.LoginModel
 @using (Html.BeginForm("Login", "Account", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
-    <label>@Resources.Resource.ACCOUNT_LOGIN_USERNAME @Html.EditorFor(x => x.UserName)</label>
-    <label>@Resources.Resource.ACCOUNT_LOGIN_PASSWORD @Html.EditorFor(x => x.Password)</label>
-    <button type="submit"> @Resources.Resource.ACCOUNT_LOGIN_SUBMITBUTTON</button>
+    <label>@Resource.ACCOUNT_LOGIN_USERNAME @Html.EditorFor(x => x.UserName)</label>
+    <label>@Resource.ACCOUNT_LOGIN_PASSWORD @Html.EditorFor(x => x.Password)</label>
+    <button type="submit"> @Resource.ACCOUNT_LOGIN_SUBMITBUTTON</button>
 }

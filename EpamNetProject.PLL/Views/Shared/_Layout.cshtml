@@ -1,4 +1,5 @@
 ﻿@using EpamNetProject.PLL.Statics
+@using Resources
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,29 +13,29 @@
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            @Html.ActionLink(Resources.Resource.ApplicationName, "Index", "Home", new {area = ""}, new {@class = "navbar-brand"})
+            @Html.ActionLink(Resource.ApplicationName, "Index", "Home", new {area = ""}, new {@class = "navbar-brand"})
         </div>
         <div >
             <ul >
                 @if (!User.Identity.IsAuthenticated)
                 {
-                    <li>@Html.ActionLink(Resources.Resource.MAIN_LOGIN, "Login", "Account")</li>
-                    <li>@Html.ActionLink(Resources.Resource.MAIN_REGISTER, "Register", "Account")</li>
+                    <li>@Html.ActionLink(Resource.MAIN_LOGIN, "Login", "Account")</li>
+                    <li>@Html.ActionLink(Resource.MAIN_REGISTER, "Register", "Account")</li>
                 }
                 else
                 {
-                    <li>@Html.ActionLink(Resources.Resource.MAIN_PROFILE, "Profile", "Account")</li>
-                    <li>@Html.ActionLink(Resources.Resource.MAIN_LOGOUT, "Logout", "Account")</li>
+                    <li>@Html.ActionLink(Resource.MAIN_PROFILE, "Profile", "Account")</li>
+                    <li>@Html.ActionLink(Resource.MAIN_LOGOUT, "Logout", "Account")</li>
                 }
                 @if (User.IsInRole("Manager") || User.IsInRole("Admin"))
                 {
-                    <li>@Html.ActionLink(Resources.Resource.MAIN_EDITEVENTS, "EditEvents", "Manager")</li>
+                    <li>@Html.ActionLink(Resource.MAIN_EDITEVENTS, "EditEvents", "Manager")</li>
                 }
-                <li>@Html.ActionLink(Resources.Resource.MAIN_EVENTS, "Index", "Events")</li>
+                <li>@Html.ActionLink(Resource.MAIN_EVENTS, "Index", "Events")</li>
                 <li>
                     @using (Html.BeginForm("ChangeCulture", "Home", FormMethod.Post))
                     {
-                        @Html.DropDownList("newCulture",new SelectList(StaticData.Languages,"Code", "Description", Culture))
+                        @Html.DropDownList("newCulture", new SelectList(StaticData.Languages, "Code", "Description", Culture))
                     }
                 </li>
             </ul>
@@ -51,7 +52,7 @@
 
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/bootstrap")
-@RenderSection("scripts", required: false)
+@RenderSection("scripts", false)
 <script >
     $('#newCulture').change(function() {
      $(this).closest('form').submit();

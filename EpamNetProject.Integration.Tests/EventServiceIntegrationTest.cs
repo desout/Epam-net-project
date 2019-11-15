@@ -1,7 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Configuration;
-using System.Linq;
 using System.Transactions;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.BLL.Services;
@@ -17,21 +16,13 @@ namespace EpamNetProject.Integration.Tests
     [TestFixture]
     public class EventServiceIntegrationTest
     {
-        private IRepository<Area> _areaRepository;
-        private IRepository<Event> _eventRepository;
-        private EventService _eventService;
-        private IRepository<Layout> _layoutRepository;
-        private IRepository<Seat> _seatRepository;
-        private IRepository<EventSeat> _eventSeatRepository;
-        private IRepository<EventArea> _eventAreaRepository;
-        private IRepository<UserProfile> _userProfileRepository;
         [SetUp]
         public void SetUp()
         {
             var sqlConnectionString =
                 ConfigurationManager.ConnectionStrings["SqlConnectionString"].ConnectionString;
             var context = new MyContext(sqlConnectionString);
-            
+
             _eventRepository = new EventRepository(context);
             _layoutRepository = new Repository<Layout>(context);
             _areaRepository = new Repository<Area>(context);
@@ -42,6 +33,32 @@ namespace EpamNetProject.Integration.Tests
 
             _eventService = new EventService(_eventRepository, _layoutRepository,
                 _areaRepository, _seatRepository, _eventSeatRepository, _eventAreaRepository, _userProfileRepository);
+        }
+
+        private IRepository<Area> _areaRepository;
+        private IRepository<Event> _eventRepository;
+        private EventService _eventService;
+        private IRepository<Layout> _layoutRepository;
+        private IRepository<Seat> _seatRepository;
+        private IRepository<EventSeat> _eventSeatRepository;
+        private IRepository<EventArea> _eventAreaRepository;
+        private IRepository<UserProfile> _userProfileRepository;
+
+        [Test]
+        public void CreateEvent_WhenEventWithSameTimeExists_ShouldReturnSameTimeValidationException()
+        {
+            using (var scope = new TransactionScope())
+            {
+                var sEvent = new EventDto
+                {
+                    Name = "New Event", Description = "Description", LayoutId = 1,
+                    EventDate = DateTime.Today.Add(TimeSpan.FromDays(1))
+                };
+
+                var exception = Assert.Throws<ValidationException>(() => _eventService.CreateEvent(sEvent));
+
+                Assert.AreEqual("Event can't be created for one venue in the same time", exception.Message);
+            }
         }
 
         [Test]
@@ -58,23 +75,6 @@ namespace EpamNetProject.Integration.Tests
                 var result = _eventService.CreateEvent(sEvent);
                 sEvent.Id = result;
                 sEvent.Should().BeEquivalentTo(_eventService.GetEvent(result));
-            }
-        }
-
-        [Test]
-        public void CreateEvent_WhenEventWithSameTimeExists_ShouldReturnSameTimeValidationException()
-        {
-            using (var scope = new TransactionScope())
-            {
-                var sEvent = new EventDto
-                {
-                    Name = "New Event", Description = "Description", LayoutId = 1,
-                    EventDate = DateTime.Today.Add(TimeSpan.FromDays(1))
-                };
-
-                var exception = Assert.Throws<ValidationException>(() => _eventService.CreateEvent(sEvent));
-
-                Assert.AreEqual("Event can't be created for one venue in the same time", exception.Message);
             }
         }
 

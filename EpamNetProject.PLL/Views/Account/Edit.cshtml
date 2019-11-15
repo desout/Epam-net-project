@@ -1,15 +1,16 @@
 @using EpamNetProject.PLL.Statics
+@using Resources
 @model EpamNetProject.PLL.Models.UserProfileViewModel
-<h1>@Resources.Resource.ACCOUNT_EDIT_TITLE</h1>
-@using (@Html.BeginForm("SaveProfile", "Account"))
+<h1>@Resource.ACCOUNT_EDIT_TITLE</h1>
+@using (Html.BeginForm("SaveProfile", "Account"))
 {
-    @Html.HiddenFor(x=>x.UserId)
-    <label>@Resources.Resource.ACCOUNT_EDIT_FIRSTNAME @Html.EditorFor(x => x.FirstName)</label>
-    <label>@Resources.Resource.ACCOUNT_EDIT_SURNAME @Html.EditorFor(x => x.Surname)</label>
-    <label>@Resources.Resource.ACCOUNT_EDIT_EMAIL @Html.EditorFor(x => x.Email)</label>
-    <label>@Resources.Resource.ACCOUNT_EDIT_LANGUAGE @Html.DropDownListFor(x => x.Language, new SelectList(StaticData.Languages,"Code", "Description"))</label>
-    <label>@Resources.Resource.ACCOUNT_EDIT_TIMEZONE @Html.DropDownListFor(x => x.TimeZone, new SelectList(TimeZoneInfo.GetSystemTimeZones(), "StandardName", "DisplayName"))</label>
-    <label>@Resources.Resource.ACCOUNT_EDIT_PASSWORD @Html.EditorFor(x => x.Password)</label>
-    <label>@Resources.Resource.ACCOUNT_EDIT_CONFIRMPASSWORD @Html.EditorFor(x => x.ConfirmPassword)</label>
-    <button type="submit">@Resources.Resource.ACCOUNT_EDIT_SAVEPROFILE</button>
+    @Html.HiddenFor(x => x.UserId)
+    <label>@Resource.ACCOUNT_EDIT_FIRSTNAME @Html.EditorFor(x => x.FirstName)</label>
+    <label>@Resource.ACCOUNT_EDIT_SURNAME @Html.EditorFor(x => x.Surname)</label>
+    <label>@Resource.ACCOUNT_EDIT_EMAIL @Html.EditorFor(x => x.Email)</label>
+    <label>@Resource.ACCOUNT_EDIT_LANGUAGE @Html.DropDownListFor(x => x.Language, new SelectList(StaticData.Languages, "Code", "Description"))</label>
+    <label>@Resource.ACCOUNT_EDIT_TIMEZONE @Html.DropDownListFor(x => x.TimeZone, new SelectList(TimeZoneInfo.GetSystemTimeZones(), "StandardName", "DisplayName"))</label>
+    <label>@Resource.ACCOUNT_EDIT_PASSWORD @Html.EditorFor(x => x.Password)</label>
+    <label>@Resource.ACCOUNT_EDIT_CONFIRMPASSWORD @Html.EditorFor(x => x.ConfirmPassword)</label>
+    <button type="submit">@Resource.ACCOUNT_EDIT_SAVEPROFILE</button>
 }

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
-using System.Linq;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
@@ -11,8 +9,6 @@ using System.Web.Routing;
 using Autofac;
 using Autofac.Integration.Mvc;
 using EpamNetProject.BLL.Interfaces;
-using EpamNetProject.BLL.models;
-using EpamNetProject.BLL.Models;
 using EpamNetProject.BLL.Services;
 using EpamNetProject.DAL;
 using EpamNetProject.DAL.Interfaces;
@@ -23,7 +19,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace EpamNetProject.PLL
 {
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : HttpApplication
     {
         protected void Application_Start()
         {

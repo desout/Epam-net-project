@@ -1,9 +1,11 @@
+@using Resources
 @model List<EpamNetProject.BLL.Models.EventDto>
 @{
     ViewBag.Title = "Events";
 }
-<h2>@Resources.Resource.EVENTS_EVENTLISTTITLE</h2>
+<h2>@Resource.EVENTS_EVENTLISTTITLE</h2>
 @foreach (var ev in Model)
 {
-    @Html.DisplayFor(x => ev);
+    @Html.DisplayFor(x => ev)
+    ;
 }

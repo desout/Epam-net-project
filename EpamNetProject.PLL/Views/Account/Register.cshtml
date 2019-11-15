@@ -1,11 +1,12 @@
 @using EpamNetProject.PLL.Statics
+@using Resources
 @model EpamNetProject.PLL.Models.RegisterModel
-@Resources.Resource.ACCOUNT_REGISTERTITLE
-<label>@Resources.Resource.ACCOUNT_REGISTER_USERNAME @Html.EditorFor(x => x.UserName)</label>
-<label>@Resources.Resource.ACCOUNT_REGISTER_EMAIL @Html.EditorFor(x => x.Email)</label>
-<label>@Resources.Resource.ACCOUNT_REGISTER_PASSWORD @Html.EditorFor(x => x.Password)</label>
-<label>@Resources.Resource.ACCOUNT_REGISTER_CONFIRMPASSWORD @Html.EditorFor(x => x.ConfirmPassword)</label>
-<label>@Resources.Resource.ACCOUNT_REGISTER_FIRSTNAME @Html.EditorFor(x => x.FirstName)</label>
-<label>@Resources.Resource.ACCOUNT_REGISTER_SURNAME @Html.EditorFor(x => x.Surname)</label>
-<label>@Resources.Resource.ACCOUNT_REGISTER_LANGUAGE @Html.DropDownListFor(x => x.Language, new SelectList(StaticData.Languages,"Code", "Description"))</label>
-<label>@Resources.Resource.ACCOUNT_REGISTER_TIMEZONE @Html.DropDownListFor(x => x.TimeZone, new SelectList(TimeZoneInfo.GetSystemTimeZones(), "StandardName", "DisplayName"))</label>
+@Resource.ACCOUNT_REGISTERTITLE
+<label>@Resource.ACCOUNT_REGISTER_USERNAME @Html.EditorFor(x => x.UserName)</label>
+<label>@Resource.ACCOUNT_REGISTER_EMAIL @Html.EditorFor(x => x.Email)</label>
+<label>@Resource.ACCOUNT_REGISTER_PASSWORD @Html.EditorFor(x => x.Password)</label>
+<label>@Resource.ACCOUNT_REGISTER_CONFIRMPASSWORD @Html.EditorFor(x => x.ConfirmPassword)</label>
+<label>@Resource.ACCOUNT_REGISTER_FIRSTNAME @Html.EditorFor(x => x.FirstName)</label>
+<label>@Resource.ACCOUNT_REGISTER_SURNAME @Html.EditorFor(x => x.Surname)</label>
+<label>@Resource.ACCOUNT_REGISTER_LANGUAGE @Html.DropDownListFor(x => x.Language, new SelectList(StaticData.Languages, "Code", "Description"))</label>
+<label>@Resource.ACCOUNT_REGISTER_TIMEZONE @Html.DropDownListFor(x => x.TimeZone, new SelectList(TimeZoneInfo.GetSystemTimeZones(), "StandardName", "DisplayName"))</label>

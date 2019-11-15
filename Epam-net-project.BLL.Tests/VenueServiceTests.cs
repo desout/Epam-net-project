@@ -13,16 +13,6 @@ namespace EpamNetProject.BLL.Tests
     [TestFixture]
     public class VenueServiceTests
     {
-        private const int ReturnIdVenue = 10;
-        private const int ReturnIdSeat = 20;
-        private const int ReturnIdLayout = 30;
-        private const int ReturnIdArea = 40;
-        private Mock<IRepository<Area>> _areaRepository;
-        private Mock<IRepository<Layout>> _layoutRepository;
-        private Mock<IRepository<Seat>> _seatRepository;
-        private Mock<IRepository<Venue>> _venueRepository;
-        private VenueService _venueService;
-
         [SetUp]
         public void SetUp()
         {
@@ -104,6 +94,114 @@ namespace EpamNetProject.BLL.Tests
                 _venueRepository.Object, _areaRepository.Object);
         }
 
+        private const int ReturnIdVenue = 10;
+        private const int ReturnIdSeat = 20;
+        private const int ReturnIdLayout = 30;
+        private const int ReturnIdArea = 40;
+        private Mock<IRepository<Area>> _areaRepository;
+        private Mock<IRepository<Layout>> _layoutRepository;
+        private Mock<IRepository<Seat>> _seatRepository;
+        private Mock<IRepository<Venue>> _venueRepository;
+        private VenueService _venueService;
+
+        [Test]
+        public void CreateArea_WhenAreaDescriptionExists_ShouldReturnValidationException()
+        {
+            var area = new AreaDto
+                {Description = "Description", CoordX = 10, CoordY = 20, LayoutId = 1};
+
+            Assert.Throws<ValidationException>(() => _venueService.CreateArea(area));
+        }
+
+        [Test]
+        public void CreateArea_WhenModelNotValid_ShouldReturnArgumentException()
+        {
+            var area = new AreaDto
+                {Description = null, CoordX = 10, CoordY = 20, LayoutId = 1};
+
+            Assert.Throws<ArgumentException>(() => _venueService.CreateArea(area));
+        }
+
+        [Test]
+        public void CreateArea_WhenModelValid_ShouldReturnNewId()
+        {
+            var area = new AreaDto
+                {Description = "new Description", CoordX = 10, CoordY = 20, LayoutId = 1};
+
+            var result = _venueService.CreateArea(area);
+
+            Assert.AreEqual(result, ReturnIdArea);
+        }
+
+        [Test]
+        public void CreateLayout_WhenLayoutNameExists_ShouldReturnValidationException()
+        {
+            var layout = new LayoutDto
+                {Description = "Description", LayoutName = "1 layout name", VenueId = 1};
+
+            var exception = Assert.Throws<ValidationException>(() => _venueService.CreateLayout(layout));
+
+            Assert.AreEqual("Layout can't be created for this name", exception.Message);
+        }
+
+        [Test]
+        public void CreateLayout_WhenModelNotValid_ShouldReturnArgumentException()
+        {
+            var layout = new LayoutDto
+                {Description = "Description", LayoutName = null, VenueId = 1};
+
+            var exception = Assert.Throws<ArgumentException>(() => _venueService.CreateLayout(layout));
+
+            Assert.AreEqual("The LayoutName field is required.", exception.Message);
+        }
+
+        [Test]
+        public void CreateLayout_WhenModelValid_ShouldReturnNewId()
+        {
+            var layout = new LayoutDto
+                {Description = "Description", LayoutName = "new layout name", VenueId = 1};
+
+            var result = _venueService.CreateLayout(layout);
+
+            Assert.AreEqual(result, ReturnIdLayout);
+        }
+
+        [Test]
+        public void CreateSeat_WhenModelValid_ShouldReturnNewId()
+        {
+            var seat = new SeatDto
+                {Number = 11, AreaId = 1, Row = 12};
+
+            var result = _venueService.CreateSeat(seat);
+
+            Assert.AreEqual(result, ReturnIdSeat);
+        }
+
+        [Test]
+        public void CreateSeat_WhenSeatWithSeatAndRowExists_ShouldReturnValidationException()
+        {
+            var seat = new SeatDto
+                {Number = 10, AreaId = 1, Row = 1};
+
+            Assert.Throws<ValidationException>(() => _venueService.CreateSeat(seat));
+        }
+
+        [Test]
+        public void CreateVenue_WhenModelNotValid_ShouldReturnArgumentException()
+        {
+            var venue = new VenueDto
+            {
+                Name = null,
+                Description = "Description",
+                Address = "Address",
+                Phone = "8-800-555-35-35"
+            };
+
+            var exception = Assert.Throws<ArgumentException>(() => _venueService.CreateVenue(venue));
+
+            Assert.AreEqual("The Name field is required.", exception.Message);
+        }
+
         [Test]
         public void CreateVenue_WhenModelValid_ShouldReturnNewId()
         {
@@ -130,103 +228,6 @@ namespace EpamNetProject.BLL.Tests
             var exception = Assert.Throws<ValidationException>(() => _venueService.CreateVenue(venue));
 
             Assert.AreEqual("Venue can't be created for this name", exception.Message);
-        }
-
-        [Test]
-        public void CreateVenue_WhenModelNotValid_ShouldReturnArgumentException()
-        {
-            var venue = new VenueDto
-            {
-                Name = null,
-                Description = "Description",
-                Address = "Address",
-                Phone = "8-800-555-35-35"
-            };
-
-            var exception = Assert.Throws<ArgumentException>(() => _venueService.CreateVenue(venue));
-
-            Assert.AreEqual("The Name field is required.", exception.Message);
-        }
-        [Test]
-        public void CreateLayout_WhenModelValid_ShouldReturnNewId()
-        {
-            var layout = new LayoutDto
-            { Description = "Description", LayoutName = "new layout name", VenueId = 1 };
-
-            var result = _venueService.CreateLayout(layout);
-
-            Assert.AreEqual(result, ReturnIdLayout);
-        }
-
-        [Test]
-        public void CreateLayout_WhenLayoutNameExists_ShouldReturnValidationException()
-        {
-            var layout = new LayoutDto
-            { Description = "Description", LayoutName = "1 layout name", VenueId = 1 };
-
-            var exception = Assert.Throws<ValidationException>(() => _venueService.CreateLayout(layout));
-
-            Assert.AreEqual("Layout can't be created for this name", exception.Message);
-        }
-
-        [Test]
-        public void CreateLayout_WhenModelNotValid_ShouldReturnArgumentException()
-        {
-            var layout = new LayoutDto
-            { Description = "Description", LayoutName = null, VenueId = 1 };
-
-            var exception = Assert.Throws<ArgumentException>(() => _venueService.CreateLayout(layout));
-
-            Assert.AreEqual("The LayoutName field is required.", exception.Message);
-        }
-
-        [Test]
-        public void CreateArea_WhenModelValid_ShouldReturnNewId()
-        {
-            var area = new AreaDto
-                {Description = "new Description", CoordX = 10, CoordY = 20, LayoutId = 1};
-
-            var result = _venueService.CreateArea(area);
-
-            Assert.AreEqual(result, ReturnIdArea);
-        }
-
-        [Test]
-        public void CreateArea_WhenAreaDescriptionExists_ShouldReturnValidationException()
-        {
-            var area = new AreaDto
-                {Description = "Description", CoordX = 10, CoordY = 20, LayoutId = 1};
-
-            Assert.Throws<ValidationException>(() => _venueService.CreateArea(area));
-        }
-
-        [Test]
-        public void CreateArea_WhenModelNotValid_ShouldReturnArgumentException()
-        {
-            var area = new AreaDto
-            { Description = null, CoordX = 10, CoordY = 20, LayoutId = 1 };
-
-            Assert.Throws<ArgumentException>(() => _venueService.CreateArea(area));
-        }
-
-        [Test]
-        public void CreateSeat_WhenModelValid_ShouldReturnNewId()
-        {
-            var seat = new SeatDto
-                {Number = 11, AreaId = 1, Row = 12};
-
-            var result = _venueService.CreateSeat(seat);
-
-            Assert.AreEqual(result, ReturnIdSeat);
-        }
-
-        [Test]
-        public void CreateSeat_WhenSeatWithSeatAndRowExists_ShouldReturnValidationException()
-        {
-            var seat = new SeatDto
-                {Number = 10, AreaId = 1, Row = 1};
-
-            Assert.Throws<ValidationException>(() => _venueService.CreateSeat(seat));
         }
     }
 }

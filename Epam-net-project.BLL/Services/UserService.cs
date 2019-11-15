@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -17,10 +16,10 @@ namespace EpamNetProject.BLL.Services
 {
     public class UserService : IUserService
     {
-        private readonly ApplicationUserManager _applicationUserManager;
         private readonly ApplicationRoleManager _applicationRoleManager;
-        private readonly IRepository<UserProfile> _userProfileRepository;
+        private readonly ApplicationUserManager _applicationUserManager;
         private readonly IMapper _mapper;
+        private readonly IRepository<UserProfile> _userProfileRepository;
 
         public UserService(ApplicationUserManager applicationUserManager, ApplicationRoleManager applicationRoleManager,
             IRepository<UserProfile> userProfileRepository)
@@ -33,25 +32,20 @@ namespace EpamNetProject.BLL.Services
 
         public async Task<OperationDetails> Create(UserDTO userDto)
         {
-            User user = await _applicationUserManager.FindByEmailAsync(userDto.Email);
+            var user = await _applicationUserManager.FindByEmailAsync(userDto.Email);
             if (user == null)
             {
                 user = new User {Email = userDto.Email, UserName = userDto.UserName};
                 var result = await _applicationUserManager.CreateAsync(user, userDto.Password);
-                if (result.Errors.Any())
-                {
-                    return new OperationDetails(false, result.Errors.FirstOrDefault(), "");
-                }
+                if (result.Errors.Any()) return new OperationDetails(false, result.Errors.FirstOrDefault(), "");
 
                 await _applicationUserManager.AddToRoleAsync(user.Id, userDto.Role);
                 userDto.UserProfile.UserId = user.Id;
                 _userProfileRepository.Add(_mapper.Map<UserProfile>(userDto.UserProfile));
                 return new OperationDetails(true, "Регистрация успешно пройдена", "");
             }
-            else
-            {
-                return new OperationDetails(false, "Пользователь с таким логином уже существует", "Email");
-            }
+
+            return new OperationDetails(false, "Пользователь с таким логином уже существует", "Email");
         }
 
         public UserProfileDTO getUserProfile(string userId)
@@ -63,25 +57,23 @@ namespace EpamNetProject.BLL.Services
         {
             ClaimsIdentity claim = null;
             // находим пользователя
-            User user = await _applicationUserManager.FindAsync(userDto.UserName, userDto.Password);
+            var user = await _applicationUserManager.FindAsync(userDto.UserName, userDto.Password);
             // авторизуем его и возвращаем объект ClaimsIdentity
             if (user != null)
-            {
                 claim = await _applicationUserManager.CreateIdentityAsync(user,
                     DefaultAuthenticationTypes.ApplicationCookie);
-            }
 
             return claim;
         }
 
         public async Task SetInitialData(UserDTO adminDto, List<string> roles)
         {
-            foreach (string roleName in roles)
+            foreach (var roleName in roles)
             {
                 var role = await _applicationRoleManager.FindByNameAsync(roleName);
                 if (role == null)
                 {
-                    role = new UserRole() {Name = roleName};
+                    role = new UserRole {Name = roleName};
                     await _applicationRoleManager.CreateAsync(role);
                 }
             }
@@ -108,16 +100,14 @@ namespace EpamNetProject.BLL.Services
             if (user.Password != "" || user.Email != localUser.Email)
             {
                 if (user.Password != "")
-                {
                     localUser.PasswordHash = _applicationUserManager.PasswordHasher.HashPassword(user.Password);
-                }
 
                 localUser.Email = user.Email;
                 _applicationUserManager.Update(localUser);
             }
 
             _userProfileRepository.Update(_mapper.Map<UserProfile>(user.UserProfile));
-            
+
             return true;
         }
 
