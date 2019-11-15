@@ -1,4 +1,6 @@
-﻿namespace EpamNetProject.DAL.models
+﻿using System;
+
+namespace EpamNetProject.DAL.models
 {
     public class EventSeat : BaseEntity
     {
@@ -7,5 +9,6 @@
         public int Number { get; set; }
         public int State { get; set; }
         public string UserId { get; set; }
+        public DateTime ReserveDate { get; set; }
     }
 }

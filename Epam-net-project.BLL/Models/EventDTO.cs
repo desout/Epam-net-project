@@ -11,5 +11,6 @@ namespace EpamNetProject.BLL.Models
         [Required] public int LayoutId { get; set; }
         [Required] public DateTime EventDate { get; set; }
         public int? EventAvailability { get; set; }
+        public string ImgUrl { get; set; }
     }
 }

@@ -10,5 +10,6 @@ namespace EpamNetProject.BLL.Models
         [Required] public string Description { get; set; }
         [Required] public int CoordX { get; set; }
         [Required] public int CoordY { get; set; }
+        [Required] public int Price { get; set; }
     }
 }

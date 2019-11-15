@@ -11,6 +11,7 @@ using System.Web.Routing;
 using Autofac;
 using Autofac.Integration.Mvc;
 using EpamNetProject.BLL.Interfaces;
+using EpamNetProject.BLL.models;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.BLL.Services;
 using EpamNetProject.DAL;
@@ -57,6 +58,8 @@ namespace EpamNetProject.PLL
                     UserName = "desout",
                     Password = "Desoutside1",
                     Role = "admin",
+                    UserProfile = new UserProfileDTO
+                        {FirstName = "Andrei", Surname = "Anelkin", Language = "en", TimeZone = "UTC-11"}
                 }, new List<string> {"user", "admin"}));
 
             var container = builder.Build();

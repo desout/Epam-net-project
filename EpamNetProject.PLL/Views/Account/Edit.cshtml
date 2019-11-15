@@ -1,2 +1,14 @@
-@model dynamic
-
+@using EpamNetProject.PLL.Statics
+@model EpamNetProject.PLL.Models.UserProfileViewModel
+@using (@Html.BeginForm("SaveProfile", "Account"))
+{
+    @Html.HiddenFor(x=>x.UserId);
+    @Html.EditorFor(x => x.FirstName);
+    @Html.EditorFor(x => x.Surname);
+    @Html.EditorFor(x => x.Email);
+    @Html.DropDownListFor(x => x.Language, new SelectList(StaticData.Languages, "Code", "Description"))
+    @Html.DropDownListFor(x => x.TimeZone, new SelectList(TimeZoneInfo.GetSystemTimeZones(), "StandardName", "DisplayName"))
+    @Html.EditorFor(x => x.Password);
+    @Html.EditorFor(x => x.ConfirmPassword);
+    <button type="submit">Save Profile</button>
+}

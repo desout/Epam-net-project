@@ -5,6 +5,7 @@ using EpamNetProject.BLL.Models;
 using EpamNetProject.BLL.Services;
 using EpamNetProject.DAL.Interfaces;
 using EpamNetProject.DAL.models;
+using EpamNetProject.DAL.Repositories;
 using Moq;
 using NUnit.Framework;
 
@@ -21,6 +22,7 @@ namespace EpamNetProject.BLL.Tests
         private Mock<IRepository<Seat>> _seatRepository;
         private Mock<IRepository<EventSeat>> _eventSeatRepository;
         private Mock<IRepository<EventArea>> _eventAreaRepository;
+        private Mock<IRepository<UserProfile>> _userProfileRepository;
 
         [SetUp]
         public void SetUp()
@@ -31,6 +33,7 @@ namespace EpamNetProject.BLL.Tests
             _seatRepository = new Mock<IRepository<Seat>>();
             _eventSeatRepository = new Mock<IRepository<EventSeat>>();
             _eventAreaRepository = new Mock<IRepository<EventArea>>();
+            _userProfileRepository = new Mock<IRepository<UserProfile>>();
             _eventRepository.Setup(x => x.GetAll())
                 .Returns(new List<Event>
                 {
@@ -115,7 +118,7 @@ namespace EpamNetProject.BLL.Tests
                 });
 
             _eventService = new EventService(_eventRepository.Object, _layoutRepository.Object,
-                _areaRepository.Object, _seatRepository.Object, _eventSeatRepository.Object, _eventAreaRepository.Object);
+                _areaRepository.Object, _seatRepository.Object, _eventSeatRepository.Object, _eventAreaRepository.Object, _userProfileRepository.Object);
         }
 
         [Test]

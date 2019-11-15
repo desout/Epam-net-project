@@ -24,6 +24,7 @@ namespace EpamNetProject.Integration.Tests
         private IRepository<Seat> _seatRepository;
         private IRepository<EventSeat> _eventSeatRepository;
         private IRepository<EventArea> _eventAreaRepository;
+        private IRepository<UserProfile> _userProfileRepository;
         [SetUp]
         public void SetUp()
         {
@@ -37,9 +38,10 @@ namespace EpamNetProject.Integration.Tests
             _seatRepository = new Repository<Seat>(context);
             _eventSeatRepository = new Repository<EventSeat>(context);
             _eventAreaRepository = new Repository<EventArea>(context);
+            _userProfileRepository = new Repository<UserProfile>(context);
 
             _eventService = new EventService(_eventRepository, _layoutRepository,
-                _areaRepository, _seatRepository, _eventSeatRepository, _eventAreaRepository);
+                _areaRepository, _seatRepository, _eventSeatRepository, _eventAreaRepository, _userProfileRepository);
         }
 
         [Test]

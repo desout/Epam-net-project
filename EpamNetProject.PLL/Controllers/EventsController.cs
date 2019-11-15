@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using EpamNetProject.BLL.Interfaces;
@@ -29,8 +30,15 @@ namespace EpamNetProject.PLL.Controllers
         public ActionResult Event(int id)
         {
             var returnedEvent = _eventService.GetEvent(id);
-            var seats = _eventService.GetSeatsByEvent(id);
-            var areas = _eventService.GetAreasByEvent(id);
+            
+            var seats = new List<EventSeatDto>();
+            var areas = new List<EventAreaDto>();
+            if (User.Identity.IsAuthenticated)
+            {
+                
+                seats = _eventService.GetSeatsByEvent(id);
+                areas = _eventService.GetAreasByEvent(id);
+            }
             var returnedModel = new EventViewModel
             {
                 Event = returnedEvent,
@@ -41,33 +49,27 @@ namespace EpamNetProject.PLL.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public JsonResult Select(int id)
         {
             var success = _eventService.ReserveSeat(id, User.Identity.GetUserId());
             return Json(success);
         }
 
+        [Authorize]
         public ActionResult ProceedToCheckout()
         {
             var userId = User.Identity.GetUserId();
-            var seats = _eventService.GetSeatsByUser(userId).Where(x => x.State == 1 && x.UserId == userId).ToList();
-            var areas = _eventService.GetAllAreas().Join(seats, x => x.Id, c => c.EventAreaId,
-                (x, c) => new PriceSeat {Seat = c, Price = x.Price});
-            return View(areas);
+            return View(_eventService.GetReservedSeatByUser(userId));
         }
 
-        public ActionResult Buy()
+        [Authorize]
+        public ActionResult Buy(decimal totalAmount)
         {
             var userId = User.Identity.GetUserId();
             var seats = _eventService.GetSeatsByUser(userId).Where(x => x.State == 1 && x.UserId == userId).ToList();
-            var isSuccess = _eventService.ChangeStatusToBuy(seats);
-            if (isSuccess)
-            {
-                
-                return View("PaymentSuccess");
-            }
-
-            return View("PaymentFailed");
+            var isSuccess = _eventService.ChangeStatusToBuy(seats, userId,totalAmount);
+            return View(isSuccess ? "PaymentSuccess" : "PaymentFailed");
         }
     }
 }

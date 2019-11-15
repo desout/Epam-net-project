@@ -8,6 +8,7 @@ namespace EpamNetProject.BLL.Interfaces
         int CreateEvent(EventDto Event);
         int UpdateEvent(EventDto Event);
         bool ReserveSeat(int id, string userId);
+        bool UnReserveSeat(int id);
         EventDto GetEvent(int id);
         List<EventDto> GetAllEvents();
         int GetAvailabilityPercentage(int layoutId);
@@ -16,7 +17,8 @@ namespace EpamNetProject.BLL.Interfaces
         List<EventAreaDto> GetAllAreas();
         List<EventSeatDto> GetSeatsByEvent(int eventId);
         List<EventDto> GetUserPurchaseHistory(string userId);
-        bool ChangeStatusToBuy(List<EventSeatDto> seats);
+        bool ChangeStatusToBuy(List<EventSeatDto> seats, string userId, decimal totalAmount);
         int RemoveEvent(int id);
+        List<PriceSeat> GetReservedSeatByUser(string userId);
     }
 }

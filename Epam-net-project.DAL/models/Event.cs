@@ -8,5 +8,6 @@ namespace EpamNetProject.DAL.models
         public string Description { get; set; }
         public int LayoutId { get; set; }
         public DateTime EventDate { get; set; }
+        public string ImgUrl { get; set; }
     }
 }

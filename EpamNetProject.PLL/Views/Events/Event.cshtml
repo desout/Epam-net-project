@@ -1,4 +1,3 @@
-@using EpamNetProject.PLL.Models
 @model EpamNetProject.PLL.Models.EventViewModel
 
 @{
@@ -6,9 +5,10 @@
 }
 
 <div>
+    <img src="@Model.Event.ImgUrl"/>
     <p>@Model.Event.EventDate</p>
     <p>@Model.Event.Description</p>
-    <p>availability - @Html.DisplayFor(x=>x.Event.EventAvailability)</p>
+    <p>availability - @Html.DisplayFor(x => x.Event.EventAvailability)</p>
 </div>
 
 @if (User.Identity.IsAuthenticated)

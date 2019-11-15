@@ -2,21 +2,33 @@
 
 @helper ISM(List<EventAreaDto> areas, List<EventSeatDto> seats, string link)
 {
-	<table id="ISM__TABLE__MAP">
-		@for (int i = 0; i < 1000; i++)
-		{
-			<tr>
-				@for (int j = 0; j < 1000; j++)
-				{
-					<td></td>
-				}
-			</tr>
-		}
-	</table>
-	<h1 class="ErrorClass" hidden="hidden">
-		This seat not available
-	</h1>
-	<script>
+    <table id="ISM__TABLE__MAP">
+        @for (int i = 0; i < 1000; i++)
+        {
+            <tr>
+                @for (int j = 0; j < 1000; j++)
+                {
+                    <td>
+                        <table>
+                            @for (int k = 0; k < 1000; k++)
+                            {
+                                <tr>
+                                    @for (int l = 0; l < 1000; l++)
+                                    {
+                                        <td></td>
+                                    }
+                                </tr>
+                            }
+                        </table>
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+    <h1 class="ErrorClass" hidden="hidden">
+        This seat not available
+    </h1>
+    <script>
     var myTable = document.getElementById('ISM__TABLE__MAP');
     function sendRequest(e) {
       if(e.target.dataset.seatStatus === '0'){
@@ -35,9 +47,10 @@
       };
     }
     function setTableCell(x,y,seats) {
-    	myTable.rows[y-1].cells[x-1].innerHTML= seats.reduce(function(prev,el) {
-    	    return prev.concat("<td onclick='function (e){sendRequest(e)}' data-seatId=" + el.Id +"data-seatStatus=" + el.Status +"></td>")
-    	},"");
+    	var cell = myTable.rows[y-1].cells[x-1].getElementsByTagName("table")[0];
+    	seats.forEach(function(el) {
+    		   cell.rows[el.Row-1].cells[el.Number-1].innerHTML = "<td onclick='function (e){sendRequest(e)}' data-seatId=" + el.Id +"data-seatStatus=" + el.Status +"></td>";
+    		});
       
     }
     @foreach (var t in areas)

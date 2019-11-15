@@ -4,6 +4,7 @@
 	[Description] [varchar](50) NOT NULL,
 	[EventDate] [DateTime] NOT NULL,
 	[LayoutId] [int] NOT NULL,
+	[ImgUrl] [varchar](50),
  CONSTRAINT [PK_event] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

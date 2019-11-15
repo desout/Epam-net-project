@@ -1,2 +1,23 @@
-@model dynamic
+@model EpamNetProject.BLL.models.UserProfileDTO
 
+<p>@Html.ActionLink("Edit profile", "Edit", "Account")</p>
+<p id="Balance">@Html.DisplayFor(x => x.Balance)</p>
+<input type="number" id="BalanceCount"/> <button onclick="">Add to Balance</button>
+@{
+    Html.RenderAction("PurchaseHistory");
+}
+<script>
+function add() {
+    var count = $('#BalanceCount').val();
+      $.ajax({
+      url:@Url.Action("AddToBalance"),
+      method: "POST",
+      data: {count: count}
+      }).done(function(data){
+      	if(data.Success){
+      		$('#Balance').val(data.NewBalance);
+      	} 
+      })
+}
+
+</script>

@@ -17,11 +17,13 @@ namespace EpamNetProject.PLL.Controllers
         }
         
         [HttpGet]
+        [Authorize(Roles = "Manager, Admin")]
         public ActionResult EditEvents()
         {
             return View(_eventService.GetAllEvents());
         }
 
+        [Authorize(Roles = "Manager, Admin")]
         public ActionResult Edit(int? id)
         {
             if (id != null)
@@ -41,13 +43,16 @@ namespace EpamNetProject.PLL.Controllers
             ViewBag.Layouts = _venueService.GetLayouts();
             return View(new EditEventViewModel());
         }
+        
         [HttpPost]
+        [Authorize(Roles = "Manager, Admin")]
         public JsonResult DeleteEvent(int id)
         {
            var removeId = _eventService.RemoveEvent(id);
            return Json(removeId > 0);
         }
         
+        [Authorize(Roles = "Manager, Admin")]
         public ActionResult Add(EditEventViewModel model)
         {
             if (model.Id != null)

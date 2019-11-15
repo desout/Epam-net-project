@@ -4,7 +4,8 @@
 	[EventAreaId] [int] NOT NULL,
 	[Number] [int] NOT NULL,
 	[State] [int] NOT NULL,
-	[UserId] NVARCHAR(128) NOT NULL,
+	[UserId] NVARCHAR(128),
+
  CONSTRAINT [PK_EventSeat] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

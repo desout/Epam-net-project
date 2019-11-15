@@ -5,5 +5,7 @@
     @Html.EditorFor(x=>x.Description);
     @Html.EditorFor(x=>x.Time);
     @Html.EditorFor(x=>x.Title);
+    @Html.EditorFor(x=>x.imgUrl);
     @Html.DropDownListFor(x => x.Layout, new SelectList(ViewBag.Layouts, "Id", "LayoutName"))
+    <button type="submit">Save</button>
 }

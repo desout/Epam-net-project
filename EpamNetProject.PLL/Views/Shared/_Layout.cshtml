@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using EpamNetProject.PLL.Statics
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8"/>
@@ -20,18 +21,23 @@
         </div>
         <div >
             <ul >
-                <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                <li>@Html.ActionLink("About", "About", "Home")</li>
-                <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                @User.Identity.IsAuthenticated ? 
+                (
+                <li>@Html.ActionLink("Login", "Login", "Account")</li>
+                <li>@Html.ActionLink("Register", "Register", "Account")</li>
+                ):
+                (<li>@Html.ActionLink("Profile", "Profile", "Account")</li>
+                <li>@Html.ActionLink("Logout", "Logout", "Account")</li>)
+                @if (User.IsInRole("Manager") || User.IsInRole("Admin"))
+                {
+                    <li>@Html.ActionLink("Edit Events", "EditEvents", "Manager")</li>
+                }
                 <li>@Html.ActionLink("Events", "Index", "Events")</li>
                 <li>
                     @using (Html.BeginForm("ChangeCulture", "Home", FormMethod.Post))
                     {
-                        <select id="select-culture" name="lang">
-                            <option value="en">English</option>
-                            <option value="ru">Русский</option>
-                            <option value="blr">Беларуски</option>
-                        </select>
+                        @Html.DropDownList("select-culture", new SelectList(StaticData.Languages, "Code", "Description"))
+                        ;
                     }
                 </li>
             </ul>
