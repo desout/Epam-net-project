@@ -22,11 +22,12 @@ namespace EpamNetProject.BLL.Services
         private readonly IMapper _mapper;
         private readonly IRepository<Seat> _seatRepository;
         private readonly IRepository<UserProfile> _userProfileRepository;
-
+        private readonly int _reserveTime;
+        
         public EventService(IRepository<Event> eventRepository, IRepository<Layout> layoutRepository,
             IRepository<Area> areaRepository, IRepository<Seat> seatRepository,
             IRepository<EventSeat> eventSeatRepository, IRepository<EventArea> eventAreaRepository,
-            IRepository<UserProfile> userProfileRepository)
+            IRepository<UserProfile> userProfileRepository, int reserveTime)
         {
             _eventRepository = eventRepository;
             _layoutRepository = layoutRepository;
@@ -36,6 +37,7 @@ namespace EpamNetProject.BLL.Services
             _eventAreaRepository = eventAreaRepository;
             _userProfileRepository = userProfileRepository;
             _mapper = MapperConfigurationProvider.GetMapperConfig();
+            _reserveTime = reserveTime;
         }
 
         public int UpdateEvent(EventDto Event)
@@ -168,7 +170,7 @@ namespace EpamNetProject.BLL.Services
             var userProfile = _userProfileRepository.GetAll().FirstOrDefault(x => x.UserId == userId);
             if (userProfile.Balance < totalAmount) return false;
 
-            if (userProfile.ReserveDate?.AddMinutes(15) >= DateTime.Now)
+            if (userProfile.ReserveDate?.AddMinutes(_reserveTime) >= DateTime.Now)
                 foreach (var seat in seats)
                 {
                     seat.State = 0;

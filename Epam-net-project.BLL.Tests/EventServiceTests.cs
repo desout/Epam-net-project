@@ -108,7 +108,7 @@ namespace EpamNetProject.BLL.Tests
 
             _eventService = new EventService(_eventRepository.Object, _layoutRepository.Object,
                 _areaRepository.Object, _seatRepository.Object, _eventSeatRepository.Object,
-                _eventAreaRepository.Object, _userProfileRepository.Object);
+                _eventAreaRepository.Object, _userProfileRepository.Object, 15);
         }
 
         private const int ReturnId = 10;

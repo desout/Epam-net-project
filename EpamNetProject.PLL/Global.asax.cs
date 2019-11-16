@@ -32,12 +32,14 @@ namespace EpamNetProject.PLL
             var sqlConnectionString =
                 ConfigurationManager.ConnectionStrings["SqlConnectionString"].ConnectionString;
             var context = new MyContext(sqlConnectionString);
-
+            var delay = int.Parse(ConfigurationManager.AppSettings["ReserveTime"]);
+            
             builder.Register(c => context).AsSelf().InstancePerRequest();
             builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).InstancePerRequest();
             builder.RegisterType<EventRepository>().As<IRepository<Event>>().InstancePerRequest();
             builder.RegisterType<EventService>().As<IEventService>()
-                .InstancePerRequest();
+                .InstancePerRequest()
+                .WithParameter("reserveTime", delay);
             builder.RegisterType<VenueService>().As<IVenueService>()
                 .InstancePerRequest();
             builder.Register(c => new RoleStore<UserRole>(context))

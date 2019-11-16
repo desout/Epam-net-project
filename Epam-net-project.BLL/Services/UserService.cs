@@ -41,10 +41,10 @@ namespace EpamNetProject.BLL.Services
                 await _applicationUserManager.AddToRoleAsync(user.Id, userDto.Role);
                 userDto.UserProfile.UserId = user.Id;
                 _userProfileRepository.Add(_mapper.Map<UserProfile>(userDto.UserProfile));
-                return new OperationDetails(true, "Регистрация успешно пройдена", "");
+                return new OperationDetails(true, "Register successful", "");
             }
 
-            return new OperationDetails(false, "Пользователь с таким логином уже существует", "Email");
+            return new OperationDetails(false, "User with this name exist", "Email");
         }
 
         public UserProfileDTO getUserProfile(string userId)
@@ -55,9 +55,7 @@ namespace EpamNetProject.BLL.Services
         public async Task<ClaimsIdentity> Authenticate(UserDTO userDto)
         {
             ClaimsIdentity claim = null;
-            // находим пользователя
             var user = await _applicationUserManager.FindAsync(userDto.UserName, userDto.Password);
-            // авторизуем его и возвращаем объект ClaimsIdentity
             if (user != null)
                 claim = await _applicationUserManager.CreateIdentityAsync(user,
                     DefaultAuthenticationTypes.ApplicationCookie);

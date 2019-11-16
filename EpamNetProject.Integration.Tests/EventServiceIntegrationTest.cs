@@ -32,7 +32,7 @@ namespace EpamNetProject.Integration.Tests
             _userProfileRepository = new Repository<UserProfile>(context);
 
             _eventService = new EventService(_eventRepository, _layoutRepository,
-                _areaRepository, _seatRepository, _eventSeatRepository, _eventAreaRepository, _userProfileRepository);
+                _areaRepository, _seatRepository, _eventSeatRepository, _eventAreaRepository, _userProfileRepository, 15);
         }
 
         private IRepository<Area> _areaRepository;
