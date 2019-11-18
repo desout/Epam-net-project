@@ -1,4 +1,4 @@
-namespace EpamNetProject.BLL.Infrastucture
+namespace EpamNetProject.PLL.Infrastucture
 {
     public class OperationDetails
     {

@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using EpamNetProject.BLL.Interfaces;
-using EpamNetProject.BLL.Models;
+using EpamNetProject.PLL.Interfaces;
 using EpamNetProject.PLL.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;

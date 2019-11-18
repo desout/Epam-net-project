@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using EpamNetProject.BLL.Infrastucture;
-using EpamNetProject.BLL.Models;
+using EpamNetProject.PLL.Infrastucture;
+using EpamNetProject.PLL.Models;
 
-namespace EpamNetProject.BLL.Interfaces
+namespace EpamNetProject.PLL.Interfaces
 {
     public interface IUserService
     {
