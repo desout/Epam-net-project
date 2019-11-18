@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[EventInsert] @Name varchar(50), @Descr varchar(50), @EventDate DateTime, @LayoutId int
+﻿CREATE PROCEDURE [dbo].[EventInsert] @Name varchar(50), @Descr varchar(50), @EventDate DateTime, @LayoutId int, @ImgUrl varchar(50)
 AS
 	DECLARE @OutputId int
 
@@ -6,10 +6,11 @@ AS
            ([Name]
            ,[Description]
 		   ,[EventDate]
-           ,[LayoutId])
+           ,[LayoutId]
+		   ,[ImgUrl])
 	OUTPUT inserted.Id 
     VALUES
-          (@Name, @Descr, @EventDate, @LayoutId)
+          (@Name, @Descr, @EventDate, @LayoutId, @ImgUrl)
 	SELECT @OutputId
 
 	INSERT INTO dbo.EventAreas(EventId,Description, CoordX,CoordY,Price) 

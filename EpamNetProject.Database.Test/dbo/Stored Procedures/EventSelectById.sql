@@ -5,5 +5,6 @@ AS
       ,[Description]
       ,[EventDate]
       ,[LayoutId]
+	  ,[ImgUrl]
 	FROM [dbo].[Events]
 	WHERE Id = @Id

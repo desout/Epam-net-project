@@ -29,28 +29,27 @@ namespace EpamNetProject.PLL
 
             builder.RegisterModule<AutofacWebTypesModule>();
 
-            var sqlConnectionString =
-                ConfigurationManager.ConnectionStrings["SqlConnectionString"].ConnectionString;
-            var context = new MyContext(sqlConnectionString);
             var delay = int.Parse(ConfigurationManager.AppSettings["ReserveTime"]);
-            
-            builder.Register(c => context).AsSelf().InstancePerRequest();
-            builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).InstancePerRequest();
-            builder.RegisterType<EventRepository>().As<IRepository<Event>>().InstancePerRequest();
+
+            builder.RegisterType<MyContext>().WithParameter("connectionString",
+                    ConfigurationManager.ConnectionStrings["SqlConnectionString"].ConnectionString).AsSelf()
+                .InstancePerLifetimeScope();
+            builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
+            builder.RegisterType<EventRepository>().As<IRepository<Event>>().InstancePerLifetimeScope();
             builder.RegisterType<EventService>().As<IEventService>()
-                .InstancePerRequest()
+                .InstancePerLifetimeScope()
                 .WithParameter("reserveTime", delay);
             builder.RegisterType<VenueService>().As<IVenueService>()
-                .InstancePerRequest();
-            builder.Register(c => new RoleStore<UserRole>(context))
+                .InstancePerLifetimeScope();
+            builder.RegisterType<RoleStore<UserRole>>()
                 .As<IRoleStore<UserRole, string>>()
-                .InstancePerRequest();
-            builder.Register(c => new UserStore<User>(context)).As<IUserStore<User>>()
-                .InstancePerRequest();
-            builder.RegisterType(typeof(ApplicationUserManager)).AsSelf().InstancePerRequest();
-            builder.RegisterType(typeof(ApplicationRoleManager)).AsSelf().InstancePerRequest();
+                .InstancePerLifetimeScope();
+            builder.RegisterType<UserStore<User>>().As<IUserStore<User>>()
+                .InstancePerLifetimeScope();
+            builder.RegisterType(typeof(ApplicationUserManager)).AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType(typeof(ApplicationRoleManager)).AsSelf().InstancePerLifetimeScope();
             builder.RegisterType<UserService>().As<IUserService>()
-                .InstancePerRequest();
+                .InstancePerLifetimeScope();
             /*
              .OnActivated(async c => await c.Instance.SetInitialData(new UserDTO
                 {

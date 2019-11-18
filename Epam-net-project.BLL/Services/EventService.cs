@@ -23,7 +23,7 @@ namespace EpamNetProject.BLL.Services
         private readonly IRepository<Seat> _seatRepository;
         private readonly IRepository<UserProfile> _userProfileRepository;
         private readonly int _reserveTime;
-        
+
         public EventService(IRepository<Event> eventRepository, IRepository<Layout> layoutRepository,
             IRepository<Area> areaRepository, IRepository<Seat> seatRepository,
             IRepository<EventSeat> eventSeatRepository, IRepository<EventArea> eventAreaRepository,

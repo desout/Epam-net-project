@@ -250,6 +250,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Register.
+        /// </summary>
+        public static string ACCOUNT_REGISTER_SUBMIT {
+            get {
+                return ResourceManager.GetString("ACCOUNT_REGISTER_SUBMIT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Surname.
         /// </summary>
         public static string ACCOUNT_REGISTER_SURNAME {

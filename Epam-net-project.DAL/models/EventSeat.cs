@@ -9,6 +9,5 @@ namespace EpamNetProject.DAL.models
         public int Number { get; set; }
         public int State { get; set; }
         public string UserId { get; set; }
-        public DateTime ReserveDate { get; set; }
     }
 }

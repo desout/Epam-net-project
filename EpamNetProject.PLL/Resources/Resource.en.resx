@@ -183,6 +183,9 @@
   <data name="ACCOUNT_REGISTER_PASSWORD" xml:space="preserve">
     <value>Password</value>
   </data>
+  <data name="ACCOUNT_REGISTER_SUBMIT" xml:space="preserve">
+    <value>Register</value>
+  </data>
   <data name="ACCOUNT_REGISTER_SURNAME" xml:space="preserve">
     <value>Surname</value>
   </data>

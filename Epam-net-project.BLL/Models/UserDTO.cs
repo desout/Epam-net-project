@@ -1,4 +1,3 @@
-
 namespace EpamNetProject.BLL.Models
 {
     public class UserDTO
