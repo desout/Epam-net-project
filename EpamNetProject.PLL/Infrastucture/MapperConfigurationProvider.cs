@@ -1,12 +1,13 @@
 using AutoMapper;
 using EpamNetProject.DAL.models;
+using EpamNetProject.PLL.Interfaces;
 using EpamNetProject.PLL.Models;
 
 namespace EpamNetProject.PLL.Infrastucture
 {
-    internal static class MapperConfigurationProvider
+    public class MapperConfigurationProvider: IUserMapperConfigurationProvider
     {
-        public static IMapper GetMapperConfig()
+        public IMapper GetMapperConfig()
         {
             var mapper = new MapperConfiguration(cfg =>
             {

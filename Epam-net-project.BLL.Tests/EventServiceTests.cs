@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.BLL.Services;
 using EpamNetProject.DAL.Interfaces;
@@ -23,6 +24,7 @@ namespace EpamNetProject.BLL.Tests
             _eventSeatRepository = new Mock<IRepository<EventSeat>>();
             _eventAreaRepository = new Mock<IRepository<EventArea>>();
             _userProfileRepository = new Mock<IRepository<UserProfile>>();
+            _mapper = new Mock<IMapperConfigurationProvider>();
             _eventRepository.Setup(x => x.GetAll())
                 .Returns(new List<Event>
                 {
@@ -108,7 +110,7 @@ namespace EpamNetProject.BLL.Tests
 
             _eventService = new EventService(_eventRepository.Object, _layoutRepository.Object,
                 _areaRepository.Object, _seatRepository.Object, _eventSeatRepository.Object,
-                _eventAreaRepository.Object, _userProfileRepository.Object, 15);
+                _eventAreaRepository.Object, _userProfileRepository.Object, 15, _mapper.Object);
         }
 
         private const int ReturnId = 10;
@@ -120,6 +122,7 @@ namespace EpamNetProject.BLL.Tests
         private Mock<IRepository<EventSeat>> _eventSeatRepository;
         private Mock<IRepository<EventArea>> _eventAreaRepository;
         private Mock<IRepository<UserProfile>> _userProfileRepository;
+        private Mock<IMapperConfigurationProvider> _mapper;
 
         [Test]
         public void CreateEvent_WhenEventWithDateInPast_ShouldReturnDateInPastValidationException()

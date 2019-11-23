@@ -27,7 +27,7 @@ namespace EpamNetProject.BLL.Services
         public EventService(IRepository<Event> eventRepository, IRepository<Layout> layoutRepository,
             IRepository<Area> areaRepository, IRepository<Seat> seatRepository,
             IRepository<EventSeat> eventSeatRepository, IRepository<EventArea> eventAreaRepository,
-            IRepository<UserProfile> userProfileRepository, int reserveTime)
+            IRepository<UserProfile> userProfileRepository, int reserveTime, IMapperConfigurationProvider mapperConfigurationProvider)
         {
             _eventRepository = eventRepository;
             _layoutRepository = layoutRepository;
@@ -36,7 +36,7 @@ namespace EpamNetProject.BLL.Services
             _eventSeatRepository = eventSeatRepository;
             _eventAreaRepository = eventAreaRepository;
             _userProfileRepository = userProfileRepository;
-            _mapper = MapperConfigurationProvider.GetMapperConfig();
+            _mapper = mapperConfigurationProvider.GetMapperConfig();
             _reserveTime = reserveTime;
         }
 

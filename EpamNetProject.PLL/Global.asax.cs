@@ -8,15 +8,15 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Autofac;
 using Autofac.Integration.Mvc;
+using EpamNetProject.BLL.Infrastucture;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Services;
 using EpamNetProject.DAL;
 using EpamNetProject.DAL.Interfaces;
 using EpamNetProject.DAL.models;
 using EpamNetProject.DAL.Repositories;
-using EpamNetProject.PLL.Interfaces;
+using EpamNetProject.PLL.Managers;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace EpamNetProject.PLL
 {
@@ -35,6 +35,8 @@ namespace EpamNetProject.PLL
             builder.RegisterType<MyContext>().WithParameter("connectionString",
                     ConfigurationManager.ConnectionStrings["SqlConnectionString"].ConnectionString).AsSelf()
                 .InstancePerLifetimeScope();
+            builder.RegisterType<MapperConfigurationProvider>().As<IMapperConfigurationProvider>()
+                .InstancePerLifetimeScope();
             builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
             builder.RegisterType<EventRepository>().As<IRepository<Event>>().InstancePerLifetimeScope();
             builder.RegisterType<EventService>().As<IEventService>()
@@ -42,10 +44,15 @@ namespace EpamNetProject.PLL
                 .WithParameter("reserveTime", delay);
             builder.RegisterType<VenueService>().As<IVenueService>()
                 .InstancePerLifetimeScope();
-            builder.RegisterType<RoleStore<UserRole>>()
+            builder.RegisterType<MyRoleStore>()
                 .As<IRoleStore<UserRole, string>>()
                 .InstancePerLifetimeScope();
-            builder.RegisterType<UserStore<User>>().As<IUserStore<User>>()
+            builder.RegisterType<MyUserStore>()
+                .As<IUserStore<User, string>>()
+                .As<IUserClaimStore<User, string>>()
+                .As<IUserPasswordStore<User, string>>()
+                .As<IUserSecurityStampStore<User, string>>()
+                .SingleInstance()
                 .InstancePerLifetimeScope();
             builder.RegisterType(typeof(ApplicationUserManager)).AsSelf().InstancePerLifetimeScope();
             builder.RegisterType(typeof(ApplicationRoleManager)).AsSelf().InstancePerLifetimeScope();

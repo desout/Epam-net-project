@@ -20,13 +20,13 @@ namespace EpamNetProject.BLL.Services
         private readonly IRepository<Venue> _venueRepository;
 
         public VenueService(IRepository<Seat> seatRepository, IRepository<Layout> layoutRepository,
-            IRepository<Venue> venueRepository, IRepository<Area> areaRepository)
+            IRepository<Venue> venueRepository, IRepository<Area> areaRepository, IMapperConfigurationProvider mapperConfigurationProvider)
         {
             _venueRepository = venueRepository;
             _layoutRepository = layoutRepository;
             _seatRepository = seatRepository;
             _areaRepository = areaRepository;
-            _mapper = MapperConfigurationProvider.GetMapperConfig();
+            _mapper = mapperConfigurationProvider.GetMapperConfig();
         }
 
         public int CreateVenue(VenueDto venue)

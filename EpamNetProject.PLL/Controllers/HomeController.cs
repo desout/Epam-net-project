@@ -11,7 +11,7 @@ namespace EpamNetProject.PLL.Controllers
 {
     public class HomeController : Controller
     {
-        public HomeController(IUserService userService)
+        public HomeController(IMyUserService userService)
         {
             userService.SetInitialData(new UserDTO
             {

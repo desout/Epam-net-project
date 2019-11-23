@@ -17,5 +17,8 @@ namespace EpamNetProject.DAL
         public DbSet<Layout> Layouts { get; set; }
         public DbSet<Seat> Seats { get; set; }
         public DbSet<Venue> Venues { get; set; }
+        public DbSet<UserRole> AspNetRoles { get; set; }
+        public DbSet<IdentityUserClaim> AspNetUserClaims { get; set; }
+        public DbSet<User> AspNetUsers { get; set; }
     }
 }

@@ -169,14 +169,16 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastucture\MapperConfigurationProvider.cs" />
-    <Compile Include="Infrastucture\OperationDetails.cs" />
-    <Compile Include="Interfaces\IUserService.cs" />
+    <Compile Include="Interfaces\IMyUserService.cs" />
+    <Compile Include="Interfaces\IUserMapperConfigurationProvider.cs" />
+    <Compile Include="Managers\ApplicationUserManager.cs" />
+    <Compile Include="Managers\ApplicationUserRoleManager.cs" />
+    <Compile Include="Managers\MyRoleStore.cs" />
+    <Compile Include="Managers\MyUserStore.cs" />
     <Compile Include="Models\EditEventViewModel.cs" />
     <Compile Include="Models\EventViewModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
-    <Compile Include="Models\UserDTO.cs" />
-    <Compile Include="Models\UserProfileDTO.cs" />
     <Compile Include="Models\UserProfileViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Resource.blr.Designer.cs">
@@ -199,7 +201,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resource.ru.resx</DependentUpon>
     </Compile>
-    <Compile Include="Services\UserService.cs" />
+    <Compile Include="Services\MyUserService.cs" />
     <Compile Include="Statics\StaticData.cs" />
   </ItemGroup>
   <ItemGroup>

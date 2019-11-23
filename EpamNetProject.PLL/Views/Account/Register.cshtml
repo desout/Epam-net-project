@@ -2,6 +2,14 @@
 @using Resources
 @model EpamNetProject.PLL.Models.RegisterModel
 @Resource.ACCOUNT_REGISTERTITLE
+
+@if (ViewBag.Errors)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h4>@error</h4>
+    }
+}
 @using (Html.BeginForm("Register", "Account"))
 {
     @Html.AntiForgeryToken()

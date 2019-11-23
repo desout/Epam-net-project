@@ -2,6 +2,8 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Configuration;
 using System.Transactions;
+using EpamNetProject.BLL.Infrastucture;
+using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.BLL.Services;
 using EpamNetProject.DAL;
@@ -30,10 +32,10 @@ namespace EpamNetProject.Integration.Tests
             _eventSeatRepository = new Repository<EventSeat>(context);
             _eventAreaRepository = new Repository<EventArea>(context);
             _userProfileRepository = new Repository<UserProfile>(context);
-
+            _mapper = new MapperConfigurationProvider();
             _eventService = new EventService(_eventRepository, _layoutRepository,
                 _areaRepository, _seatRepository, _eventSeatRepository, _eventAreaRepository, _userProfileRepository,
-                15);
+                15, _mapper);
         }
 
         private IRepository<Area> _areaRepository;
@@ -44,6 +46,7 @@ namespace EpamNetProject.Integration.Tests
         private IRepository<EventSeat> _eventSeatRepository;
         private IRepository<EventArea> _eventAreaRepository;
         private IRepository<UserProfile> _userProfileRepository;
+        private IMapperConfigurationProvider _mapper;
 
         [Test]
         public void CreateEvent_WhenEventWithSameTimeExists_ShouldReturnSameTimeValidationException()

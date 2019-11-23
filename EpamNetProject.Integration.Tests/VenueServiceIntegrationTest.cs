@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.Configuration;
 using System.Transactions;
+using EpamNetProject.BLL.Infrastucture;
+using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.BLL.Services;
 using EpamNetProject.DAL;
@@ -25,9 +27,9 @@ namespace EpamNetProject.Integration.Tests
             _layoutRepository = new Repository<Layout>(context);
             _areaRepository = new Repository<Area>(context);
             _seatRepository = new Repository<Seat>(context);
-
+            _mapper = new MapperConfigurationProvider();
             _venueService = new VenueService(_seatRepository, _layoutRepository,
-                _venueRepository, _areaRepository);
+                _venueRepository, _areaRepository, _mapper);
         }
 
         private IRepository<Area> _areaRepository;
@@ -35,6 +37,7 @@ namespace EpamNetProject.Integration.Tests
         private IRepository<Seat> _seatRepository;
         private IRepository<Venue> _venueRepository;
         private VenueService _venueService;
+        private IMapperConfigurationProvider _mapper;
 
         [Test]
         public void CreateArea_WhenAreaDescriptionExists_ShouldReturnValidationException()

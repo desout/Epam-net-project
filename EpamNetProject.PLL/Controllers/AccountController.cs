@@ -1,8 +1,12 @@
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using EpamNetProject.BLL.Interfaces;
+using EpamNetProject.DAL.models;
 using EpamNetProject.PLL.Interfaces;
+using EpamNetProject.PLL.Managers;
 using EpamNetProject.PLL.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
@@ -13,11 +17,17 @@ namespace EpamNetProject.PLL.Controllers
     {
         private readonly IEventService _eventService;
         private readonly IUserService _userService;
-
-        public AccountController(IUserService userService, IEventService eventService)
+        private readonly ApplicationUserManager _userManager;
+        private readonly IMyUserService _myUserService;
+        private readonly IMapper _mapper;
+        public AccountController(IEventService eventService, ApplicationUserManager userManager,
+            IUserService userService, IMyUserService myUserService, IUserMapperConfigurationProvider userMapperConfigurationProvider)
         {
             _userService = userService;
+            _myUserService = myUserService;
+            _mapper = userMapperConfigurationProvider.GetMapperConfig();
             _eventService = eventService;
+            _userManager = userManager;
         }
 
         private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
@@ -48,11 +58,11 @@ namespace EpamNetProject.PLL.Controllers
         [Authorize]
         public ActionResult SaveProfile(UserProfileViewModel model)
         {
+            var hashPassword = _userManager.PasswordHasher.HashPassword(model.Password);
             _userService.UpdateUserInfo(new UserDTO
             {
                 Id = model.UserId,
                 Email = model.Email,
-                Password = model.Password,
                 UserProfile = new UserProfileDTO
                 {
                     FirstName = model.FirstName,
@@ -60,7 +70,7 @@ namespace EpamNetProject.PLL.Controllers
                     Surname = model.Surname,
                     TimeZone = model.TimeZone
                 }
-            });
+            }, hashPassword);
             return View("SaveProfileSuccess");
         }
 
@@ -84,7 +94,7 @@ namespace EpamNetProject.PLL.Controllers
             if (ModelState.IsValid)
             {
                 var userDto = new UserDTO {UserName = model.UserName, Password = model.Password};
-                var claim = await _userService.Authenticate(userDto);
+                var claim = await _myUserService.Authenticate(userDto);
                 if (claim == null)
                 {
                     ModelState.AddModelError("", "Неверный логин или пароль.");
@@ -137,10 +147,11 @@ namespace EpamNetProject.PLL.Controllers
                         TimeZone = model.TimeZone
                     }
                 };
-                var operationDetails = await _userService.Create(userDto);
-                if (operationDetails.Succedeed)
+                var hashPassword = _userManager.PasswordHasher.HashPassword(model.Password);
+                var operationDetails = _userManager.Create(_mapper.Map<User>(userDto), hashPassword);
+                if (operationDetails.Errors.Any())
                     return View("SuccessRegister");
-                ModelState.AddModelError(operationDetails.Property, operationDetails.Message);
+                ViewBag.Errors = operationDetails.Errors.ToList();
             }
 
             return View(model);

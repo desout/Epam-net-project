@@ -1,12 +1,14 @@
 using AutoMapper;
+using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.DAL.models;
+using EpamNetProject.PLL.Models;
 
 namespace EpamNetProject.BLL.Infrastucture
 {
-    internal static class MapperConfigurationProvider
+    public class MapperConfigurationProvider: IMapperConfigurationProvider
     {
-        public static IMapper GetMapperConfig()
+        public IMapper GetMapperConfig()
         {
             var mapper = new MapperConfiguration(cfg =>
             {
@@ -26,6 +28,8 @@ namespace EpamNetProject.BLL.Infrastucture
                 cfg.CreateMap<EventSeatDto, EventSeat>();
                 cfg.CreateMap<EventArea, Area>();
                 cfg.CreateMap<EventSeat, Seat>();
+                cfg.CreateMap<User, UserDTO>();
+                cfg.CreateMap<UserProfile, UserProfileDTO>();
             }).CreateMapper();
             return mapper;
         }

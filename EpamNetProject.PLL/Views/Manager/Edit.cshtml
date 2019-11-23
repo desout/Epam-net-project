@@ -3,7 +3,6 @@
 @using (Html.BeginForm("Add", "Manager"))
 {
     @Html.HiddenFor(x => x.Id)
-    ;
     <label>@Resource.MANAGER_EDIT_DESCRIPTION @Html.EditorFor(x => x.Description)</label>
     <label>@Resource.MANAGER_EDIT_TIME @Html.EditorFor(x => x.Time)</label>
     <label>@Resource.MANAGER_EDIT_TITLE @Html.EditorFor(x => x.Title)</label>
