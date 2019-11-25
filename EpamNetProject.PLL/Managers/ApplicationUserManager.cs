@@ -4,9 +4,9 @@ using Microsoft.AspNet.Identity;
 
 namespace EpamNetProject.PLL.Managers
 {
-    public class ApplicationUserManager : UserManager<User>
+    public class ApplicationUserManager : UserManager<User, string>
     {
-        public ApplicationUserManager(IUserStore<User> store)
+        public ApplicationUserManager(IUserStore<User, string> store)
             : base(store)
         {
         }

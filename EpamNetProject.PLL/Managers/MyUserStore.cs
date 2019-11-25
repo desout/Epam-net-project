@@ -18,17 +18,20 @@ namespace EpamNetProject.PLL.Managers
 {
     public class MyUserStore : IUserStore<User, string>,
         IUserClaimStore<User, string>,
-        IUserPasswordStore<User, string>
+        IUserPasswordStore<User, string>,
+        IUserRoleStore<User, string>
     {
         private readonly IUserService _userService;
         private readonly IClaimService _claimService;
+        private readonly IRoleService _roleService;
         private readonly IUserMapperConfigurationProvider _userMapperConfigurationProvider;
         
-        public MyUserStore(IUserService userService, IUserMapperConfigurationProvider userMapperConfigurationProvider, IClaimService claimService)
+        public MyUserStore(IUserService userService, IUserMapperConfigurationProvider userMapperConfigurationProvider, IClaimService claimService, IRoleService roleService)
         {
             _userService = userService;
             _userMapperConfigurationProvider = userMapperConfigurationProvider;
             _claimService = claimService;
+            _roleService = roleService;
         }
 
         public void Dispose()
@@ -88,6 +91,26 @@ namespace EpamNetProject.PLL.Managers
         public Task SetPasswordHashAsync(User user, string passwordHash)
         {
             return _userService.SetPasswordHashAsync(user, passwordHash);
+        }
+       
+        public Task AddToRoleAsync(User user, string roleName)
+        {
+            return _roleService.AddToRole(user, roleName);
+        }
+
+        public Task RemoveFromRoleAsync(User user, string roleName)
+        {
+            return _roleService.RemoveFromRole(user, roleName);
+        }
+
+        public Task<IList<string>> GetRolesAsync(User user)
+        {
+            return _roleService.GetRoles(user);
+        }
+
+        public Task<bool> IsInRoleAsync(User user, string roleName)
+        {
+            return _roleService.IsInRole(user, roleName);
         }
     }
 }

@@ -222,6 +222,9 @@
   <data name="EVENT_ISMTITLE" xml:space="preserve">
     <value>Здесь вы можете выбрать место, на котором желаете сидеть</value>
   </data>
+  <data name="EVENT_PROCEED_TO_CHECKOUT" xml:space="preserve">
+    <value>Перейти к покупке</value>
+  </data>
   <data name="MAIN_EDITEVENTS" xml:space="preserve">
     <value>Редактировать события</value>
   </data>
@@ -278,5 +281,8 @@
   </data>
   <data name="PAYMENT_SEATSTITLE" xml:space="preserve">
     <value>Вот, что вы покупаете</value>
+  </data>
+  <data name="PAYMENT_SUBMIT" xml:space="preserve">
+    <value>Купить</value>
   </data>
 </root>

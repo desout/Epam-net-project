@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using EpamNetProject.DAL.Interfaces;
 using EpamNetProject.DAL.models;
 
@@ -44,7 +45,7 @@ namespace EpamNetProject.DAL.Repositories
 
         public int Update(TEntity entity)
         {
-            _dbSet.Attach(entity);
+            _context.Entry(entity).State = EntityState.Modified;
             _context.SaveChanges();
             return entity.Id;
         }

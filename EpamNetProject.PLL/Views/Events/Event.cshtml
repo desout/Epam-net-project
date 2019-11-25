@@ -15,6 +15,6 @@
 @if (User.Identity.IsAuthenticated)
 {
     <h4> @Resource.EVENT_ISMTITLE</h4>
-    @Ism.ISM(Model.EventAreas, Model.EventSeats, Url.Action("Select"))
-    <a href=@Url.Action("ProceedToCheckout", new {EventId = Model.Event.Id})></a>
+    @Ism.ISM(Model.EventAreas, Model.EventSeats, Url.Action("Select", "Events"))
+    <a href=@Url.Action("ProceedToCheckout", new {EventId = Model.Event.Id}) id="proceed-to-checkout">@Resource.EVENT_PROCEED_TO_CHECKOUT</a>
 }

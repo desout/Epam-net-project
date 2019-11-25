@@ -8,6 +8,7 @@ using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.DAL.Interfaces;
 using EpamNetProject.DAL.models;
+using EpamNetProject.DAL.Models;
 using Ninject.Infrastructure.Language;
 
 namespace EpamNetProject.BLL.Services
@@ -27,7 +28,8 @@ namespace EpamNetProject.BLL.Services
         public EventService(IRepository<Event> eventRepository, IRepository<Layout> layoutRepository,
             IRepository<Area> areaRepository, IRepository<Seat> seatRepository,
             IRepository<EventSeat> eventSeatRepository, IRepository<EventArea> eventAreaRepository,
-            IRepository<UserProfile> userProfileRepository, int reserveTime, IMapperConfigurationProvider mapperConfigurationProvider)
+            IRepository<UserProfile> userProfileRepository, int reserveTime,
+            IMapperConfigurationProvider mapperConfigurationProvider)
         {
             _eventRepository = eventRepository;
             _layoutRepository = layoutRepository;
@@ -42,15 +44,15 @@ namespace EpamNetProject.BLL.Services
 
         public int UpdateEvent(EventDto Event)
         {
-            if (_eventRepository.Get(Event.Id).LayoutId != Event.LayoutId)
-            {
-                _eventAreaRepository.GetAll().Where(x => x.EventId == Event.Id)
-                    .Map(x => _eventAreaRepository.Remove(x.Id));
-                var areas = _areaRepository.GetAll().Where(x => x.LayoutId == Event.LayoutId).ToList();
-                areas.Map(x => _eventAreaRepository.Add(_mapper.Map<EventArea>(x)));
-                _seatRepository.GetAll().Join(areas, x => x.AreaId, a => a.Id, (x, a) => x)
-                    .Map(x => _eventSeatRepository.Add(_mapper.Map<EventSeat>(x)));
-            }
+            if (_eventRepository.Get(Event.Id).LayoutId == Event.LayoutId)
+                return _eventRepository.Update(_mapper.Map<Event>(Event));
+            
+            _eventAreaRepository.GetAll().Where(x => x.EventId == Event.Id)
+                .Map(x => _eventAreaRepository.Remove(x.Id));
+            var areas = _areaRepository.GetAll().Where(x => x.LayoutId == Event.LayoutId).ToList();
+            areas.Map(x => _eventAreaRepository.Add(_mapper.Map<EventArea>(x)));
+            _seatRepository.GetAll().Join(areas, x => x.AreaId, a => a.Id, (x, a) => x)
+                .Map(x => _eventSeatRepository.Add(_mapper.Map<EventSeat>(x)));
 
             return _eventRepository.Update(_mapper.Map<Event>(Event));
         }
@@ -58,19 +60,20 @@ namespace EpamNetProject.BLL.Services
         public bool ReserveSeat(int id, string userId)
         {
             var eventSeat = _eventSeatRepository.Get(id);
-            if (eventSeat.State == 0)
-            {
-                eventSeat.State = 1;
-                eventSeat.UserId = userId;
-                _eventSeatRepository.Update(eventSeat);
-                var userProfile = _userProfileRepository.GetAll().FirstOrDefault(x => x.UserId == userId);
-                if (userProfile.ReserveDate != null) return true;
-                userProfile.ReserveDate = TimeZoneInfo.ConvertTimeToUtc(DateTime.Now);
-                _userProfileRepository.Update(userProfile);
-                return true;
-            }
+            if (eventSeat.State != 0) return false;
+            
+            eventSeat.State = SeatStatus.Reserved;
+            eventSeat.UserId = userId;
+            _eventSeatRepository.Update(eventSeat);
+            var userProfile = _userProfileRepository.GetAll().FirstOrDefault(x => x.UserId == userId);
+            if (userProfile?.ReserveDate != null) return true;
 
-            return false;
+            if (userProfile == null) return false;
+            userProfile.ReserveDate = TimeZoneInfo.ConvertTimeToUtc(DateTime.Now);
+            _userProfileRepository.Update(userProfile);
+
+            return true;
+
         }
 
         public bool UnReserveSeat(int id)
@@ -126,12 +129,12 @@ namespace EpamNetProject.BLL.Services
             return seats.Count() / availableSeatsCount;
         }
 
-        public List<EventAreaDto> GetAreasByEvent(int eventId)
+        public IEnumerable<EventAreaDto> GetAreasByEvent(int eventId)
         {
             return _mapper.Map<List<EventAreaDto>>(_eventAreaRepository.GetAll().Where(x => x.EventId == eventId));
         }
 
-        public List<EventSeatDto> GetSeatsByEvent(int eventId)
+        public IEnumerable<EventSeatDto> GetSeatsByEvent(int eventId)
         {
             return _mapper.Map<List<EventSeatDto>>(_eventSeatRepository.GetAll().Join(
                 _eventAreaRepository.GetAll().Where(a => a.EventId == eventId),
@@ -140,7 +143,7 @@ namespace EpamNetProject.BLL.Services
                 (s, a) => s));
         }
 
-        public List<EventSeatDto> GetSeatsByUser(string userId)
+        public IEnumerable<EventSeatDto> GetSeatsByUser(string userId)
         {
             return _mapper.Map<List<EventSeatDto>>(_eventSeatRepository.GetAll().Where(x => x.UserId == userId));
         }
@@ -165,41 +168,49 @@ namespace EpamNetProject.BLL.Services
             return _mapper.Map<List<EventDto>>(events);
         }
 
-        public bool ChangeStatusToBuy(List<EventSeatDto> seats, string userId, decimal totalAmount)
+        public bool ChangeStatusToBuy(string userId, decimal totalAmount)
         {
+            
+            var seats = _eventSeatRepository.GetAll().Where(x => x.State == SeatStatus.Reserved && x.UserId == userId).ToList();
+            
             var userProfile = _userProfileRepository.GetAll().FirstOrDefault(x => x.UserId == userId);
-            if (userProfile.Balance < totalAmount) return false;
-
-            if (userProfile.ReserveDate?.AddMinutes(_reserveTime) >= DateTime.Now)
-                foreach (var seat in seats)
-                {
-                    seat.State = 0;
-                    seat.UserId = null;
-                    _eventSeatRepository.Update(_mapper.Map<EventSeat>(seat));
-                }
-
+            if (userProfile != null && userProfile.Balance < totalAmount) return false;
             foreach (var seat in seats)
             {
-                seat.State = 2;
+                seat.State = SeatStatus.Bought;
                 _eventSeatRepository.Update(_mapper.Map<EventSeat>(seat));
             }
 
+            if (userProfile == null) return true;
             userProfile.Balance -= totalAmount;
             _userProfileRepository.Update(userProfile);
+
             return true;
         }
 
         public int RemoveEvent(int id)
         {
-            return isSeatsBought(id) ? -1 : _eventRepository.Remove(id);
+            return IsSeatsBought(id) ? -1 : _eventRepository.Remove(id);
         }
 
         public List<PriceSeat> GetReservedSeatByUser(string userId)
         {
             var seats = _mapper.Map<List<EventSeatDto>>(_eventSeatRepository.GetAll()
-                .Where(x => x.State == 1 && x.UserId == userId).ToList());
+                .Where(x => x.State == SeatStatus.Reserved && x.UserId == userId).ToList());
             return _eventAreaRepository.GetAll().Join(seats, x => x.Id, c => c.EventAreaId,
                 (x, c) => new PriceSeat {Seat = c, Price = x.Price}).ToList();
+        }
+
+        public void CheckReservation()
+        {
+            var profiles = _userProfileRepository.GetAll().Where(x =>
+                x.ReserveDate.HasValue && x.ReserveDate?.AddMinutes(_reserveTime) < DateTime.Now).ToList();
+            foreach (var profile in profiles)
+            {
+                UpdateSeats(profile);
+                profile.ReserveDate = null;
+                _userProfileRepository.Update(profile);
+            }
         }
 
         private bool IsSeatsExist(EventDto _event)
@@ -210,10 +221,21 @@ namespace EpamNetProject.BLL.Services
                 (s, a) => s).Any();
         }
 
-        private bool isSeatsBought(int id)
+        private bool IsSeatsBought(int id)
         {
             return _eventSeatRepository.GetAll().Join(_eventAreaRepository.GetAll().Where(x => x.EventId == id),
-                s => s.EventAreaId, a => a.Id, (s, a) => s).Any(x => x.State > 0);
+                s => s.EventAreaId, a => a.Id, (s, a) => s).Any(x => x.State != SeatStatus.Free);
+        }
+
+        private void UpdateSeats(UserProfile profile)
+        {
+            var seats = _eventSeatRepository.GetAll().Where(x => x.State == SeatStatus.Reserved && x.UserId == profile.UserId).ToList();
+            foreach (var seat in seats)
+            {
+                seat.State = 0;
+                seat.UserId = null;
+                _eventSeatRepository.Update(_mapper.Map<EventSeat>(seat));
+            }
         }
 
         private bool IsEventExist(EventDto _event)

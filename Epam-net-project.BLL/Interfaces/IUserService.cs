@@ -22,5 +22,6 @@ namespace EpamNetProject.BLL.Interfaces
         Task<string> GetPasswordHashAsync(User user);
         Task<bool> HasPasswordAsync(User user);
         Task SetPasswordHashAsync(User user, string passwordHash);
+        void AddUserProfile(UserDTO userDto, UserProfileDTO userProfile);
     }
 }

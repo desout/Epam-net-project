@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Configuration;
+using System.Collections.Specialized;
 using System.Globalization;
 using System.Threading;
 using System.Web;
@@ -7,16 +7,10 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Autofac;
+using Autofac.Extras.Quartz;
 using Autofac.Integration.Mvc;
-using EpamNetProject.BLL.Infrastucture;
-using EpamNetProject.BLL.Interfaces;
-using EpamNetProject.BLL.Services;
-using EpamNetProject.DAL;
-using EpamNetProject.DAL.Interfaces;
-using EpamNetProject.DAL.models;
-using EpamNetProject.DAL.Repositories;
-using EpamNetProject.PLL.Managers;
-using Microsoft.AspNet.Identity;
+using EpamNetProject.PLL.Infrastucture;
+using EpamNetProject.PLL.Jobs;
 
 namespace EpamNetProject.PLL
 {
@@ -29,53 +23,17 @@ namespace EpamNetProject.PLL
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
 
             builder.RegisterModule<AutofacWebTypesModule>();
-
-            var delay = int.Parse(ConfigurationManager.AppSettings["ReserveTime"]);
-
-            builder.RegisterType<MyContext>().WithParameter("connectionString",
-                    ConfigurationManager.ConnectionStrings["SqlConnectionString"].ConnectionString).AsSelf()
-                .InstancePerLifetimeScope();
-            builder.RegisterType<MapperConfigurationProvider>().As<IMapperConfigurationProvider>()
-                .InstancePerLifetimeScope();
-            builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
-            builder.RegisterType<EventRepository>().As<IRepository<Event>>().InstancePerLifetimeScope();
-            builder.RegisterType<EventService>().As<IEventService>()
-                .InstancePerLifetimeScope()
-                .WithParameter("reserveTime", delay);
-            builder.RegisterType<VenueService>().As<IVenueService>()
-                .InstancePerLifetimeScope();
-            builder.RegisterType<MyRoleStore>()
-                .As<IRoleStore<UserRole, string>>()
-                .InstancePerLifetimeScope();
-            builder.RegisterType<MyUserStore>()
-                .As<IUserStore<User, string>>()
-                .As<IUserClaimStore<User, string>>()
-                .As<IUserPasswordStore<User, string>>()
-                .As<IUserSecurityStampStore<User, string>>()
-                .SingleInstance()
-                .InstancePerLifetimeScope();
-            builder.RegisterType(typeof(ApplicationUserManager)).AsSelf().InstancePerLifetimeScope();
-            builder.RegisterType(typeof(ApplicationRoleManager)).AsSelf().InstancePerLifetimeScope();
-            builder.RegisterType<UserService>().As<IUserService>()
-                .InstancePerLifetimeScope();
-            /*
-             .OnActivated(async c => await c.Instance.SetInitialData(new UserDTO
-                {
-                    Email = "3809766@mail.ru",
-                    UserName = "desout",
-                    Password = "Desoutside1",
-                    Role = "admin",
-                    UserProfile = new UserProfileDTO
-                        {FirstName = "Andrei", Surname = "Anelkin", Language = "en", TimeZone = "UTC-11"}
-                }, new List<string> {"user", "admin"}));
-             */
-
+            RegisterHelper.RegisterTypes(builder);
+            
+            RegisterScheduler(builder);
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            
+            ConfigureScheduler(container);
         }
 
         protected void Application_AcquireRequestState(object sender, EventArgs e)
@@ -85,6 +43,28 @@ namespace EpamNetProject.PLL
 
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(cultureName);
             Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(cultureName);
+        }
+        
+        private static void RegisterScheduler(ContainerBuilder builder)
+        {
+            var schedulerConfig = new NameValueCollection {
+                {"quartz.threadPool.threadCount", "3"},
+                {"quartz.scheduler.threadName", "MyScheduler"}
+            };
+
+            builder.RegisterModule(new QuartzAutofacFactoryModule
+            {
+                ConfigurationProvider = c => schedulerConfig
+            });
+
+            builder.RegisterModule(new QuartzAutofacJobsModule(typeof(BasketJob).Assembly));
+            builder.RegisterType<BasketScheduler>().AsSelf();
+        }
+
+        private static void ConfigureScheduler(IContainer container)
+        {
+            var scheduler = container.Resolve<BasketScheduler>();
+            scheduler.Start();
         }
     }
 }

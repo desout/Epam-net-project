@@ -11,12 +11,10 @@ namespace EpamNetProject.PLL.Controllers
     public class EventsController : Controller
     {
         private readonly IEventService _eventService;
-        private readonly IVenueService _venueService;
 
-        public EventsController(IEventService eventService, IVenueService venueService)
+        public EventsController(IEventService eventService)
         {
             _eventService = eventService;
-            _venueService = venueService;
         }
 
         [HttpGet]
@@ -35,8 +33,8 @@ namespace EpamNetProject.PLL.Controllers
             var areas = new List<EventAreaDto>();
             if (User.Identity.IsAuthenticated)
             {
-                seats = _eventService.GetSeatsByEvent(id);
-                areas = _eventService.GetAreasByEvent(id);
+                seats = _eventService.GetSeatsByEvent(id).ToList();
+                areas = _eventService.GetAreasByEvent(id).ToList();
             }
 
             var returnedModel = new EventViewModel
@@ -67,8 +65,7 @@ namespace EpamNetProject.PLL.Controllers
         public ActionResult Buy(decimal totalAmount)
         {
             var userId = User.Identity.GetUserId();
-            var seats = _eventService.GetSeatsByUser(userId).Where(x => x.State == 1 && x.UserId == userId).ToList();
-            var isSuccess = _eventService.ChangeStatusToBuy(seats, userId, totalAmount);
+            var isSuccess = _eventService.ChangeStatusToBuy(userId, totalAmount);
             return View(isSuccess ? "PaymentSuccess" : "PaymentFailed");
         }
     }

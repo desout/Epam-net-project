@@ -3,9 +3,9 @@ using Microsoft.AspNet.Identity;
 
 namespace EpamNetProject.PLL.Managers
 {
-    public class ApplicationRoleManager : RoleManager<UserRole, string>
+    public class ApplicationUserRoleManager : RoleManager<UserRole, string>
     {
-        public ApplicationRoleManager(IRoleStore<UserRole, string> store)
+        public ApplicationUserRoleManager(IRoleStore<UserRole, string> store)
             : base(store)
         {
         }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -18,16 +19,17 @@ namespace EpamNetProject.PLL.Controllers
         private readonly IEventService _eventService;
         private readonly IUserService _userService;
         private readonly ApplicationUserManager _userManager;
+        private readonly ApplicationUserRoleManager _roleManager;
         private readonly IMyUserService _myUserService;
-        private readonly IMapper _mapper;
+
         public AccountController(IEventService eventService, ApplicationUserManager userManager,
-            IUserService userService, IMyUserService myUserService, IUserMapperConfigurationProvider userMapperConfigurationProvider)
+            IUserService userService, IMyUserService myUserService, ApplicationUserRoleManager roleManager)
         {
             _userService = userService;
             _myUserService = myUserService;
-            _mapper = userMapperConfigurationProvider.GetMapperConfig();
             _eventService = eventService;
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
@@ -36,7 +38,8 @@ namespace EpamNetProject.PLL.Controllers
         [Authorize]
         public ActionResult Profile()
         {
-            return View();
+            var userProfile = _userService.getUserProfile(User.Identity.GetUserId());
+            return View(userProfile);
         }
 
         [HttpGet]
@@ -58,7 +61,9 @@ namespace EpamNetProject.PLL.Controllers
         [Authorize]
         public ActionResult SaveProfile(UserProfileViewModel model)
         {
-            var hashPassword = _userManager.PasswordHasher.HashPassword(model.Password);
+            var hashPassword = string.IsNullOrEmpty(model.Password)
+                ? ""
+                : _userManager.PasswordHasher.HashPassword(model.Password);
             _userService.UpdateUserInfo(new UserDTO
             {
                 Id = model.UserId,
@@ -122,13 +127,15 @@ namespace EpamNetProject.PLL.Controllers
 
         public ActionResult Register()
         {
+            ViewBag.Errors = new List<string>();
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterModel model)
+        public ActionResult Register(RegisterModel model)
         {
+            ViewBag.Errors = new List<string>();
             if (ModelState.IsValid)
             {
                 var userDto = new UserDTO
@@ -147,11 +154,14 @@ namespace EpamNetProject.PLL.Controllers
                         TimeZone = model.TimeZone
                     }
                 };
-                var hashPassword = _userManager.PasswordHasher.HashPassword(model.Password);
-                var operationDetails = _userManager.Create(_mapper.Map<User>(userDto), hashPassword);
-                if (operationDetails.Errors.Any())
+                
+                var errors = _myUserService.Register(userDto);
+                if (!errors.Any())
+                {
                     return View("SuccessRegister");
-                ViewBag.Errors = operationDetails.Errors.ToList();
+                }
+
+                ViewBag.Errors = errors;
             }
 
             return View(model);
@@ -161,7 +171,7 @@ namespace EpamNetProject.PLL.Controllers
         [Authorize]
         public JsonResult AddToBalance(decimal count)
         {
-            var newBalance = _userService.addBalance(User.Identity.GetUserName(), count);
+            var newBalance = _userService.addBalance(User.Identity.GetUserId(), count);
             return new JsonResult
             {
                 Data = new {Success = true, NewBalance = newBalance},

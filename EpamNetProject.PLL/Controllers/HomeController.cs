@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
-using EpamNetProject.BLL.Interfaces;
-using EpamNetProject.BLL.Models;
 using EpamNetProject.PLL.Interfaces;
 using EpamNetProject.PLL.Models;
 
@@ -47,7 +45,7 @@ namespace EpamNetProject.PLL.Controllers
         [HttpPost]
         public ActionResult ChangeCulture(string newCulture)
         {
-            var returnUrl = Request.UrlReferrer.AbsolutePath;
+            var returnUrl = Request.UrlReferrer?.AbsolutePath;
             var cultures = new List<string> {"ru", "en", "blr"};
             if (!cultures.Contains(newCulture)) newCulture = "en";
 

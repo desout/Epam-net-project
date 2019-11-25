@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using EpamNetProject.DAL.Models;
 
 namespace EpamNetProject.BLL.Models
 {
@@ -8,6 +9,6 @@ namespace EpamNetProject.BLL.Models
         [Required] public int AreaId { get; set; }
         [Required] public int Row { get; set; }
         [Required] public int Number { get; set; }
-        [Required] public int Status { get; set; }
+        [Required] public SeatStatus Status { get; set; }
     }
 }

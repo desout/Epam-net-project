@@ -26,7 +26,7 @@ CREATE TABLE [dbo].[AspNetUsers](
 
     [UserName] [nvarchar](256) NOT NULL,
 
-CONSTRAINT [PK_dbo.AspNetUsers] PRIMARY KEY CLUSTERED
+    CONSTRAINT [PK_dbo.AspNetUsers] PRIMARY KEY CLUSTERED
 
 (
 

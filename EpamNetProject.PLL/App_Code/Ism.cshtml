@@ -2,43 +2,22 @@
 
 @helper ISM(List<EventAreaDto> areas, List<EventSeatDto> seats, string link)
 {
-    <table id="ISM__TABLE__MAP">
-        @for (var i = 0; i < 1000; i++)
-        {
-            <tr>
-                @for (var j = 0; j < 1000; j++)
-                {
-                    <td>
-                        <table>
-                            @for (var k = 0; k < 1000; k++)
-                            {
-                                <tr>
-                                    @for (var l = 0; l < 1000; l++)
-                                    {
-                                        <td></td>
-                                    }
-                                </tr>
-                            }
-                        </table>
-                    </td>
-                }
-            </tr>
-        }
-    </table>
+    <div id="ISM__MAP" style="position: relative"></div>
     <h1 class="ErrorClass" hidden="hidden">
         This seat not available
     </h1>
     <script>
-    var myTable = document.getElementById('ISM__TABLE__MAP');
+    var map = document.getElementById('ISM__MAP');
     function sendRequest(e) {
       if(e.target.dataset.seatStatus === '0'){
       	$.ajax({
-      	url:@link,
+      	url:'@link',
       	method: "POST",
       	data: {id: e.target.dataset.seatId}
       	})
       	.done(function(data) {
       	  if(data){
+      	  	e.target.dataset.seatStatus = '1';
       	  	$('.ErrorClass').hide()
       	  } else {
       	  	$('.ErrorClass').show();
@@ -46,19 +25,41 @@
       	})
       };
     }
-    function setTableCell(x,y,seats) {
-    	var cell = myTable.rows[y-1].cells[x-1].getElementsByTagName("table")[0];
-    	seats.forEach(function(el) {
-    		   cell.rows[el.Row-1].cells[el.Number-1].innerHTML = "<td onclick='function (e){sendRequest(e)}' data-seatId=" + el.Id +"data-seatStatus=" + el.Status +"></td>";
-    		});
-      
+    function generateArea(x,y) {
+    	var el = document.createElement("div");
+        el.style.position = "absolute";
+        el.style.top = y + 'px';
+        el.style.left = x + 'px';
+        el.style.background = '1px solid red';
+    	return el;
     }
+    function generateSeat(row,number,id,status) {
+        var el = document.createElement("p");
+        el.style.margin = '0';
+        el.style.marginTop = row + 'px';
+        el.style.marginLeft = number+ 'px';
+        el.dataset.seatId = id;
+        el.dataset.seatStatus = status;
+        if (status === 0) {
+            el.onclick = function (ev) { sendRequest(ev) };
+        }
+        el.innerText = row + ' ' + number;
+        	return el;
+        }
+    
     @foreach (var t in areas)
     {
         var x = t.CoordX;
         var y = t.CoordY;
-        var currentSeats = seats.Where(a => a.EventAreaId == t.Id).ToArray();
-        @:setTableCell(@x,@y,@currentSeats);
+	    var currentSeats = seats.Where(a => a.EventAreaId == t.Id);
+	    @:var areaElement = generateArea(@x,@y);
+	    
+	    foreach (var seat in currentSeats)
+	    {
+		    @:var seat = generateSeat(@seat.Row,@seat.Number,@seat.Id,@seat.State);
+		    @:areaElement.appendChild(seat);
+	    }
+	    @:map.appendChild(areaElement);
     }
     </script>
 }

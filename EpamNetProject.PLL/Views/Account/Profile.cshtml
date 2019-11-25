@@ -2,22 +2,23 @@
 @model EpamNetProject.PLL.Models.UserProfileDTO
 
 <p>@Html.ActionLink(Resource.ACCOUNT_EDITPROFILE, "Edit", "Account")</p>
-<p id="Balance">@Resource.ACCOUNT_BALANCE - @Html.DisplayFor(x => x.Balance)</p>
-<input type="number" id="BalanceCount"/> <button onclick="">@Resource.ACCOUNT_ADDTOBALANCE</button>
+<p>@Resource.ACCOUNT_BALANCE - <span id="Balance">@Model.Balance</span></p>
+<input type="number" id="BalanceCount" />
+<button onclick="add()">@Resource.ACCOUNT_ADDTOBALANCE</button>
 @{
-    Html.RenderAction("PurchaseHistory");
+    @Html.Action("PurchaseHistory")
 }
 <script>
 function add() {
     var count = $('#BalanceCount').val();
       $.ajax({
-      url:@Url.Action("AddToBalance"),
+      url:'@Url.Action("AddToBalance")',
       method: "POST",
       data: {count: count}
       }).done(function(data){
       	if(data.Success){
       		$('#Balance').val(data.NewBalance);
-      	} 
+      	}
       })
 }
 

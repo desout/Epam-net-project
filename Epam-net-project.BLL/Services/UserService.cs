@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using EpamNetProject.BLL.Infrastucture;
@@ -9,9 +6,6 @@ using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.PLL.Models;
 using EpamNetProject.DAL.Interfaces;
 using EpamNetProject.DAL.models;
-using EpamNetProject.DAL.Repositories;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace EpamNetProject.BLL.Services
 {
@@ -19,11 +13,11 @@ namespace EpamNetProject.BLL.Services
     {
         private readonly IMapper _mapper;
         private readonly IRepository<UserProfile> _userProfileRepository;
-        private readonly AsyncRepository<User> _userRepository;
+        private readonly IAsyncRepository<User> _userRepository;
 
         public UserService(
             IRepository<UserProfile> userProfileRepository, IMapperConfigurationProvider mapperConfigurationProvider,
-            AsyncRepository<User> userRepository)
+            IAsyncRepository<User> userRepository)
         {
             _userProfileRepository = userProfileRepository;
             _mapper = mapperConfigurationProvider.GetMapperConfig();
@@ -118,6 +112,12 @@ namespace EpamNetProject.BLL.Services
         {
             user.PasswordHash = passwordHash;
             return _userRepository.Update(user);
+        }
+
+        public void AddUserProfile(UserDTO userDto, UserProfileDTO userProfile)
+        {
+            userProfile.UserId = userDto.Id;
+            _userProfileRepository.Add(_mapper.Map<UserProfile>(userProfile));
         }
 
         public decimal addBalance(string userId, decimal amount)

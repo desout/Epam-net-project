@@ -29,6 +29,7 @@ namespace EpamNetProject.BLL.Infrastucture
                 cfg.CreateMap<EventArea, Area>();
                 cfg.CreateMap<EventSeat, Seat>();
                 cfg.CreateMap<User, UserDTO>();
+                cfg.CreateMap<UserProfileDTO, UserProfile>();
                 cfg.CreateMap<UserProfile, UserProfileDTO>();
             }).CreateMapper();
             return mapper;

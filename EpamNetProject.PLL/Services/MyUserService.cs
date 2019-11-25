@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.DAL.models;
 using EpamNetProject.PLL.Interfaces;
@@ -13,14 +15,16 @@ namespace EpamNetProject.PLL.Services
     public class MyUserService: IMyUserService
     {
         private readonly ApplicationUserManager _applicationUserManager;
-        private readonly ApplicationRoleManager _applicationRoleManager;
+        private readonly ApplicationUserRoleManager _applicationRoleManager;
         private readonly IUserService _userService;
+        private readonly IMapper _mapper;
 
-        public MyUserService(IUserService userService, ApplicationRoleManager applicationRoleManager, ApplicationUserManager applicationUserManager)
+        public MyUserService(IUserService userService, ApplicationUserRoleManager applicationRoleManager, ApplicationUserManager applicationUserManager, IUserMapperConfigurationProvider userMapperConfigurationProvider)
         {
             _userService = userService;
             _applicationRoleManager = applicationRoleManager;
             _applicationUserManager = applicationUserManager;
+            _mapper = userMapperConfigurationProvider.GetMapperConfig();
         }
 
         public async Task<ClaimsIdentity> Authenticate(UserDTO userDto)
@@ -48,6 +52,20 @@ namespace EpamNetProject.PLL.Services
 
             var hashPassword = _applicationUserManager.PasswordHasher.HashPassword(adminDto.Password);
             await _userService.Create(adminDto,hashPassword);
+            adminDto.Id= _userService.getUserByName(adminDto.UserName).Result.Id;
+            _applicationUserManager.AddToRole(adminDto.Id, adminDto.Role);
+        }
+        
+        public List<string> Register(UserDTO user)
+        {
+
+            var hashPassword = _applicationUserManager.PasswordHasher.HashPassword(user.Password);
+            var operationDetails = _applicationUserManager.Create(_mapper.Map<User>(user), hashPassword);
+            if (operationDetails.Errors.Any()) return operationDetails.Errors.ToList();
+            user.Id= _userService.getUserByName(user.UserName).Result.Id;
+            _applicationUserManager.AddToRole(user.Id, user.Role);
+            _userService.AddUserProfile(user, user.UserProfile);
+            return new List<string>();
         }
     }
 }

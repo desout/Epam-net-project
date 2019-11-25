@@ -367,6 +367,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Proceed to checkout.
+        /// </summary>
+        public static string EVENT_PROCEED_TO_CHECKOUT {
+            get {
+                return ResourceManager.GetString("EVENT_PROCEED_TO_CHECKOUT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Event list.
         /// </summary>
         public static string EVENTS_EVENTLISTTITLE {
@@ -543,6 +552,15 @@ namespace Resources {
         public static string PAYMENT_SEATSTITLE {
             get {
                 return ResourceManager.GetString("PAYMENT_SEATSTITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Buy.
+        /// </summary>
+        public static string PAYMENT_SUBMIT {
+            get {
+                return ResourceManager.GetString("PAYMENT_SUBMIT", resourceCulture);
             }
         }
     }

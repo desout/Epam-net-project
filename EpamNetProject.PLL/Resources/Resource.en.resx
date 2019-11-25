@@ -222,6 +222,9 @@
   <data name="EVENT_ISMTITLE" xml:space="preserve">
     <value>Here you can select place, where you want to seat</value>
   </data>
+  <data name="EVENT_PROCEED_TO_CHECKOUT" xml:space="preserve">
+    <value>Proceed to checkout</value>
+  </data>
   <data name="MAIN_EDITEVENTS" xml:space="preserve">
     <value>Edit events</value>
   </data>
@@ -278,5 +281,8 @@
   </data>
   <data name="PAYMENT_SEATSTITLE" xml:space="preserve">
     <value>Seat, which will you buy</value>
+  </data>
+  <data name="PAYMENT_SUBMIT" xml:space="preserve">
+    <value>Buy</value>
   </data>
 </root>

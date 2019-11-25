@@ -8,7 +8,8 @@ CREATE TABLE [dbo].[AspNetRoles](
 
     [Name] [nvarchar](256) NOT NULL,
 
-CONSTRAINT [PK_dbo.AspNetRoles] PRIMARY KEY CLUSTERED
+[Discriminator] NVARCHAR(128) NOT NULL, 
+    CONSTRAINT [PK_dbo.AspNetRoles] PRIMARY KEY CLUSTERED
 
 (
 

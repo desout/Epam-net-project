@@ -9,5 +9,6 @@ namespace EpamNetProject.PLL.Interfaces
     {
         Task<ClaimsIdentity> Authenticate(UserDTO userDto);
         Task SetInitialData(UserDTO adminDto, List<string> roles);
+        List<string> Register(UserDTO user);
     }
 }

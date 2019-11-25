@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using EpamNetProject.BLL.Models;
 
 namespace EpamNetProject.BLL.Interfaces
@@ -12,13 +13,14 @@ namespace EpamNetProject.BLL.Interfaces
         EventDto GetEvent(int id);
         List<EventDto> GetAllEvents();
         int GetAvailabilityPercentage(int layoutId);
-        List<EventAreaDto> GetAreasByEvent(int eventId);
-        List<EventSeatDto> GetSeatsByUser(string userId);
+        IEnumerable<EventAreaDto> GetAreasByEvent(int eventId);
+        IEnumerable<EventSeatDto> GetSeatsByUser(string userId);
         List<EventAreaDto> GetAllAreas();
-        List<EventSeatDto> GetSeatsByEvent(int eventId);
+        IEnumerable<EventSeatDto> GetSeatsByEvent(int eventId);
         List<EventDto> GetUserPurchaseHistory(string userId);
-        bool ChangeStatusToBuy(List<EventSeatDto> seats, string userId, decimal totalAmount);
+        bool ChangeStatusToBuy(string userId, decimal totalAmount);
         int RemoveEvent(int id);
         List<PriceSeat> GetReservedSeatByUser(string userId);
+        void CheckReservation();
     }
 }
