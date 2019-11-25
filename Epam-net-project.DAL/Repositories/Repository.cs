@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Migrations;
 using EpamNetProject.DAL.Interfaces;
 using EpamNetProject.DAL.models;
 

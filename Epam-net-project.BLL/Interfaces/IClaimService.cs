@@ -7,6 +7,7 @@ namespace EpamNetProject.BLL.Interfaces
     public interface IClaimService
     {
         Task RemoveClaim(User user, Claim claim);
+
         Task AddClaim(User user, Claim claim);
     }
 }

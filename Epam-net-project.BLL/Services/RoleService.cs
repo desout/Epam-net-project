@@ -8,7 +8,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace EpamNetProject.BLL.Services
 {
-    public class RoleService: IRoleService
+    public class RoleService : IRoleService
     {
         private readonly IAsyncRepository<UserRole> _roleRepository;
 
@@ -16,6 +16,7 @@ namespace EpamNetProject.BLL.Services
         {
             _roleRepository = roleRepository;
         }
+
         public Task CreateRole(UserRole role)
         {
             return _roleRepository.Create(role);
@@ -38,7 +39,7 @@ namespace EpamNetProject.BLL.Services
 
         public Task<UserRole> FindByNameRole(string roleName)
         {
-            return Task.FromResult(_roleRepository.GetAll().Result.FirstOrDefault(x=>x.Name == roleName));
+            return Task.FromResult(_roleRepository.GetAll().Result.FirstOrDefault(x => x.Name == roleName));
         }
 
         public async Task AddToRole(User user, string roleName)
@@ -71,7 +72,7 @@ namespace EpamNetProject.BLL.Services
         public async Task<bool> IsInRole(User user, string roleName)
         {
             var role = (await _roleRepository.GetAll()).FirstOrDefault(x => x.Name == roleName);
-            return role != null && role.Users.Contains(new IdentityUserRole{RoleId = role.Id, UserId = user.Id});
+            return role != null && role.Users.Contains(new IdentityUserRole {RoleId = role.Id, UserId = user.Id});
         }
     }
 }

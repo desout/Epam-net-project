@@ -12,14 +12,19 @@ using Microsoft.AspNet.Identity;
 
 namespace EpamNetProject.PLL.Services
 {
-    public class MyUserService: IMyUserService
+    public class MyUserService : IMyUserService
     {
-        private readonly ApplicationUserManager _applicationUserManager;
         private readonly ApplicationUserRoleManager _applicationRoleManager;
-        private readonly IUserService _userService;
+
+        private readonly ApplicationUserManager _applicationUserManager;
+
         private readonly IMapper _mapper;
 
-        public MyUserService(IUserService userService, ApplicationUserRoleManager applicationRoleManager, ApplicationUserManager applicationUserManager, IUserMapperConfigurationProvider userMapperConfigurationProvider)
+        private readonly IUserService _userService;
+
+        public MyUserService(IUserService userService, ApplicationUserRoleManager applicationRoleManager,
+            ApplicationUserManager applicationUserManager,
+            IUserMapperConfigurationProvider userMapperConfigurationProvider)
         {
             _userService = userService;
             _applicationRoleManager = applicationRoleManager;
@@ -32,8 +37,10 @@ namespace EpamNetProject.PLL.Services
             ClaimsIdentity claim = null;
             var user = await _applicationUserManager.FindAsync(userDto.UserName, userDto.Password);
             if (user != null)
+            {
                 claim = await _applicationUserManager.CreateIdentityAsync(user,
                     DefaultAuthenticationTypes.ApplicationCookie);
+            }
 
             return claim;
         }
@@ -51,18 +58,21 @@ namespace EpamNetProject.PLL.Services
             }
 
             var hashPassword = _applicationUserManager.PasswordHasher.HashPassword(adminDto.Password);
-            await _userService.Create(adminDto,hashPassword);
-            adminDto.Id= _userService.getUserByName(adminDto.UserName).Result.Id;
+            await _userService.Create(adminDto, hashPassword);
+            adminDto.Id = _userService.getUserByName(adminDto.UserName).Result.Id;
             _applicationUserManager.AddToRole(adminDto.Id, adminDto.Role);
         }
-        
+
         public List<string> Register(UserDTO user)
         {
-
             var hashPassword = _applicationUserManager.PasswordHasher.HashPassword(user.Password);
             var operationDetails = _applicationUserManager.Create(_mapper.Map<User>(user), hashPassword);
-            if (operationDetails.Errors.Any()) return operationDetails.Errors.ToList();
-            user.Id= _userService.getUserByName(user.UserName).Result.Id;
+            if (operationDetails.Errors.Any())
+            {
+                return operationDetails.Errors.ToList();
+            }
+
+            user.Id = _userService.getUserByName(user.UserName).Result.Id;
             _applicationUserManager.AddToRole(user.Id, user.Role);
             _userService.AddUserProfile(user, user.UserProfile);
             return new List<string>();

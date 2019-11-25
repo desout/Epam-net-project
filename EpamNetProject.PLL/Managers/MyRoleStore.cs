@@ -1,25 +1,22 @@
-using System.Data.Entity;
-using System.Linq;
 using System.Threading.Tasks;
 using EpamNetProject.BLL.Interfaces;
-using EpamNetProject.DAL;
-using EpamNetProject.DAL.Interfaces;
 using EpamNetProject.DAL.models;
 using Microsoft.AspNet.Identity;
 
 namespace EpamNetProject.PLL.Managers
 {
-    public class MyRoleStore: IRoleStore<UserRole>
+    public class MyRoleStore : IRoleStore<UserRole>
     {
-        private IRoleService _roleService;
+        private readonly IRoleService _roleService;
 
-        public MyRoleStore(IRoleService roleService )
+        public MyRoleStore(IRoleService roleService)
         {
             _roleService = roleService;
         }
-        
+
         public void Dispose()
-        {}
+        {
+        }
 
 
         public Task CreateAsync(UserRole role)

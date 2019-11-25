@@ -6,7 +6,7 @@ using EpamNetProject.PLL.Models;
 
 namespace EpamNetProject.BLL.Infrastucture
 {
-    public class MapperConfigurationProvider: IMapperConfigurationProvider
+    public class MapperConfigurationProvider : IMapperConfigurationProvider
     {
         public IMapper GetMapperConfig()
         {

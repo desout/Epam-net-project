@@ -24,7 +24,7 @@ namespace EpamNetProject.PLL
 
             builder.RegisterModule<AutofacWebTypesModule>();
             RegisterHelper.RegisterTypes(builder);
-            
+
             RegisterScheduler(builder);
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
@@ -32,7 +32,7 @@ namespace EpamNetProject.PLL
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            
+
             ConfigureScheduler(container);
         }
 
@@ -44,10 +44,11 @@ namespace EpamNetProject.PLL
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo(cultureName);
             Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(cultureName);
         }
-        
+
         private static void RegisterScheduler(ContainerBuilder builder)
         {
-            var schedulerConfig = new NameValueCollection {
+            var schedulerConfig = new NameValueCollection
+            {
                 {"quartz.threadPool.threadCount", "3"},
                 {"quartz.scheduler.threadName", "MyScheduler"}
             };

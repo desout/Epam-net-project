@@ -22,7 +22,7 @@ namespace EpamNetProject.BLL.Tests
             _areaRepository = new Mock<IRepository<Area>>();
             _seatRepository = new Mock<IRepository<Seat>>();
             _mapper = new Mock<IMapperConfigurationProvider>();
-            
+
             _venueRepository.Setup(x => x.GetAll())
                 .Returns(new List<Venue>
                 {
@@ -97,15 +97,25 @@ namespace EpamNetProject.BLL.Tests
         }
 
         private const int ReturnIdVenue = 10;
+
         private const int ReturnIdSeat = 20;
+
         private const int ReturnIdLayout = 30;
+
         private const int ReturnIdArea = 40;
+
         private Mock<IRepository<Area>> _areaRepository;
+
         private Mock<IRepository<Layout>> _layoutRepository;
+
         private Mock<IRepository<Seat>> _seatRepository;
+
         private Mock<IRepository<Venue>> _venueRepository;
+
         private VenueService _venueService;
+
         private Mock<IMapperConfigurationProvider> _mapper;
+
         [Test]
         public void CreateArea_WhenAreaDescriptionExists_ShouldReturnValidationException()
         {

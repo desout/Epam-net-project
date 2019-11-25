@@ -1,5 +1,4 @@
 using Quartz;
-using Quartz.Impl;
 
 namespace EpamNetProject.PLL.Jobs
 {
@@ -16,11 +15,11 @@ namespace EpamNetProject.PLL.Jobs
         {
             _scheduler.Start();
 
-            IJobDetail job = JobBuilder.Create<BasketJob>()
+            var job = JobBuilder.Create<BasketJob>()
                 .WithIdentity("job", "admin")
                 .Build();
 
-            ITrigger trigger = TriggerBuilder.Create()
+            var trigger = TriggerBuilder.Create()
                 .WithIdentity("trigger", "admin")
                 .WithSimpleSchedule(x => x
                     .RepeatForever()

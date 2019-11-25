@@ -1,5 +1,4 @@
 @using EpamNetProject.BLL.Models
-
 @helper ISM(List<EventAreaDto> areas, List<EventSeatDto> seats, string link)
 {
     <div id="ISM__MAP" style="position: relative"></div>
@@ -51,15 +50,15 @@
     {
         var x = t.CoordX;
         var y = t.CoordY;
-	    var currentSeats = seats.Where(a => a.EventAreaId == t.Id);
-	    @:var areaElement = generateArea(@x,@y);
-	    
-	    foreach (var seat in currentSeats)
-	    {
-		    @:var seat = generateSeat(@seat.Row,@seat.Number,@seat.Id,@seat.State);
-		    @:areaElement.appendChild(seat);
-	    }
-	    @:map.appendChild(areaElement);
+        var currentSeats = seats.Where(a => a.EventAreaId == t.Id);
+        @:var areaElement = generateArea(@x,@y);
+
+        foreach (var seat in currentSeats)
+        {
+            @:var seat = generateSeat(@seat.Row,@seat.Number,@seat.Id,@seat.State);
+            @:areaElement.appendChild(seat);
+        }
+        @:map.appendChild(areaElement);
     }
     </script>
 }

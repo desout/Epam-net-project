@@ -47,7 +47,10 @@ namespace EpamNetProject.PLL.Controllers
         {
             var returnUrl = Request.UrlReferrer?.AbsolutePath;
             var cultures = new List<string> {"ru", "en", "blr"};
-            if (!cultures.Contains(newCulture)) newCulture = "en";
+            if (!cultures.Contains(newCulture))
+            {
+                newCulture = "en";
+            }
 
             var cookie = new HttpCookie("lang")
                 {HttpOnly = false, Value = newCulture, Expires = DateTime.Now.AddYears(1)};

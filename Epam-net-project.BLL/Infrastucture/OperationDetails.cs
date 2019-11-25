@@ -10,7 +10,9 @@ namespace EpamNetProject.BLL.Infrastucture
         }
 
         public bool Succedeed { get; }
+
         public string Message { get; }
+
         public string Property { get; }
     }
 }

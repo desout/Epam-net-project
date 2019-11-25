@@ -114,14 +114,23 @@ namespace EpamNetProject.BLL.Tests
         }
 
         private const int ReturnId = 10;
+
         private Mock<IRepository<Area>> _areaRepository;
+
         private Mock<IRepository<Event>> _eventRepository;
+
         private EventService _eventService;
+
         private Mock<IRepository<Layout>> _layoutRepository;
+
         private Mock<IRepository<Seat>> _seatRepository;
+
         private Mock<IRepository<EventSeat>> _eventSeatRepository;
+
         private Mock<IRepository<EventArea>> _eventAreaRepository;
+
         private Mock<IRepository<UserProfile>> _userProfileRepository;
+
         private Mock<IMapperConfigurationProvider> _mapper;
 
         [Test]

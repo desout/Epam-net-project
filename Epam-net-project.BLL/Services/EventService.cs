@@ -16,14 +16,22 @@ namespace EpamNetProject.BLL.Services
     public class EventService : IEventService
     {
         private readonly IRepository<Area> _areaRepository;
+
         private readonly IRepository<EventArea> _eventAreaRepository;
+
         private readonly IRepository<Event> _eventRepository;
+
         private readonly IRepository<EventSeat> _eventSeatRepository;
+
         private readonly IRepository<Layout> _layoutRepository;
+
         private readonly IMapper _mapper;
-        private readonly IRepository<Seat> _seatRepository;
-        private readonly IRepository<UserProfile> _userProfileRepository;
+
         private readonly int _reserveTime;
+
+        private readonly IRepository<Seat> _seatRepository;
+
+        private readonly IRepository<UserProfile> _userProfileRepository;
 
         public EventService(IRepository<Event> eventRepository, IRepository<Layout> layoutRepository,
             IRepository<Area> areaRepository, IRepository<Seat> seatRepository,
@@ -45,8 +53,10 @@ namespace EpamNetProject.BLL.Services
         public int UpdateEvent(EventDto Event)
         {
             if (_eventRepository.Get(Event.Id).LayoutId == Event.LayoutId)
+            {
                 return _eventRepository.Update(_mapper.Map<Event>(Event));
-            
+            }
+
             _eventAreaRepository.GetAll().Where(x => x.EventId == Event.Id)
                 .Map(x => _eventAreaRepository.Remove(x.Id));
             var areas = _areaRepository.GetAll().Where(x => x.LayoutId == Event.LayoutId).ToList();
@@ -60,20 +70,29 @@ namespace EpamNetProject.BLL.Services
         public bool ReserveSeat(int id, string userId)
         {
             var eventSeat = _eventSeatRepository.Get(id);
-            if (eventSeat.State != 0) return false;
-            
+            if (eventSeat.State != 0)
+            {
+                return false;
+            }
+
             eventSeat.State = SeatStatus.Reserved;
             eventSeat.UserId = userId;
             _eventSeatRepository.Update(eventSeat);
             var userProfile = _userProfileRepository.GetAll().FirstOrDefault(x => x.UserId == userId);
-            if (userProfile?.ReserveDate != null) return true;
+            if (userProfile?.ReserveDate != null)
+            {
+                return true;
+            }
 
-            if (userProfile == null) return false;
+            if (userProfile == null)
+            {
+                return false;
+            }
+
             userProfile.ReserveDate = TimeZoneInfo.ConvertTimeToUtc(DateTime.Now);
             _userProfileRepository.Update(userProfile);
 
             return true;
-
         }
 
         public bool UnReserveSeat(int id)
@@ -95,7 +114,10 @@ namespace EpamNetProject.BLL.Services
         public List<EventDto> GetAllEvents()
         {
             var items = _mapper.Map<List<EventDto>>(_eventRepository.GetAll());
-            foreach (var item in items) item.EventAvailability = GetAvailabilityPercentage(item.LayoutId);
+            foreach (var item in items)
+            {
+                item.EventAvailability = GetAvailabilityPercentage(item.LayoutId);
+            }
 
             return items;
         }
@@ -103,15 +125,25 @@ namespace EpamNetProject.BLL.Services
         public int CreateEvent(EventDto Event)
         {
             var validationResult = ModelValidation.IsValidModel(Event);
-            if (validationResult != null) throw new ArgumentException(validationResult);
+            if (validationResult != null)
+            {
+                throw new ArgumentException(validationResult);
+            }
 
             if (Event.EventDate.CompareTo(DateTime.Now) < 0)
+            {
                 throw new ValidationException("Event can't be added in past");
+            }
 
             if (IsEventExist(Event))
+            {
                 throw new ValidationException("Event can't be created for one venue in the same time");
+            }
 
-            if (!IsSeatsExist(Event)) throw new ValidationException("Event can't be created due to no seats exist");
+            if (!IsSeatsExist(Event))
+            {
+                throw new ValidationException("Event can't be created due to no seats exist");
+            }
 
             var areas = _areaRepository.GetAll().Where(x => x.LayoutId == Event.LayoutId).ToList();
             areas.Map(x => _eventAreaRepository.Add(_mapper.Map<EventArea>(x)));
@@ -124,7 +156,10 @@ namespace EpamNetProject.BLL.Services
         {
             var seats = _eventSeatRepository.GetAll().Where(x => x.EventAreaId == layoutId).ToList();
             var availableSeatsCount = seats.Count(x => x.State == 0);
-            if (availableSeatsCount == 0 || !seats.Any()) return 0;
+            if (availableSeatsCount == 0 || !seats.Any())
+            {
+                return 0;
+            }
 
             return seats.Count() / availableSeatsCount;
         }
@@ -170,18 +205,26 @@ namespace EpamNetProject.BLL.Services
 
         public bool ChangeStatusToBuy(string userId, decimal totalAmount)
         {
-            
-            var seats = _eventSeatRepository.GetAll().Where(x => x.State == SeatStatus.Reserved && x.UserId == userId).ToList();
-            
+            var seats = _eventSeatRepository.GetAll().Where(x => x.State == SeatStatus.Reserved && x.UserId == userId)
+                .ToList();
+
             var userProfile = _userProfileRepository.GetAll().FirstOrDefault(x => x.UserId == userId);
-            if (userProfile != null && userProfile.Balance < totalAmount) return false;
+            if (userProfile != null && userProfile.Balance < totalAmount)
+            {
+                return false;
+            }
+
             foreach (var seat in seats)
             {
                 seat.State = SeatStatus.Bought;
                 _eventSeatRepository.Update(_mapper.Map<EventSeat>(seat));
             }
 
-            if (userProfile == null) return true;
+            if (userProfile == null)
+            {
+                return true;
+            }
+
             userProfile.Balance -= totalAmount;
             _userProfileRepository.Update(userProfile);
 
@@ -229,7 +272,8 @@ namespace EpamNetProject.BLL.Services
 
         private void UpdateSeats(UserProfile profile)
         {
-            var seats = _eventSeatRepository.GetAll().Where(x => x.State == SeatStatus.Reserved && x.UserId == profile.UserId).ToList();
+            var seats = _eventSeatRepository.GetAll()
+                .Where(x => x.State == SeatStatus.Reserved && x.UserId == profile.UserId).ToList();
             foreach (var seat in seats)
             {
                 seat.State = 0;

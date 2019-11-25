@@ -3,16 +3,18 @@ using System.Threading.Tasks;
 using AutoMapper;
 using EpamNetProject.BLL.Infrastucture;
 using EpamNetProject.BLL.Interfaces;
-using EpamNetProject.PLL.Models;
 using EpamNetProject.DAL.Interfaces;
 using EpamNetProject.DAL.models;
+using EpamNetProject.PLL.Models;
 
 namespace EpamNetProject.BLL.Services
 {
     public class UserService : IUserService
     {
         private readonly IMapper _mapper;
+
         private readonly IRepository<UserProfile> _userProfileRepository;
+
         private readonly IAsyncRepository<User> _userRepository;
 
         public UserService(
@@ -27,7 +29,11 @@ namespace EpamNetProject.BLL.Services
         public async Task<OperationDetails> Create(UserDTO userDto, string passwordHash)
         {
             var user = (await _userRepository.GetAll()).FirstOrDefault(x => x.UserName == userDto.UserName);
-            if (user != null) return new OperationDetails(false, "User with this name exist", "Email");
+            if (user != null)
+            {
+                return new OperationDetails(false, "User with this name exist", "Email");
+            }
+
             user = new User {Email = userDto.Email, UserName = userDto.UserName, PasswordHash = passwordHash};
             await _userRepository.Create(user);
             userDto.UserProfile.UserId = user.Id;
@@ -45,7 +51,11 @@ namespace EpamNetProject.BLL.Services
         {
             var user = _userRepository.GetAll().Result.FirstOrDefault(x => x.Id == userId);
             var userProfile = _userProfileRepository.GetAll().FirstOrDefault(x => x.UserId == userId);
-            if (user == null) return new UserDTO();
+            if (user == null)
+            {
+                return new UserDTO();
+            }
+
             var returnedUser = new UserDTO
             {
                 Email = user.Email,

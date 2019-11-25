@@ -10,14 +10,15 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace EpamNetProject.BLL.Services
 {
-    public class ClaimService: IClaimService
+    public class ClaimService : IClaimService
     {
         private readonly IAsyncRepository<IdentityUserClaim> _claimRepository;
-        
+
         public ClaimService(IAsyncRepository<IdentityUserClaim> claimRepository)
         {
             _claimRepository = claimRepository;
         }
+
         public async Task RemoveClaim(User user, Claim claim)
         {
             if (user == null)
@@ -30,11 +31,13 @@ namespace EpamNetProject.BLL.Services
                 throw new ArgumentNullException("claim");
             }
 
-            IEnumerable<IdentityUserClaim> claims = user.Claims.Where(uc => uc.ClaimValue == claim.Value && uc.ClaimType == claim.Type).ToList();
+            IEnumerable<IdentityUserClaim> claims =
+                user.Claims.Where(uc => uc.ClaimValue == claim.Value && uc.ClaimType == claim.Type).ToList();
             foreach (var c in claims)
             {
                 await _claimRepository.Delete(c);
             }
+
             Task.FromResult(0);
         }
 
@@ -49,7 +52,7 @@ namespace EpamNetProject.BLL.Services
             {
                 throw new ArgumentNullException("claim");
             }
-            
+
             _claimRepository.Create(new IdentityUserClaim
                 {UserId = user.Id, ClaimType = claim.Type, ClaimValue = claim.Value});
             return Task.FromResult(0);

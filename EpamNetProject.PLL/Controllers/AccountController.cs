@@ -3,9 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using AutoMapper;
 using EpamNetProject.BLL.Interfaces;
-using EpamNetProject.DAL.models;
 using EpamNetProject.PLL.Interfaces;
 using EpamNetProject.PLL.Managers;
 using EpamNetProject.PLL.Models;
@@ -17,19 +15,20 @@ namespace EpamNetProject.PLL.Controllers
     public class AccountController : Controller
     {
         private readonly IEventService _eventService;
-        private readonly IUserService _userService;
-        private readonly ApplicationUserManager _userManager;
-        private readonly ApplicationUserRoleManager _roleManager;
+
         private readonly IMyUserService _myUserService;
 
+        private readonly ApplicationUserManager _userManager;
+
+        private readonly IUserService _userService;
+
         public AccountController(IEventService eventService, ApplicationUserManager userManager,
-            IUserService userService, IMyUserService myUserService, ApplicationUserRoleManager roleManager)
+            IUserService userService, IMyUserService myUserService)
         {
             _userService = userService;
             _myUserService = myUserService;
             _eventService = eventService;
             _userManager = userManager;
-            _roleManager = roleManager;
         }
 
         private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
@@ -154,7 +153,7 @@ namespace EpamNetProject.PLL.Controllers
                         TimeZone = model.TimeZone
                     }
                 };
-                
+
                 var errors = _myUserService.Register(userDto);
                 if (!errors.Any())
                 {

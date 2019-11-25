@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Threading.Tasks;
 using EpamNetProject.DAL.Interfaces;
-using EpamNetProject.DAL.models;
 
 namespace EpamNetProject.DAL.Repositories
 {

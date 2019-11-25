@@ -12,13 +12,11 @@ namespace EpamNetProject.PLL.Infrastucture
             var mapper = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<UserDTO, User>()
-                .ConvertUsing(s=>new User { Email = s.Email, UserName = s.UserName});
+                    .ConvertUsing(s => new User {Email = s.Email, UserName = s.UserName});
                 cfg.CreateMap<UserProfile, UserProfileDTO>();
                 cfg.CreateMap<UserProfileDTO, UserProfile>();
             }).CreateMapper();
             return mapper;
         }
-
-
     }
 }

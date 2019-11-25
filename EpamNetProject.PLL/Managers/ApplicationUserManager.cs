@@ -1,4 +1,3 @@
-using EpamNetProject.DAL.Interfaces;
 using EpamNetProject.DAL.models;
 using Microsoft.AspNet.Identity;
 

@@ -33,10 +33,15 @@ namespace EpamNetProject.Integration.Tests
         }
 
         private IRepository<Area> _areaRepository;
+
         private IRepository<Layout> _layoutRepository;
+
         private IRepository<Seat> _seatRepository;
+
         private IRepository<Venue> _venueRepository;
+
         private VenueService _venueService;
+
         private IMapperConfigurationProvider _mapper;
 
         [Test]

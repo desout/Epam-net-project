@@ -22,16 +22,17 @@ namespace EpamNetProject.PLL.Infrastucture
             builder.RegisterType<MyContext>().WithParameter("connectionString",
                     ConfigurationManager.ConnectionStrings["SqlConnectionString"].ConnectionString).AsSelf()
                 .InstancePerLifetimeScope();
-            
+
             builder.RegisterType<MapperConfigurationProvider>().As<IMapperConfigurationProvider>()
                 .InstancePerLifetimeScope();
             builder.RegisterType<UserMapperConfigurationProvider>().As<IUserMapperConfigurationProvider>()
                 .InstancePerLifetimeScope();
-            
+
             builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
-            builder.RegisterGeneric(typeof(AsyncRepository<>)).As(typeof(IAsyncRepository<>)).InstancePerLifetimeScope();
+            builder.RegisterGeneric(typeof(AsyncRepository<>)).As(typeof(IAsyncRepository<>))
+                .InstancePerLifetimeScope();
             builder.RegisterType<EventRepository>().As<IRepository<Event>>().InstancePerLifetimeScope();
-            
+
             builder.RegisterType<EventService>().As<IEventService>()
                 .InstancePerLifetimeScope()
                 .WithParameter("reserveTime", delay);
@@ -45,7 +46,7 @@ namespace EpamNetProject.PLL.Infrastucture
                 .InstancePerLifetimeScope();
             builder.RegisterType<MyUserService>().As<IMyUserService>()
                 .InstancePerLifetimeScope();
-            
+
             builder.RegisterType<MyRoleStore>()
                 .As<IRoleStore<UserRole, string>>()
                 .InstancePerLifetimeScope();
@@ -56,7 +57,7 @@ namespace EpamNetProject.PLL.Infrastucture
                 .As<IUserRoleStore<User, string>>()
                 .SingleInstance()
                 .InstancePerLifetimeScope();
-            
+
             builder.RegisterType(typeof(ApplicationUserManager)).AsSelf().InstancePerLifetimeScope();
             builder.RegisterType(typeof(ApplicationUserRoleManager)).AsSelf().InstancePerLifetimeScope();
         }

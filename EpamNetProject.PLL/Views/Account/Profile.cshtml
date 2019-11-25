@@ -3,7 +3,7 @@
 
 <p>@Html.ActionLink(Resource.ACCOUNT_EDITPROFILE, "Edit", "Account")</p>
 <p>@Resource.ACCOUNT_BALANCE - <span id="Balance">@Model.Balance</span></p>
-<input type="number" id="BalanceCount" />
+<input type="number" id="BalanceCount"/>
 <button onclick="add()">@Resource.ACCOUNT_ADDTOBALANCE</button>
 @{
     @Html.Action("PurchaseHistory")

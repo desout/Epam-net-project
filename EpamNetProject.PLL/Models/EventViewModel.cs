@@ -6,7 +6,9 @@ namespace EpamNetProject.PLL.Models
     public class EventViewModel
     {
         public EventDto Event;
+
         public List<EventAreaDto> EventAreas;
+
         public List<EventSeatDto> EventSeats;
     }
 }

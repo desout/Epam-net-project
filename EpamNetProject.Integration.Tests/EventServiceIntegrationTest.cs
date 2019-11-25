@@ -39,13 +39,21 @@ namespace EpamNetProject.Integration.Tests
         }
 
         private IRepository<Area> _areaRepository;
+
         private IRepository<Event> _eventRepository;
+
         private EventService _eventService;
+
         private IRepository<Layout> _layoutRepository;
+
         private IRepository<Seat> _seatRepository;
+
         private IRepository<EventSeat> _eventSeatRepository;
+
         private IRepository<EventArea> _eventAreaRepository;
+
         private IRepository<UserProfile> _userProfileRepository;
+
         private IMapperConfigurationProvider _mapper;
 
         [Test]

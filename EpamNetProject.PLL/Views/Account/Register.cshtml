@@ -3,10 +3,10 @@
 @model EpamNetProject.PLL.Models.RegisterModel
 @Resource.ACCOUNT_REGISTERTITLE
 
-    @foreach (var error in ViewBag.Errors)
-    {
-        <h4>@error</h4>
-    }
+@foreach (var error in ViewBag.Errors)
+{
+    <h4>@error</h4>
+}
 @using (Html.BeginForm("Register", "Account"))
 {
     @Html.AntiForgeryToken()

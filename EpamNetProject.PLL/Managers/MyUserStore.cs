@@ -1,18 +1,11 @@
-using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.SqlServer.Utilities;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using EpamNetProject.BLL.Interfaces;
-using EpamNetProject.DAL;
-using EpamNetProject.DAL.Interfaces;
 using EpamNetProject.DAL.models;
-using EpamNetProject.DAL.Repositories;
 using EpamNetProject.PLL.Interfaces;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace EpamNetProject.PLL.Managers
 {
@@ -21,46 +14,21 @@ namespace EpamNetProject.PLL.Managers
         IUserPasswordStore<User, string>,
         IUserRoleStore<User, string>
     {
-        private readonly IUserService _userService;
         private readonly IClaimService _claimService;
+
         private readonly IRoleService _roleService;
+
         private readonly IUserMapperConfigurationProvider _userMapperConfigurationProvider;
-        
-        public MyUserStore(IUserService userService, IUserMapperConfigurationProvider userMapperConfigurationProvider, IClaimService claimService, IRoleService roleService)
+
+        private readonly IUserService _userService;
+
+        public MyUserStore(IUserService userService, IUserMapperConfigurationProvider userMapperConfigurationProvider,
+            IClaimService claimService, IRoleService roleService)
         {
             _userService = userService;
             _userMapperConfigurationProvider = userMapperConfigurationProvider;
             _claimService = claimService;
             _roleService = roleService;
-        }
-
-        public void Dispose()
-        {
-        }
-
-        public Task CreateAsync(User user)
-        {
-            return _userService.CreateUser(user);
-        }
-
-        public Task UpdateAsync(User user)
-        {
-            return _userService.UpdateUser(user);
-        }
-
-        public Task DeleteAsync(User user)
-        {
-           return _userService.DeleteUser(user);
-        }
-
-        public Task<User> FindByIdAsync(string userId)
-        {
-           return _userService.GetUser(userId);
-        }
-
-        public Task<User> FindByNameAsync(string userName)
-        {
-            return _userService.getUserByName(userName); 
         }
 
         public async Task<IList<Claim>> GetClaimsAsync(User user)
@@ -92,7 +60,7 @@ namespace EpamNetProject.PLL.Managers
         {
             return _userService.SetPasswordHashAsync(user, passwordHash);
         }
-       
+
         public Task AddToRoleAsync(User user, string roleName)
         {
             return _roleService.AddToRole(user, roleName);
@@ -111,6 +79,35 @@ namespace EpamNetProject.PLL.Managers
         public Task<bool> IsInRoleAsync(User user, string roleName)
         {
             return _roleService.IsInRole(user, roleName);
+        }
+
+        public void Dispose()
+        {
+        }
+
+        public Task CreateAsync(User user)
+        {
+            return _userService.CreateUser(user);
+        }
+
+        public Task UpdateAsync(User user)
+        {
+            return _userService.UpdateUser(user);
+        }
+
+        public Task DeleteAsync(User user)
+        {
+            return _userService.DeleteUser(user);
+        }
+
+        public Task<User> FindByIdAsync(string userId)
+        {
+            return _userService.GetUser(userId);
+        }
+
+        public Task<User> FindByNameAsync(string userName)
+        {
+            return _userService.getUserByName(userName);
         }
     }
 }

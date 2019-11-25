@@ -8,6 +8,7 @@ namespace EpamNetProject.PLL.Controllers
     public class ManagerController : Controller
     {
         private readonly IEventService _eventService;
+
         private readonly IVenueService _venueService;
 
         public ManagerController(IEventService eventService, IVenueService venueService)
@@ -56,6 +57,7 @@ namespace EpamNetProject.PLL.Controllers
         public ActionResult Add(EditEventViewModel model)
         {
             if (model.Id != null)
+            {
                 _eventService.UpdateEvent(new EventDto
                 {
                     Id = model.Id.Value,
@@ -64,7 +66,9 @@ namespace EpamNetProject.PLL.Controllers
                     Name = model.Title,
                     LayoutId = model.Layout
                 });
+            }
             else
+            {
                 _eventService.CreateEvent(new EventDto
                 {
                     Description = model.Description,
@@ -72,6 +76,7 @@ namespace EpamNetProject.PLL.Controllers
                     Name = model.Title,
                     LayoutId = model.Layout
                 });
+            }
 
             return RedirectToAction("EditEvents");
         }
