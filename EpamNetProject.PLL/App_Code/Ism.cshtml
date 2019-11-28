@@ -1,7 +1,7 @@
 @using EpamNetProject.BLL.Models
 @helper ISM(List<EventAreaDto> areas, List<EventSeatDto> seats, string link)
 {
-    <div id="ISM__MAP" style="position: relative"></div>
+    <div id="ISM__MAP" style="position: relative; height: 600px; width: 500px;align-self: center;"></div>
     <h1 class="ErrorClass" hidden="hidden">
         This seat not available
     </h1>
@@ -39,6 +39,7 @@
         el.style.marginLeft = number+ 'px';
         el.dataset.seatId = id;
         el.dataset.seatStatus = status;
+        el.classList.add('seat');
         if (status === 0) {
             el.onclick = function (ev) { sendRequest(ev) };
         }
@@ -55,7 +56,7 @@
 
         foreach (var seat in currentSeats)
         {
-            @:var seat = generateSeat(@seat.Row,@seat.Number,@seat.Id,@seat.State);
+            @:var seat = generateSeat(@seat.Row,@seat.Number,@seat.Id,@((int)seat.State));
             @:areaElement.appendChild(seat);
         }
         @:map.appendChild(areaElement);

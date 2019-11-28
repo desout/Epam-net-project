@@ -80,10 +80,10 @@ namespace EpamNetProject.PLL.Controllers
 
         [HttpGet]
         [Authorize]
-        public ActionResult PurchaseHistory()
+        public PartialViewResult PurchaseHistory()
         {
             var items = _eventService.GetUserPurchaseHistory(AuthenticationManager.User.Identity.GetUserId());
-            return View(items);
+            return PartialView(items);
         }
 
         public ActionResult Login()

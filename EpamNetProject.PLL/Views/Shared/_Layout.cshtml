@@ -6,52 +6,49 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Epam training application</title>
-    @Styles.Render("~/Content/css")
+    @Styles.Render("~/wwwroot/css/index.css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-<div class="navbar navbar-inverse navbar-fixed-top">
+<div class="navbar">
+    <div class="navbar__appName">
+        @Html.ActionLink(Resource.ApplicationName, "Index", "Home", new {area = ""}, new {@class = "navbar__brand"})
+    </div>
+    <ul class="navbar__navigation">
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <li>@Html.ActionLink(Resource.MAIN_LOGIN, "Login", "Account")</li>
+            <li>@Html.ActionLink(Resource.MAIN_REGISTER, "Register", "Account")</li>
+        }
+        else
+        {
+            <li>@Html.ActionLink(Resource.MAIN_PROFILE, "Profile", "Account")</li>
+            <li>@Html.ActionLink(Resource.MAIN_LOGOUT, "Logout", "Account")</li>
+        }
+        @if (User.IsInRole("Manager") || User.IsInRole("Admin"))
+        {
+            <li>@Html.ActionLink(Resource.MAIN_EDITEVENTS, "EditEvents", "Manager")</li>
+        }
+        <li>@Html.ActionLink(Resource.MAIN_EVENTS, "Index", "Events")</li>
+        <li>
+            @using (Html.BeginForm("ChangeCulture", "Home", FormMethod.Post))
+            {
+                @Html.DropDownList("newCulture", new SelectList(StaticData.Languages, "Code", "Description", Culture))
+            }
+        </li>
+    </ul>
+</div>
+<main>
     <div class="container">
-        <div class="navbar-header">
-            @Html.ActionLink(Resource.ApplicationName, "Index", "Home", new {area = ""}, new {@class = "navbar-brand"})
-        </div>
-        <div >
-            <ul >
-                @if (!User.Identity.IsAuthenticated)
-                {
-                    <li>@Html.ActionLink(Resource.MAIN_LOGIN, "Login", "Account")</li>
-                    <li>@Html.ActionLink(Resource.MAIN_REGISTER, "Register", "Account")</li>
-                }
-                else
-                {
-                    <li>@Html.ActionLink(Resource.MAIN_PROFILE, "Profile", "Account")</li>
-                    <li>@Html.ActionLink(Resource.MAIN_LOGOUT, "Logout", "Account")</li>
-                }
-                @if (User.IsInRole("Manager") || User.IsInRole("Admin"))
-                {
-                    <li>@Html.ActionLink(Resource.MAIN_EDITEVENTS, "EditEvents", "Manager")</li>
-                }
-                <li>@Html.ActionLink(Resource.MAIN_EVENTS, "Index", "Events")</li>
-                <li>
-                    @using (Html.BeginForm("ChangeCulture", "Home", FormMethod.Post))
-                    {
-                        @Html.DropDownList("newCulture", new SelectList(StaticData.Languages, "Code", "Description", Culture))
-                    }
-                </li>
-            </ul>
+        <div class="body-content">
+            @RenderBody()
         </div>
     </div>
-</div>
-<div>
-    @RenderBody()
-    <hr/>
-    <footer>
-        <p>&copy; @DateTime.Now.2019 - Epam training application</p>
-    </footer>
-</div>
-
+</main>
+<footer>
+    <p>&copy; @DateTime.Now.2019 - Epam training application</p>
+</footer>
 @Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/bootstrap")
 @RenderSection("scripts", false)
 <script >
     $('#newCulture').change(function() {

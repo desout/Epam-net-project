@@ -4,17 +4,25 @@
 @{
     ViewBag.Title = "Event information";
 }
+<div class="event__block">
+    <div class="event__header">
+        <div class="event__header__image">
+            <img src="@Model.Event.ImgUrl" alt=""/>
+        </div>
+        <div class="event__header__eventInfo">
+            <p>@Model.Event.Name</p>
+            <p>@Model.Event.Description</p>
+        </div>
+        <div class="event__header__availability">
+            <p>@Resource.EVENT_EVENTDATE - @Model.Event.EventDate</p>
+            <p>@Resource.EVENT_AVAILABILITY - @Html.DisplayFor(x => x.Event.EventAvailability)</p>
+        </div>
+    </div>
 
-<div>
-    <img src="@Model.Event.ImgUrl"/>
-    <p>@Resource.EVENT_EVENTDATE - @Model.Event.EventDate</p>
-    <p>@Resource.EVENT_DESCRIPTION @Model.Event.Description</p>
-    <p>@Resource.EVENT_AVAILABILITY - @Html.DisplayFor(x => x.Event.EventAvailability)</p>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <h3> @Resource.EVENT_ISMTITLE</h3>
+        @Ism.ISM(Model.EventAreas, Model.EventSeats, Url.Action("Select", "Events"))
+        <a href=@Url.Action("ProceedToCheckout", new {EventId = Model.Event.Id}) id="proceed-to-checkout" class="proceedPayment">@Resource.EVENT_PROCEED_TO_CHECKOUT</a>
+    }
 </div>
-
-@if (User.Identity.IsAuthenticated)
-{
-    <h4> @Resource.EVENT_ISMTITLE</h4>
-    @Ism.ISM(Model.EventAreas, Model.EventSeats, Url.Action("Select", "Events"))
-    <a href=@Url.Action("ProceedToCheckout", new {EventId = Model.Event.Id}) id="proceed-to-checkout">@Resource.EVENT_PROCEED_TO_CHECKOUT</a>
-}

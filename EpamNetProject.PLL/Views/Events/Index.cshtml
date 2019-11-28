@@ -3,9 +3,11 @@
 @{
     ViewBag.Title = "Events";
 }
-<h2>@Resource.EVENTS_EVENTLISTTITLE</h2>
-@foreach (var ev in Model)
-{
-    @Html.DisplayFor(x => ev)
-    ;
-}
+<div class="events__block">
+    <h2 class="events__title">@Resource.EVENTS_EVENTLISTTITLE</h2>
+    @foreach (var ev in Model)
+    {
+        @Html.DisplayFor(x => ev)
+    }
+
+</div>

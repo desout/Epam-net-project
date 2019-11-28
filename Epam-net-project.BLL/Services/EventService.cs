@@ -247,7 +247,7 @@ namespace EpamNetProject.BLL.Services
         public void CheckReservation()
         {
             var profiles = _userProfileRepository.GetAll().Where(x =>
-                x.ReserveDate.HasValue && x.ReserveDate?.AddMinutes(_reserveTime) < DateTime.Now).ToList();
+                x.ReserveDate.HasValue && x.ReserveDate?.AddMinutes(_reserveTime) < DateTime.UtcNow).ToList();
             foreach (var profile in profiles)
             {
                 UpdateSeats(profile);

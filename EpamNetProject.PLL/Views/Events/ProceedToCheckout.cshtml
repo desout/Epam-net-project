@@ -5,14 +5,12 @@
 @using (Html.BeginForm("Buy", "Events", FormMethod.Post))
 {
     <h3>@Resource.PAYMENT_SEATSTITLE</h3>
-    decimal fullPrice = 0;
+    var fullPrice = Model.Sum(x=>x.Price);
     foreach (var seat in Model)
     {
-        <p>[@seat.Seat.Row,@seat.Seat.Number] @seat.Price</p>
-        @(fullPrice += seat.Price)
+        <p>[@seat.Seat.Row,@seat.Seat.Number] - @seat.Price$</p>
     }
     <p>@Resource.PAYMENT_FULLPRICETITLE - @fullPrice</p>
     @Html.Hidden("totalAmount", fullPrice)
-    ;
-    <button type="submit">@Resource.PAYMENT_SUBMIT</button>
+    <button type="submit" class="button__submit">@Resource.PAYMENT_SUBMIT</button>
 }

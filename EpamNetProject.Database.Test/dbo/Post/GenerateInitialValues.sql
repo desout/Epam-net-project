@@ -57,7 +57,7 @@ VALUES
 INSERT INTO dbo.EventAreas(Description, CoordX, CoordY, EventId, Price)
 VALUES
 ('Description', 10,20,1, 10),
-('Description', 40,50,1, 40),
+('Description', 240,50,1, 40),
 ('Description', 10,20,4, 10),
 ('Description', 40,50,4, 40),
 ('Description', 10,20,9, 10),
