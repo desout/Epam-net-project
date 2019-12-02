@@ -16,10 +16,10 @@ namespace EpamNetProject.PLL.Controllers
                 Email = "3809766@mail.ru",
                 UserName = "desout",
                 Password = "Desoutside1",
-                Role = "admin",
+                Role = "Admin",
                 UserProfile = new UserProfileDTO
                     {FirstName = "Andrei", Surname = "Anelkin", Language = "en", TimeZone = "UTC-11"}
-            }, new List<string> {"user", "admin"});
+            }, new List<string> {"User", "Admin", "Manager"});
         }
 
         [HttpGet]

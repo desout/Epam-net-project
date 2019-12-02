@@ -24,10 +24,10 @@
         {
             <li>@Html.ActionLink(Resource.MAIN_PROFILE, "Profile", "Account")</li>
             <li>@Html.ActionLink(Resource.MAIN_LOGOUT, "Logout", "Account")</li>
-        }
-        @if (User.IsInRole("Manager") || User.IsInRole("Admin"))
-        {
-            <li>@Html.ActionLink(Resource.MAIN_EDITEVENTS, "EditEvents", "Manager")</li>
+            if (Context.User.IsInRole("Manager") || Context.User.IsInRole("Admin"))
+            {
+                <li>@Html.ActionLink(Resource.MAIN_EDITEVENTS, "EditEvents", "Manager")</li>
+            }
         }
         <li>@Html.ActionLink(Resource.MAIN_EVENTS, "Index", "Events")</li>
         <li>
