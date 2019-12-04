@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -60,22 +61,27 @@ namespace EpamNetProject.PLL.Controllers
         [Authorize]
         public ActionResult SaveProfile(UserProfileViewModel model)
         {
-            var hashPassword = string.IsNullOrEmpty(model.Password)
-                ? ""
-                : _userManager.PasswordHasher.HashPassword(model.Password);
-            _userService.UpdateUserInfo(new UserDTO
+            if (ModelState.IsValid)
             {
-                Id = model.UserId,
-                Email = model.Email,
-                UserProfile = new UserProfileDTO
+                var hashPassword = string.IsNullOrEmpty(model.Password)
+                    ? ""
+                    : _userManager.PasswordHasher.HashPassword(model.Password);
+                _userService.UpdateUserInfo(new UserDTO
                 {
-                    FirstName = model.FirstName,
-                    Language = model.Language,
-                    Surname = model.Surname,
-                    TimeZone = model.TimeZone
-                }
-            }, hashPassword);
-            return View("SaveProfileSuccess");
+                    Id = model.UserId,
+                    Email = model.Email,
+                    UserProfile = new UserProfileDTO
+                    {
+                        FirstName = model.FirstName,
+                        Language = model.Language,
+                        Surname = model.Surname,
+                        TimeZone = model.TimeZone
+                    }
+                }, hashPassword);
+                return View("SaveProfileSuccess");
+            }
+
+            return View("Edit", model);
         }
 
         [HttpGet]
@@ -134,34 +140,43 @@ namespace EpamNetProject.PLL.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterModel model)
         {
-            ViewBag.Errors = new List<string>();
-            if (ModelState.IsValid)
+            try
             {
-                var userDto = new UserDTO
+                ViewBag.Errors = new List<string>();
+                if (ModelState.IsValid)
                 {
-                    Email = model.Email,
-                    Password = model.Password,
-                    UserName = model.UserName,
-                    Role = "user",
-                    UserProfile = new UserProfileDTO
+                    var userDto = new UserDTO
                     {
-                        Balance = 0,
-                        FirstName = model.FirstName,
-                        Language = model.Language,
-                        ReserveDate = null,
-                        Surname = model.Surname,
-                        TimeZone = model.TimeZone
+                        Email = model.Email,
+                        Password = model.Password,
+                        UserName = model.UserName,
+                        Role = "user",
+                        UserProfile = new UserProfileDTO
+                        {
+                            Balance = 0,
+                            FirstName = model.FirstName,
+                            Language = model.Language,
+                            ReserveDate = null,
+                            Surname = model.Surname,
+                            TimeZone = model.TimeZone
+                        }
+                    };
+
+                    var errors = _myUserService.Register(userDto);
+                    if (!errors.Any())
+                    {
+                        return View("SuccessRegister");
                     }
-                };
 
-                var errors = _myUserService.Register(userDto);
-                if (!errors.Any())
-                {
-                    return View("SuccessRegister");
+                    ViewBag.Errors = errors;
                 }
-
-                ViewBag.Errors = errors;
             }
+            catch (Exception)
+            {
+                // ignored
+            }
+
+
 
             return View(model);
         }
@@ -176,7 +191,6 @@ namespace EpamNetProject.PLL.Controllers
                 Data = new {Success = true, NewBalance = newBalance},
                 JsonRequestBehavior = JsonRequestBehavior.DenyGet
             };
-            ;
         }
     }
 }

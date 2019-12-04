@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Web.Mvc;
 using EpamNetProject.BLL.Interfaces;
@@ -60,33 +61,40 @@ namespace EpamNetProject.PLL.Controllers
         [Authorize(Roles = "Manager, Admin")]
         public ActionResult Add(EditEventViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                if (model.Id != null)
+                if (ModelState.IsValid)
                 {
-                    _eventService.UpdateEvent(new EventDto
+                    if (model.Id != null)
                     {
-                        Id = model.Id.Value,
-                        Description = model.Description,
-                        EventDate = model.Time,
-                        Name = model.Title,
-                        LayoutId = model.Layout,
-                        ImgUrl = model.ImgUrl
-                    });
-                }
-                else
-                {
-                    _eventService.CreateEvent(new EventDto
+                        _eventService.UpdateEvent(new EventDto
+                        {
+                            Id = model.Id.Value,
+                            Description = model.Description,
+                            EventDate = model.Time,
+                            Name = model.Title,
+                            LayoutId = model.Layout,
+                            ImgUrl = model.ImgUrl
+                        });
+                    }
+                    else
                     {
-                        Description = model.Description,
-                        EventDate = model.Time,
-                        Name = model.Title,
-                        LayoutId = model.Layout,
-                        ImgUrl = model.ImgUrl
-                    });
-                }
+                        _eventService.CreateEvent(new EventDto
+                        {
+                            Description = model.Description,
+                            EventDate = model.Time,
+                            Name = model.Title,
+                            LayoutId = model.Layout,
+                            ImgUrl = model.ImgUrl
+                        });
+                    }
 
-                return RedirectToAction("EditEvents");
+                    return RedirectToAction("EditEvents");
+                }
+            }
+            catch (Exception)
+            {
+                // ignored
             }
 
             return View("Edit", model);
