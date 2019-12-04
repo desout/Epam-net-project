@@ -9,7 +9,5 @@ namespace EpamNetProject.DAL.models
         public int Row { get; set; }
 
         public int Number { get; set; }
-
-        public SeatStatus Status { get; set; }
     }
 }

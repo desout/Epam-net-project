@@ -1,4 +1,6 @@
-﻿namespace EpamNetProject.DAL.models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace EpamNetProject.DAL.models
 {
     public class Area : BaseEntity
     {
@@ -10,6 +12,6 @@
 
         public int CoordY { get; set; }
 
-        public int Price { get; set; }
+        public decimal Price { get; set; }
     }
 }
