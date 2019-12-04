@@ -15,8 +15,5 @@ namespace EpamNetProject.BLL.Models
 
         [Required]
         public int Number { get; set; }
-
-        [Required]
-        public SeatStatus Status { get; set; }
     }
 }

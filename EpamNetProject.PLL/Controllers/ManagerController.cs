@@ -70,7 +70,8 @@ namespace EpamNetProject.PLL.Controllers
                         Description = model.Description,
                         EventDate = model.Time,
                         Name = model.Title,
-                        LayoutId = model.Layout
+                        LayoutId = model.Layout,
+                        ImgUrl = model.ImgUrl
                     });
                 }
                 else
@@ -80,7 +81,8 @@ namespace EpamNetProject.PLL.Controllers
                         Description = model.Description,
                         EventDate = model.Time,
                         Name = model.Title,
-                        LayoutId = model.Layout
+                        LayoutId = model.Layout,
+                        ImgUrl = model.ImgUrl
                     });
                 }
 

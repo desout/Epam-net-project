@@ -7,6 +7,17 @@ namespace EpamNetProject.PLL
         // For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+            bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
+                "~/Scripts/jquery-ui-{version}.js",
+                "~/Scripts/jquery-ui.unobtrusive-{version}.js"));
+            bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
+                "~/Content/themes/base/jquery-ui.css",
+                "~/Content/themes/base/jquery.ui.core.css",
+                "~/Content/themes/base/jquery.ui.datepicker.css",
+                "~/Content/jquery-ui-timepicker-addon.css",
+                "~/Content/themes/base/jquery.ui.theme.css"));
+            bundles.Add(new ScriptBundle("~/bundles/jquery.datetimepicker").Include(
+                "~/Scripts/jquery-ui-timepicker-addon.js"));
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                 "~/Scripts/jquery-{version}.js"));
 

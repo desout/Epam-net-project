@@ -144,11 +144,6 @@ namespace EpamNetProject.BLL.Services
             {
                 throw new ValidationException("Event can't be created due to no seats exist");
             }
-
-            var areas = _areaRepository.GetAll().Where(x => x.LayoutId == Event.LayoutId).ToList();
-            areas.Map(x => _eventAreaRepository.Add(_mapper.Map<EventArea>(x)));
-            _seatRepository.GetAll().Join(areas, x => x.AreaId, a => a.Id, (x, a) => x)
-                .Map(x => _eventSeatRepository.Add(_mapper.Map<EventSeat>(x)));
             return _eventRepository.Add(_mapper.Map<Event>(Event));
         }
 

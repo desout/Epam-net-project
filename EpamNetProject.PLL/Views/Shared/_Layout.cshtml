@@ -55,6 +55,18 @@
      $(this).closest('form').submit();
     })
 </script>
+@Scripts.Render("~/bundles/jqueryval")
+@Styles.Render("~/Content/themes/base/css")
+@Scripts.Render("~/bundles/jqueryui")
+@Scripts.Render("~/bundles/jquery.datetimepicker")
+<script>
+
+$(document).ready(function(){
+
+      $('[datetime-picker]').datetimepicker();
+
+     });
+</script>
 
 </body>
 </html>
