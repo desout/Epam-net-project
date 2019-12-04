@@ -1,0 +1,53 @@
+.editEvent__block {
+  width: 700px;
+  & .event--item {
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-between;
+
+    &__name {
+      font-size: 1.5em;
+    }
+
+    &__actions {
+      & a{
+        margin-right: 10px;
+      }
+    }
+  }
+  &__AddNew{
+    text-decoration: none;
+    font-size: 2em;
+    text-decoration-color: #FFFFFF;
+    width: 50px;
+    height: 15px;
+    background-color: #4cae4c;
+  }
+}
+.editEvent__form{
+  width: 700px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  & p {
+    margin: 10px 0 0 10px;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+  & input,select {
+    display: block;
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  }
+}

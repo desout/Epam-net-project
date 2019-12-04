@@ -42,16 +42,16 @@ p {
 footer {
   margin-top: 10px; }
 
-.login__form, .register__form {
+.login__form, .register__form, .editProfile__form {
   display: flex;
   flex-direction: column;
   margin-top: 10px; }
-  .login__form p, .register__form p {
+  .login__form p, .register__form p, .editProfile__form p {
     margin: 10px 0 0 10px;
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5; }
-  .login__form input, .login__form select, .register__form input, .register__form select {
+  .login__form input, .login__form select, .register__form input, .register__form select, .editProfile__form input, .editProfile__form select {
     display: block;
     width: 100%;
     height: calc(1.5em + .75rem + 2px);
@@ -66,13 +66,13 @@ footer {
     border-radius: .25rem;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out; }
 
-.register__form .button__submit {
+.register__form, .editProfile__form .button__submit {
   width: 140px; }
 
-.login__block, .register__block {
+.login__block, .register__block, .editProfile__block {
   width: 500px; }
 
-.REGISTER__TITLE {
+.REGISTER__TITLE .editProfile__TITLE {
   text-align: center; }
 
 .events__block, .event__block {
@@ -128,3 +128,46 @@ footer {
     height: 50px; }
   .event__header__availability {
     height: 50px; }
+
+.editEvent__block {
+  width: 700px; }
+  .editEvent__block .event--item {
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-between; }
+    .editEvent__block .event--item__name {
+      font-size: 1.5em; }
+    .editEvent__block .event--item__actions a {
+      margin-right: 10px; }
+  .editEvent__block__AddNew {
+    text-decoration: none;
+    font-size: 2em;
+    text-decoration-color: #FFFFFF;
+    width: 50px;
+    height: 15px;
+    background-color: #4cae4c; }
+
+.editEvent__form {
+  width: 700px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px; }
+  .editEvent__form p {
+    margin: 10px 0 0 10px;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5; }
+  .editEvent__form input, .editEvent__form select {
+    display: block;
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out; }

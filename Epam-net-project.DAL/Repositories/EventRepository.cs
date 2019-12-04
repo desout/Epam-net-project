@@ -41,10 +41,8 @@ namespace EpamNetProject.DAL.Repositories
 
         public int Remove(int id)
         {
-            var returnedId = int.Parse(_dbSet.SqlQuery("exec EventDeleteById @Id", new SqlParameter("@Id", id))
-                .First().ToString());
             _context.SaveChanges();
-            return returnedId;
+            return id;
         }
 
         public int Update(Event entity)

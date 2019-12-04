@@ -15,6 +15,7 @@
 GO
 ALTER TABLE [dbo].[EventSeats]  WITH CHECK ADD  CONSTRAINT [FK_EventSeat_EventArea] FOREIGN KEY([EventAreaId])
 REFERENCES [dbo].[EventAreas] ([Id])
+ON DELETE CASCADE
 GO
 
 ALTER TABLE [dbo].[EventSeat] CHECK CONSTRAINT [FK_EventSeat_EventArea]

@@ -1,16 +1,27 @@
 @using EpamNetProject.PLL.Statics
 @using Resources
 @model EpamNetProject.PLL.Models.UserProfileViewModel
-<h1>@Resource.ACCOUNT_EDIT_TITLE</h1>
-@using (Html.BeginForm("SaveProfile", "Account"))
-{
-    @Html.HiddenFor(x => x.UserId)
-    <label>@Resource.ACCOUNT_EDIT_FIRSTNAME @Html.EditorFor(x => x.FirstName)</label>
-    <label>@Resource.ACCOUNT_EDIT_SURNAME @Html.EditorFor(x => x.Surname)</label>
-    <label>@Resource.ACCOUNT_EDIT_EMAIL @Html.EditorFor(x => x.Email)</label>
-    <label>@Resource.ACCOUNT_EDIT_LANGUAGE @Html.DropDownListFor(x => x.Language, new SelectList(StaticData.Languages, "Code", "Description"))</label>
-    <label>@Resource.ACCOUNT_EDIT_TIMEZONE @Html.DropDownListFor(x => x.TimeZone, new SelectList(TimeZoneInfo.GetSystemTimeZones(), "StandardName", "DisplayName"))</label>
-    <label>@Resource.ACCOUNT_EDIT_PASSWORD @Html.EditorFor(x => x.Password)</label>
-    <label>@Resource.ACCOUNT_EDIT_CONFIRMPASSWORD @Html.EditorFor(x => x.ConfirmPassword)</label>
-    <button type="submit">@Resource.ACCOUNT_EDIT_SAVEPROFILE</button>
-}
+<div class="editProfile__block">
+    <h1 class="editProfile__TITLE">@Resource.ACCOUNT_EDIT_TITLE</h1>
+    @using (Html.BeginForm("SaveProfile", "Account", new {@class = "editProfile__form"}))
+    {
+        
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(x => x.UserId)
+        <label>
+            <p>@Resource.ACCOUNT_EDIT_FIRSTNAME</p> @Html.EditorFor(x => x.FirstName)</label>
+        <label>
+            <p>@Resource.ACCOUNT_EDIT_SURNAME</p> @Html.EditorFor(x => x.Surname)</label>
+        <label>
+            <p>@Resource.ACCOUNT_EDIT_EMAIL</p> @Html.EditorFor(x => x.Email)</label>
+        <label>
+            <p>@Resource.ACCOUNT_EDIT_LANGUAGE</p> @Html.DropDownListFor(x => x.Language, new SelectList(StaticData.Languages, "Code", "Description"))</label>
+        <label>
+            <p>@Resource.ACCOUNT_EDIT_TIMEZONE</p> @Html.DropDownListFor(x => x.TimeZone, new SelectList(TimeZoneInfo.GetSystemTimeZones(), "StandardName", "DisplayName"))</label>
+        <label>
+            <p>@Resource.ACCOUNT_EDIT_PASSWORD</p> @Html.EditorFor(x => x.Password)</label>
+        <label>
+            <p>@Resource.ACCOUNT_EDIT_CONFIRMPASSWORD</p> @Html.EditorFor(x => x.ConfirmPassword)</label>
+        <button type="submit" class="button__submit">@Resource.ACCOUNT_EDIT_SAVEPROFILE</button>
+    }
+</div>

@@ -502,6 +502,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Event name.
+        /// </summary>
+        public static string MANAGER_EDIT_NAME {
+            get {
+                return ResourceManager.GetString("MANAGER_EDIT_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save changes.
         /// </summary>
         public static string MANAGER_EDIT_SAVE {

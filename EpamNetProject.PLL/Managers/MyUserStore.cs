@@ -36,78 +36,78 @@ namespace EpamNetProject.PLL.Managers
             return user.Claims.Select(claim => new Claim(claim.ClaimType, claim.ClaimValue)).ToList();
         }
 
-        public Task AddClaimAsync(User user, Claim claim)
+        public async Task AddClaimAsync(User user, Claim claim)
         {
-            return _claimService.AddClaim(user, claim);
+            await _claimService.AddClaim(user, claim);
         }
 
-        public Task RemoveClaimAsync(User user, Claim claim)
+        public async Task RemoveClaimAsync(User user, Claim claim)
         {
-            return _claimService.RemoveClaim(user, claim);
+            await _claimService.RemoveClaim(user, claim);
         }
 
-        public Task<string> GetPasswordHashAsync(User user)
+        public async Task<string> GetPasswordHashAsync(User user)
         {
-            return _userService.GetPasswordHashAsync(user);
+           return await _userService.GetPasswordHashAsync(user);
         }
 
-        public Task<bool> HasPasswordAsync(User user)
+        public async Task<bool> HasPasswordAsync(User user)
         {
-            return _userService.HasPasswordAsync(user);
+            return await _userService.HasPasswordAsync(user);
         }
 
-        public Task SetPasswordHashAsync(User user, string passwordHash)
+        public async Task SetPasswordHashAsync(User user, string passwordHash)
         {
-            return _userService.SetPasswordHashAsync(user, passwordHash);
+            await _userService.SetPasswordHashAsync(user, passwordHash);
         }
 
-        public Task AddToRoleAsync(User user, string roleName)
+        public async Task AddToRoleAsync(User user, string roleName)
         {
-            return _roleService.AddToRole(user, roleName);
+            await AddClaimAsync(user, new Claim(ClaimTypes.Role, roleName));
         }
 
-        public Task RemoveFromRoleAsync(User user, string roleName)
+        public async Task RemoveFromRoleAsync(User user, string roleName)
         {
-            return _roleService.RemoveFromRole(user, roleName);
+            await _roleService.RemoveFromRole(user, roleName);
         }
 
-        public Task<IList<string>> GetRolesAsync(User user)
+        public async Task<IList<string>> GetRolesAsync(User user)
         {
-            return _roleService.GetRoles(user);
+            return await _roleService.GetRoles(user);
         }
 
-        public Task<bool> IsInRoleAsync(User user, string roleName)
+        public async Task<bool> IsInRoleAsync(User user, string roleName)
         {
-            return _roleService.IsInRole(user, roleName);
+            return await _roleService.IsInRole(user, roleName);
         }
 
         public void Dispose()
         {
         }
 
-        public Task CreateAsync(User user)
+        public async Task CreateAsync(User user)
         {
-            return _userService.CreateUser(user);
+            await _userService.CreateUser(user);
         }
 
-        public Task UpdateAsync(User user)
+        public async Task UpdateAsync(User user)
         {
-            return _userService.UpdateUser(user);
+            await _userService.UpdateUser(user);
         }
 
-        public Task DeleteAsync(User user)
+        public async Task DeleteAsync(User user)
         {
-            return _userService.DeleteUser(user);
+            await _userService.DeleteUser(user);
         }
 
-        public Task<User> FindByIdAsync(string userId)
+        public async Task<User> FindByIdAsync(string userId)
         {
-            return _userService.GetUser(userId);
+            return await _userService.GetUser(userId);
         }
 
-        public Task<User> FindByNameAsync(string userName)
+        public async Task<User> FindByNameAsync(string userName)
         {
-            return _userService.getUserByName(userName);
+            return await _userService.getUserByName(userName);
         }
     }
 }

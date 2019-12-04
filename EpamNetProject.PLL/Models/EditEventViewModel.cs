@@ -5,16 +5,19 @@ namespace EpamNetProject.PLL.Models
 {
     public class EditEventViewModel
     {
-        [Required] public string Description;
+        [Required]
+        public string Description { get; set; }
 
-        public int? Id;
+        [Required] public string Name { get; set; }
 
-        [Required] public string imgUrl;
+        public int? Id { get; set; }
 
-        [Required] public int Layout;
+        [Required] public string ImgUrl { get; set; }
 
-        [Required] public DateTime Time;
+        [Required] public int Layout { get; set; }
 
-        [Required] public string Title;
+        [Required] public DateTime Time { get; set; }
+
+        [Required] public string Title { get; set; }
     }
 }

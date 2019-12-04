@@ -264,6 +264,9 @@
   <data name="MANAGER_EDIT_LAYOUT" xml:space="preserve">
     <value>Стадион</value>
   </data>
+  <data name="MANAGER_EDIT_NAME" xml:space="preserve">
+    <value>Имя события</value>
+  </data>
   <data name="MANAGER_EDIT_SAVE" xml:space="preserve">
     <value>Сохранить изменения</value>
   </data>

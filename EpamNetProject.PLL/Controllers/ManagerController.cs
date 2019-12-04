@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Web.Mvc;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
@@ -27,21 +28,22 @@ namespace EpamNetProject.PLL.Controllers
         [Authorize(Roles = "Manager, Admin")]
         public ActionResult Edit(int? id)
         {
+            ViewBag.Layouts = _venueService.GetLayouts().ToList();
             if (id != null)
             {
                 var eventDto = _eventService.GetEvent(id.Value);
                 return View(new EditEventViewModel
                 {
                     Id = eventDto.Id,
+                    Name = eventDto.Name,
                     Description = eventDto.Description,
                     Time = eventDto.EventDate,
                     Title = eventDto.Name,
-                    imgUrl = string.Empty,
+                    ImgUrl = string.Empty,
                     Layout = eventDto.LayoutId
                 });
             }
 
-            ViewBag.Layouts = _venueService.GetLayouts();
             return View(new EditEventViewModel());
         }
 
@@ -53,32 +55,39 @@ namespace EpamNetProject.PLL.Controllers
             return Json(removeId > 0);
         }
 
+        [ValidateAntiForgeryToken]
+        [HttpPost]
         [Authorize(Roles = "Manager, Admin")]
         public ActionResult Add(EditEventViewModel model)
         {
-            if (model.Id != null)
+            if (ModelState.IsValid)
             {
-                _eventService.UpdateEvent(new EventDto
+                if (model.Id != null)
                 {
-                    Id = model.Id.Value,
-                    Description = model.Description,
-                    EventDate = model.Time,
-                    Name = model.Title,
-                    LayoutId = model.Layout
-                });
-            }
-            else
-            {
-                _eventService.CreateEvent(new EventDto
+                    _eventService.UpdateEvent(new EventDto
+                    {
+                        Id = model.Id.Value,
+                        Description = model.Description,
+                        EventDate = model.Time,
+                        Name = model.Title,
+                        LayoutId = model.Layout
+                    });
+                }
+                else
                 {
-                    Description = model.Description,
-                    EventDate = model.Time,
-                    Name = model.Title,
-                    LayoutId = model.Layout
-                });
+                    _eventService.CreateEvent(new EventDto
+                    {
+                        Description = model.Description,
+                        EventDate = model.Time,
+                        Name = model.Title,
+                        LayoutId = model.Layout
+                    });
+                }
+
+                return RedirectToAction("EditEvents");
             }
 
-            return RedirectToAction("EditEvents");
+            return View("Edit", model);
         }
     }
 }

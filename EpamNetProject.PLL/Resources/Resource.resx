@@ -264,6 +264,9 @@
   <data name="MANAGER_EDIT_LAYOUT" xml:space="preserve">
     <value>Layout</value>
   </data>
+  <data name="MANAGER_EDIT_NAME" xml:space="preserve">
+    <value>Event name</value>
+  </data>
   <data name="MANAGER_EDIT_SAVE" xml:space="preserve">
     <value>Save changes</value>
   </data>

@@ -19,29 +19,29 @@ namespace EpamNetProject.PLL.Managers
         }
 
 
-        public Task CreateAsync(UserRole role)
+        public async Task CreateAsync(UserRole role)
         {
-            return _roleService.CreateRole(role);
+            await _roleService.CreateRole(role);
         }
 
-        public Task UpdateAsync(UserRole role)
+        public async Task UpdateAsync(UserRole role)
         {
-            return _roleService.UpdateRole(role);
+            await _roleService.UpdateRole(role);
         }
 
-        public Task DeleteAsync(UserRole role)
+        public async Task DeleteAsync(UserRole role)
         {
-            return _roleService.DeleteRole(role);
+            await _roleService.DeleteRole(role);
         }
 
-        public Task<UserRole> FindByIdAsync(string roleId)
+        public async Task<UserRole> FindByIdAsync(string roleId)
         {
-            return _roleService.GetRole(roleId);
+            return await _roleService.GetRole(roleId);
         }
 
-        public Task<UserRole> FindByNameAsync(string roleName)
+        public async Task<UserRole> FindByNameAsync(string roleName)
         {
-            return _roleService.FindByNameRole(roleName);
+            return await _roleService.FindByNameRole(roleName);
         }
     }
 }

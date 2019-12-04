@@ -1,4 +1,4 @@
-.login__form, .register__form{
+.login__form, .register__form, .editProfile__form{
   display: flex;
   flex-direction: column;
   margin-top: 10px;
@@ -24,13 +24,13 @@
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
   }
 }
-.register__form .button__submit{
+.register__form, .editProfile__form .button__submit{
   width: 140px;
 }
-.login__block, .register__block{
+.login__block, .register__block, .editProfile__block{
   width: 500px;
 }
 
-.REGISTER__TITLE {
+.REGISTER__TITLE .editProfile__TITLE {
   text-align: center;
 }
