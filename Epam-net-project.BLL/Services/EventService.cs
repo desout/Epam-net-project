@@ -79,28 +79,43 @@ namespace EpamNetProject.BLL.Services
             eventSeat.UserId = userId;
             _eventSeatRepository.Update(eventSeat);
             var userProfile = _userProfileRepository.GetAll().FirstOrDefault(x => x.UserId == userId);
-            if (userProfile?.ReserveDate != null)
-            {
-                return true;
-            }
-
             if (userProfile == null)
             {
                 return false;
             }
-
+            if (userProfile?.ReserveDate != null)
+            {
+                return true;
+            }
+            
             userProfile.ReserveDate = TimeZoneInfo.ConvertTimeToUtc(DateTime.Now);
             _userProfileRepository.Update(userProfile);
 
             return true;
         }
 
-        public bool UnReserveSeat(int id)
+        public bool UnReserveSeat(int id, string userId)
         {
             var eventSeat = _eventSeatRepository.Get(id);
             eventSeat.State = 0;
             eventSeat.UserId = null;
             _eventSeatRepository.Update(eventSeat);
+            
+            var userProfile = _userProfileRepository.GetAll().FirstOrDefault(x => x.UserId == userId);
+            if (userProfile == null)
+            {
+                return false;
+            }
+
+            if (_eventSeatRepository.GetAll().Where(x => x.UserId == userId).ToList().Count != 0)
+            {
+                return true;
+            }
+
+            userProfile.ReserveDate = null;
+            _userProfileRepository.Update(userProfile);
+
+
             return true;
         }
 

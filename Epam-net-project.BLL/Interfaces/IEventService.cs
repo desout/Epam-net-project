@@ -11,7 +11,7 @@ namespace EpamNetProject.BLL.Interfaces
 
         bool ReserveSeat(int id, string userId);
 
-        bool UnReserveSeat(int id);
+        bool UnReserveSeat(int id, string userId);
 
         EventDto GetEvent(int id);
 

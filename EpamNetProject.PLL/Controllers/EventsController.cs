@@ -68,5 +68,12 @@ namespace EpamNetProject.PLL.Controllers
             var isSuccess = _eventService.ChangeStatusToBuy(userId, totalAmount);
             return View(isSuccess ? "PaymentSuccess" : "PaymentFailed");
         }
+        [HttpPost]
+        [Authorize]
+        public ActionResult Deselect(int id)
+        {
+           var success = _eventService.UnReserveSeat(id, User.Identity.GetUserId()); 
+           return Json(success);
+        }
     }
 }
