@@ -78,6 +78,10 @@ namespace EpamNetProject.PLL.Controllers
                         TimeZone = model.TimeZone
                     }
                 }, hashPassword);
+                var user = _userService.getUserInfo(User.Identity.GetUserId());
+                var cookie = new HttpCookie("lang")
+                    {HttpOnly = false, Value = user.UserProfile.Language, Expires = DateTime.Now.AddYears(1)};
+                Response.Cookies.Set(cookie);
                 return View("SaveProfileSuccess");
             }
 
@@ -116,6 +120,10 @@ namespace EpamNetProject.PLL.Controllers
                     {
                         IsPersistent = true
                     }, claim);
+                    var user = _userService.getUserInfo(User.Identity.GetUserId());
+                    var cookie = new HttpCookie("lang")
+                        {HttpOnly = false, Value = user.UserProfile.Language, Expires = DateTime.Now.AddYears(1)};
+                    Response.Cookies.Set(cookie);
                     return RedirectToAction("Index", "Home");
                 }
             }

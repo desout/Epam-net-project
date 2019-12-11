@@ -78,7 +78,12 @@ namespace EpamNetProject.BLL.Services
                 _userRepository.Update(localUser);
             }
 
-            _userProfileRepository.Update(_mapper.Map<UserProfile>(user.UserProfile));
+            var profile = _userProfileRepository.GetAll().FirstOrDefault(x => x.UserId == user.Id);
+            profile.FirstName = user.UserProfile.FirstName;
+            profile.Language = user.UserProfile.Language;
+            profile.Surname = user.UserProfile.Surname;
+            profile.TimeZone = user.UserProfile.TimeZone;
+            _userProfileRepository.Update(profile);
 
             return true;
         }
