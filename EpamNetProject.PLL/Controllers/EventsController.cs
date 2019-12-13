@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
@@ -50,15 +53,31 @@ namespace EpamNetProject.PLL.Controllers
         [Authorize]
         public JsonResult Select(int id)
         {
-            var success = _eventService.ReserveSeat(id, User.Identity.GetUserId());
-            return Json(success);
+            try
+            {
+                var reserveDate = _eventService.ReserveSeat(id, User.Identity.GetUserId());
+                var delay = int.Parse(ConfigurationManager.AppSettings["ReserveTime"]);
+                var expires = delay - TimeSpan.FromTicks(DateTime.UtcNow.Ticks - reserveDate.Value.Ticks).TotalMinutes;
+                var returnedValue = reserveDate.Value
+                    .Subtract(new DateTime(1970,1,1,0,0,0,DateTimeKind.Utc))
+                    .TotalMilliseconds;
+                var cookie = new HttpCookie("reserveDate")
+                    {HttpOnly = false, Value = returnedValue.ToString(), Expires = DateTime.Now.AddMinutes(expires)};
+                Response.Cookies.Set(cookie);
+                return Json(true);
+            }
+            catch (Exception e)
+            {
+                return Json(false);
+            }
+            
         }
 
         [Authorize]
         public ActionResult ProceedToCheckout()
         {
             var userId = User.Identity.GetUserId();
-            return View(_eventService.GetReservedSeatByUser(userId));
+            return View(_eventService.GetReservedSeatByUser(userId).GroupBy(x=>x.EventName));
         }
 
         [Authorize]
@@ -72,8 +91,31 @@ namespace EpamNetProject.PLL.Controllers
         [Authorize]
         public ActionResult Deselect(int id)
         {
-           var success = _eventService.UnReserveSeat(id, User.Identity.GetUserId()); 
-           return Json(success);
+            try
+            {
+                var reserveDate = _eventService.UnReserveSeat(id, User.Identity.GetUserId());
+                if (reserveDate.HasValue)
+                {
+                    var delay = int.Parse(ConfigurationManager.AppSettings["ReserveTime"]);
+                    var expires = delay - TimeSpan.FromTicks(DateTime.UtcNow.Ticks - reserveDate.Value.Ticks).TotalMinutes;
+                    var returnedValue = reserveDate.Value
+                        .Subtract(new DateTime(1970,1,1,0,0,0,DateTimeKind.Utc))
+                        .TotalMilliseconds;
+                    var cookie = new HttpCookie("reserveDate")
+                        {HttpOnly = false, Value = returnedValue.ToString(), Expires = DateTime.Now.AddMinutes(expires)};
+                    Response.Cookies.Set(cookie);
+                }
+                else
+                {
+                    Response.Cookies["reserveDate"].Expires = DateTime.Now.AddDays(-1);
+                }
+                return Json(true);
+            }
+            catch
+            {
+
+                return Json(false);
+            }
         }
     }
 }

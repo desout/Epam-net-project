@@ -17,7 +17,14 @@
       }
     }
   }
-
+  &__basket{
+    display: none;
+    & > p{
+      display: inline-block;
+      margin: 0;
+      font-size: 16px;
+    }
+  }
   &__brand {
 
     text-decoration: none;

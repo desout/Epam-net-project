@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
+using System.Data.Entity.Core;
 using System.Linq;
 using AutoMapper;
 using EpamNetProject.BLL.Infrastucture;
@@ -67,12 +69,12 @@ namespace EpamNetProject.BLL.Services
             return _eventRepository.Update(_mapper.Map<Event>(Event));
         }
 
-        public bool ReserveSeat(int id, string userId)
+        public DateTime? ReserveSeat(int id, string userId)
         {
             var eventSeat = _eventSeatRepository.Get(id);
             if (eventSeat.State != 0)
             {
-                return false;
+                throw new DataException();
             }
 
             eventSeat.State = SeatStatus.Reserved;
@@ -81,42 +83,43 @@ namespace EpamNetProject.BLL.Services
             var userProfile = _userProfileRepository.GetAll().FirstOrDefault(x => x.UserId == userId);
             if (userProfile == null)
             {
-                return false;
+                throw new EntityException();
             }
+
             if (userProfile?.ReserveDate != null)
             {
-                return true;
+                return userProfile.ReserveDate;
             }
-            
-            userProfile.ReserveDate = TimeZoneInfo.ConvertTimeToUtc(DateTime.Now);
+
+            userProfile.ReserveDate = DateTime.UtcNow;
             _userProfileRepository.Update(userProfile);
 
-            return true;
+            return userProfile.ReserveDate;
         }
 
-        public bool UnReserveSeat(int id, string userId)
+        public DateTime? UnReserveSeat(int id, string userId)
         {
             var eventSeat = _eventSeatRepository.Get(id);
             eventSeat.State = 0;
             eventSeat.UserId = null;
             _eventSeatRepository.Update(eventSeat);
-            
+
             var userProfile = _userProfileRepository.GetAll().FirstOrDefault(x => x.UserId == userId);
             if (userProfile == null)
             {
-                return false;
+                throw new EntityException();
             }
 
             if (_eventSeatRepository.GetAll().Where(x => x.UserId == userId).ToList().Count != 0)
             {
-                return true;
+                return userProfile.ReserveDate;
             }
 
             userProfile.ReserveDate = null;
             _userProfileRepository.Update(userProfile);
 
 
-            return true;
+            return null;
         }
 
         public EventDto GetEvent(int id)
@@ -159,6 +162,7 @@ namespace EpamNetProject.BLL.Services
             {
                 throw new ValidationException("Event can't be created due to no seats exist");
             }
+
             return _eventRepository.Add(_mapper.Map<Event>(Event));
         }
 
@@ -171,7 +175,7 @@ namespace EpamNetProject.BLL.Services
                 return 0;
             }
 
-            return seats.Count() / availableSeatsCount;
+            return (seats.Count() / availableSeatsCount) * 100;
         }
 
         public IEnumerable<EventAreaDto> GetAreasByEvent(int eventId)
@@ -250,8 +254,13 @@ namespace EpamNetProject.BLL.Services
         {
             var seats = _mapper.Map<List<EventSeatDto>>(_eventSeatRepository.GetAll()
                 .Where(x => x.State == SeatStatus.Reserved && x.UserId == userId).ToList());
+            var events = _eventRepository.GetAll().ToList();
             return _eventAreaRepository.GetAll().Join(seats, x => x.Id, c => c.EventAreaId,
-                (x, c) => new PriceSeat {Seat = c, Price = x.Price}).ToList();
+                (x, c) => new PriceSeat
+                {
+                    Seat = c, Price = x.Price, AreaName = x.Description,
+                    EventName = events.Find(e => e.Id == x.EventId).Name
+                }).ToList();
         }
 
         public void CheckReservation()

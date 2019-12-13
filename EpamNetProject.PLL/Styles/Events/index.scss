@@ -43,6 +43,11 @@
     border-radius: 10px;
   }
 }
+.seat{
+  display: inline-block;
+  position: absolute;
+  cursor: cell;
+}
 .seat[data-seat-status = "1"] {
   background-color: grey;
 }
@@ -67,5 +72,15 @@
 
   &__availability {
     height: 50px;
+  }
+}
+.area{
+  &--description{
+    display:none;
+  }
+  &:hover{
+    & > .area--description {
+      display: block;
+    }
   }
 }

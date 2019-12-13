@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using EpamNetProject.BLL.Models;
 
 namespace EpamNetProject.BLL.Interfaces
@@ -9,9 +10,9 @@ namespace EpamNetProject.BLL.Interfaces
 
         int UpdateEvent(EventDto Event);
 
-        bool ReserveSeat(int id, string userId);
+        DateTime? ReserveSeat(int id, string userId);
 
-        bool UnReserveSeat(int id, string userId);
+        DateTime? UnReserveSeat(int id, string userId);
 
         EventDto GetEvent(int id);
 

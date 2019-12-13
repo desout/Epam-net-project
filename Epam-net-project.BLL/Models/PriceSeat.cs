@@ -4,6 +4,10 @@ namespace EpamNetProject.BLL.Models
     {
         public decimal Price;
 
+        public string AreaName;
+
+        public string EventName;
+        
         public EventSeatDto Seat;
     }
 }

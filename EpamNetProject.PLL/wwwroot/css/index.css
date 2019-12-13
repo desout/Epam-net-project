@@ -11,6 +11,12 @@
       margin-right: 10px; }
       .navbar__navigation li a {
         text-decoration: none; }
+  .navbar__basket {
+    display: none; }
+    .navbar__basket > p {
+      display: inline-block;
+      margin: 0;
+      font-size: 16px; }
   .navbar__brand {
     text-decoration: none;
     font-size: 30px; }
@@ -109,6 +115,11 @@ footer {
     line-height: 50px;
     border-radius: 10px; }
 
+.seat {
+  display: inline-block;
+  position: absolute;
+  cursor: cell; }
+
 .seat[data-seat-status="1"] {
   background-color: grey; }
 
@@ -128,6 +139,12 @@ footer {
     height: 50px; }
   .event__header__availability {
     height: 50px; }
+
+.area--description {
+  display: none; }
+
+.area:hover > .area--description {
+  display: block; }
 
 .editEvent__block {
   width: 700px; }

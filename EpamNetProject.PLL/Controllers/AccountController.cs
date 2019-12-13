@@ -78,9 +78,9 @@ namespace EpamNetProject.PLL.Controllers
                         TimeZone = model.TimeZone
                     }
                 }, hashPassword);
-                var user = _userService.getUserInfo(User.Identity.GetUserId());
+                var user = _userService.getUserProfile(User.Identity.GetUserId());
                 var cookie = new HttpCookie("lang")
-                    {HttpOnly = false, Value = user.UserProfile.Language, Expires = DateTime.Now.AddYears(1)};
+                    {HttpOnly = false, Value = user.Language, Expires = DateTime.Now.AddYears(1)};
                 Response.Cookies.Set(cookie);
                 return View("SaveProfileSuccess");
             }
@@ -120,9 +120,9 @@ namespace EpamNetProject.PLL.Controllers
                     {
                         IsPersistent = true
                     }, claim);
-                    var user = _userService.getUserInfo(User.Identity.GetUserId());
+                    var user = _userService.getUserProfile(AuthenticationManager.AuthenticationResponseGrant.Identity.GetUserId());
                     var cookie = new HttpCookie("lang")
-                        {HttpOnly = false, Value = user.UserProfile.Language, Expires = DateTime.Now.AddYears(1)};
+                        {HttpOnly = false, Value = user.Language, Expires = DateTime.Now.AddYears(1)};
                     Response.Cookies.Set(cookie);
                     return RedirectToAction("Index", "Home");
                 }
@@ -199,6 +199,16 @@ namespace EpamNetProject.PLL.Controllers
                 Data = new {Success = true, NewBalance = newBalance},
                 JsonRequestBehavior = JsonRequestBehavior.DenyGet
             };
+        }
+        
+        public PartialViewResult Basket()
+        {
+            var countOfItems = 0;
+            if (User.Identity.IsAuthenticated)
+            {
+                countOfItems = _eventService.GetReservedSeatByUser(User.Identity.GetUserId()).Count;
+            }
+            return PartialView("Basket",countOfItems);
         }
     }
 }

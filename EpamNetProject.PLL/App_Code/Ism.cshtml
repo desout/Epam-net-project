@@ -1,7 +1,8 @@
 @using EpamNetProject.BLL.Models
+
 @helper ISM(List<EventAreaDto> areas, List<EventSeatDto> seats, string link, string linkDeselect)
 {
-    <div id="ISM__MAP" style="position: relative; height: 600px; width: 500px;align-self: center;"></div>
+    <div id="ISM__MAP" style="position: relative; height: 200px; width: 300px;align-self: center;"></div>
     <h1 class="ErrorClass" hidden="hidden">
         This seat not available
     </h1>
@@ -21,6 +22,7 @@
       	  } else {
       	  	$('.ErrorClass').show();
       	  }
+      	  checkCookie();
       	})
       } else {
       	 if(e.target.dataset.seatStatus === '1'){
@@ -36,6 +38,7 @@
                  } else {
                   $('.ErrorClass').show();
                  }
+                checkCookie();
             })
       	 }
 
@@ -46,37 +49,60 @@
         el.style.position = "absolute";
         el.style.top = y + 'px';
         el.style.left = x + 'px';
-        el.style.background = '1px solid red';
+        el.style.border = '1px solid #9d9d9d';
+        el.className = 'area';
     	return el;
+    }
+    
+    function generateDescription(description) {
+       var el = document.createElement("p");
+       el.style.position = "absolute";
+       el.style.top = '-20px';
+       el.style.left = '20px';
+        el.className = 'area--description';
+       el.innerText = description;
+       return el;
     }
     function generateSeat(row,number,id,status) {
         var el = document.createElement("p");
+        var top = (row-1)*20 + 5;
+        var left = (number-1)*10 + 5;
         el.style.margin = '0';
-        el.style.marginTop = row + 'px';
-        el.style.marginLeft = number+ 'px';
+        el.style.top = top +'px';
+        el.style.left = left +'px';
         el.dataset.seatId = id;
         el.dataset.seatStatus = status;
+        el.className='areaDescription';
         el.classList.add('seat');
         if (status === 0 || status === 1) {
             el.onclick = function (ev) { sendRequest(ev) };
         }
-        el.innerText = row + ' ' + number;
-        	return el;
-        }
+        el.innerText = number;
+        return {seat:el,top:top,left:left};
+    }
     
     @foreach (var t in areas)
     {
         var x = t.CoordX;
         var y = t.CoordY;
+	    var description = t.Description;
         var currentSeats = seats.Where(a => a.EventAreaId == t.Id);
         @:var areaElement = generateArea(@x,@y);
-
-        foreach (var seat in currentSeats)
+	    @:var maxX = 0;
+	    @:var maxY = 0;
+	    @:var descriptionArea = generateDescription('@description');
+	    @:areaElement.appendChild(descriptionArea);
+	    
+	    foreach (var seat in currentSeats)
         {
-            @:var seat = generateSeat(@seat.Row,@seat.Number,@seat.Id,@((int)seat.State));
-            @:areaElement.appendChild(seat);
+            @:var details = generateSeat(@seat.Row,@seat.Number,@seat.Id,@((int)seat.State));
+	        @:areaElement.appendChild(details.seat);
+	        @:maxX = maxX > details.left ? maxX : details.left;
+	        @:maxY= maxY > details.top ? maxY : details.top;
         }
-        @:map.appendChild(areaElement);
+	    @:areaElement.style.width = (maxX + 20)+'px';
+	    @:areaElement.style.height = (maxY + 20)+'px';
+	    @:map.appendChild(areaElement);
     }
     </script>
 }

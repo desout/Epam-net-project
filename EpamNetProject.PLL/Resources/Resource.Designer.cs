@@ -322,6 +322,24 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Basket.
+        /// </summary>
+        public static string BASKETDESCRIPTION {
+            get {
+                return ResourceManager.GetString("BASKETDESCRIPTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to items.
+        /// </summary>
+        public static string BASKETITEMSCOUNT {
+            get {
+                return ResourceManager.GetString("BASKETITEMSCOUNT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Some was wrong while payment occured.
         /// </summary>
         public static string ERROR_PAYMENTFAILED {
@@ -381,6 +399,15 @@ namespace Resources {
         public static string EVENTS_EVENTLISTTITLE {
             get {
                 return ResourceManager.GetString("EVENTS_EVENTLISTTITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remaining time: .
+        /// </summary>
+        public static string MAIN_BASKETTIME {
+            get {
+                return ResourceManager.GetString("MAIN_BASKETTIME", resourceCulture);
             }
         }
         
@@ -552,6 +579,24 @@ namespace Resources {
         public static string PAYMENT_METHOD {
             get {
                 return ResourceManager.GetString("PAYMENT_METHOD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Row.
+        /// </summary>
+        public static string PAYMENT_ROWNAME {
+            get {
+                return ResourceManager.GetString("PAYMENT_ROWNAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Seat.
+        /// </summary>
+        public static string PAYMENT_SEATNAME {
+            get {
+                return ResourceManager.GetString("PAYMENT_SEATNAME", resourceCulture);
             }
         }
         

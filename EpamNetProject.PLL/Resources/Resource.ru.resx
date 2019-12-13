@@ -204,6 +204,12 @@
   <data name="ApplicationName" xml:space="preserve">
     <value>ЕПАМ Тренинг приложение</value>
   </data>
+  <data name="BASKETDESCRIPTION" xml:space="preserve">
+    <value>Корзина</value>
+  </data>
+  <data name="BASKETITEMSCOUNT" xml:space="preserve">
+    <value>штук</value>
+  </data>
   <data name="ERROR_PAYMENTFAILED" xml:space="preserve">
     <value>При оплате что-то пошло не так</value>
   </data>
@@ -224,6 +230,9 @@
   </data>
   <data name="EVENT_PROCEED_TO_CHECKOUT" xml:space="preserve">
     <value>Перейти к покупке</value>
+  </data>
+  <data name="MAIN_BASKETTIME" xml:space="preserve">
+    <value>Оставшееся время: </value>
   </data>
   <data name="MAIN_EDITEVENTS" xml:space="preserve">
     <value>Редактировать события</value>
@@ -281,6 +290,12 @@
   </data>
   <data name="PAYMENT_METHOD" xml:space="preserve">
     <value>Вы можете оплатить только с использование баланса аккаунта</value>
+  </data>
+  <data name="PAYMENT_ROWNAME" xml:space="preserve">
+    <value>Ряд</value>
+  </data>
+  <data name="PAYMENT_SEATNAME" xml:space="preserve">
+    <value>Номер</value>
   </data>
   <data name="PAYMENT_SEATSTITLE" xml:space="preserve">
     <value>Вот, что вы покупаете</value>
