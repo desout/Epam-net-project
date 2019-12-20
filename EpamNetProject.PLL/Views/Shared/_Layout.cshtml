@@ -1,5 +1,9 @@
-﻿@using EpamNetProject.PLL.Statics
+﻿@using System.Configuration
+@using EpamNetProject.PLL.Statics
 @using Resources
+@{
+    var delay = int.Parse(ConfigurationManager.AppSettings["ReserveTime"]);
+}
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,22 +22,22 @@
      <p> @Resource.MAIN_BASKETTIME</p> <p class="navbar__basket--time"></p>
     </div>
     <ul class="navbar__navigation">
-        <li>@Html.Action("Basket","Account")</li>
+        <li>@Html.Action("Basket","Account", new { area = "User"})</li>
         @if (!User.Identity.IsAuthenticated)
         {
-            <li>@Html.ActionLink(Resource.MAIN_LOGIN, "Login", "Account")</li>
-            <li>@Html.ActionLink(Resource.MAIN_REGISTER, "Register", "Account")</li>
+            <li>@Html.ActionLink(Resource.MAIN_LOGIN, "Login", "Account", new { area = "User"}, null)</li>
+            <li>@Html.ActionLink(Resource.MAIN_REGISTER, "Register", "Account", new { area = "User"}, null)</li>
         }
         else
         {
-            <li>@Html.ActionLink(Resource.MAIN_PROFILE, "Profile", "Account")</li>
-            <li>@Html.ActionLink(Resource.MAIN_LOGOUT, "Logout", "Account")</li>
+            <li>@Html.ActionLink(Resource.MAIN_PROFILE, "Profile", "Account", new { area = "User"}, null)</li>
+            <li>@Html.ActionLink(Resource.MAIN_LOGOUT, "Logout", "Account", new { area = "User"}, null)</li>
             if (Context.User.IsInRole("Manager") || Context.User.IsInRole("Admin"))
             {
                 <li>@Html.ActionLink(Resource.MAIN_EDITEVENTS, "EditEvents", "Manager")</li>
             }
         }
-        <li>@Html.ActionLink(Resource.MAIN_EVENTS, "Index", "Events")</li>
+        <li>@Html.ActionLink(Resource.MAIN_EVENTS, "Index", "Events", new { area = "Events"}, null)</li>
         <li>
             @using (Html.BeginForm("ChangeCulture", "Home", FormMethod.Post))
             {
@@ -53,6 +57,7 @@
     <p>&copy; @DateTime.Now.2019 - Epam training application</p>
 </footer>
 @Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/CookieChecker")
 @RenderSection("scripts", false)
 <script >
     $('#newCulture').change(function() {
@@ -64,49 +69,10 @@
 @Scripts.Render("~/bundles/jqueryui")
 @Scripts.Render("~/bundles/jquery.datetimepicker")
 <script>
-var interval = null;
-function checkCookie(){
-	var reserveDate = document.cookie.split(/reserveDate=/)[1];
-    if(reserveDate) {
-        var el = $('.navbar__basket--time');
-        var now = new Date();
-        var delay = now - new Date(parseInt(reserveDate)) ;
-        var diffMins = ((delay % 86400000) % 3600000) / 60000;
-        var timeMins = 15-diffMins;
-        var timeSec = Math.floor((timeMins - Math.floor(timeMins))* 60);
-        timeMins = Math.floor(timeMins);
-        el.text(timeMins + ':' + timeSec);
-        $('.navbar__basket').show();
-        if(!interval){
-            interval = setInterval(function() {
-                var el = $('.navbar__basket--time');
-                var content = el.text().split(':');
-                var timeMins = parseInt(content[0]);
-                var timeSec = parseInt(content[1]);
-                if(timeMins === 0){
-                    el.text('');
-                    $('.navbar__basket').hide();
-                } else {
-                    if(timeSec === 0){
-                        timeMins--;
-                        timeSec = 60;
-                    } else {
-                        timeSec--;
-                    }
-                    el.text(timeMins + ':' + timeSec);
-                }
-
-            },1000);
-        }
-    } else {
-       clearInterval(interval);
-       $('.navbar__basket--time').text('');
-       $('.navbar__basket').hide();
-    }
-}
+ var cookieChecker = cookieCheckerInit(@(delay));
 $(document).ready(function(){
       $('[datetime-picker]').datetimepicker();
-      checkCookie();
+      cookieChecker.checkCookie();
        });
 </script>
 

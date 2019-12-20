@@ -30,7 +30,11 @@ namespace EpamNetProject.BLL.Infrastucture
                 cfg.CreateMap<Area, EventArea>();
                 cfg.CreateMap<EventSeat, Seat>();
                 cfg.CreateMap<Seat, EventSeat>();
-                cfg.CreateMap<User, UserDTO>();
+                cfg.CreateMap<User, UserDTO>().ForMember(dest=>dest.Role,
+                    opt => opt.MapFrom(src => ""))
+                    .ForMember(dest=>dest.Role,
+                        opt => opt.MapFrom(src => new UserProfileDTO()));
+                cfg.CreateMap<UserDTO, User>();
                 cfg.CreateMap<UserProfileDTO, UserProfile>();
                 cfg.CreateMap<UserProfile, UserProfileDTO>();
             }).CreateMapper();

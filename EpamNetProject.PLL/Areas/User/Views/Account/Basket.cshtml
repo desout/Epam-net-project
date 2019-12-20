@@ -1,0 +1,10 @@
+@model int
+@using Resources
+@if (Model > 0)
+{
+    @Html.ActionLink(Resource.BASKETDESCRIPTION + "(" + Model + " " + Resource.BASKETITEMSCOUNT + ")", "ProceedToCheckout", "Events", new {area="Events"},null)
+}
+else
+{
+    <span></span>
+}

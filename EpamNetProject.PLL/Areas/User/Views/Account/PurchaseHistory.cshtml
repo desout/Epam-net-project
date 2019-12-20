@@ -1,0 +1,7 @@
+@using Resources
+@model List<EpamNetProject.BLL.Models.EventDto>
+<h1>@Resource.ACCOUNT_PURCHASEHISTORY</h1>
+@foreach (var ev in Model)
+{
+    @Html.DisplayFor(x => ev)
+}

@@ -170,16 +170,20 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\EventsController.cs" />
+    <Compile Include="Areas\Events\Controllers\EventsController.cs" />
+    <Compile Include="Areas\Events\EventsAreaRegistration.cs" />
+    <Compile Include="Areas\User\Controllers\AccountController.cs" />
+    <Compile Include="Areas\User\UserAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
+    <Compile Include="filters\ActionErrorLogAttribute.cs" />
+    <Compile Include="filters\ActionLogAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastucture\RegisterHelper.cs" />
     <Compile Include="Infrastucture\UserMapperConfigurationProvider.cs" />
-    <Compile Include="Interfaces\IMyUserService.cs" />
+    <Compile Include="Interfaces\IPLLUserManager.cs" />
     <Compile Include="Interfaces\IUserMapperConfigurationProvider.cs" />
     <Compile Include="Jobs\BasketJob.cs" />
     <Compile Include="Jobs\BasketScheduler.cs" />
@@ -213,11 +217,27 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resource.ru.resx</DependentUpon>
     </Compile>
-    <Compile Include="Services\MyUserService.cs" />
+    <Compile Include="Services\ClaimService.cs" />
+    <Compile Include="Services\PLLUserManager.cs" />
     <Compile Include="Statics\StaticData.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Code\Ism.cshtml" />
+    <Content Include="Areas\Events\Views\Events\Event.cshtml" />
+    <Content Include="Areas\Events\Views\Events\Index.cshtml" />
+    <Content Include="Areas\Events\Views\Events\PaymentFailed.cshtml" />
+    <Content Include="Areas\Events\Views\Events\PaymentSuccess.cshtml" />
+    <Content Include="Areas\Events\Views\Events\ProceedToCheckout.cshtml" />
+    <Content Include="Areas\Events\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\User\Views\Account\Basket.cshtml" />
+    <Content Include="Areas\User\Views\Account\Edit.cshtml" />
+    <Content Include="Areas\User\Views\Account\Login.cshtml" />
+    <Content Include="Areas\User\Views\Account\Profile.cshtml" />
+    <Content Include="Areas\User\Views\Account\PurchaseHistory.cshtml" />
+    <Content Include="Areas\User\Views\Account\Register.cshtml" />
+    <Content Include="Areas\User\Views\Account\SaveProfileSuccess.cshtml" />
+    <Content Include="Areas\User\Views\Account\SuccessRegister.cshtml" />
+    <Content Include="Areas\User\Views\_ViewStart.cshtml" />
     <Content Include="Content\jquery-ui-timepicker-addon.css" />
     <Content Include="Content\jquery-ui-timepicker-addon.min.css" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -264,7 +284,11 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Areas\Events\Views\web.config" />
+    <Content Include="Areas\User\Views\web.config" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
+    <Content Include="Scripts\Custom\cookieChecker.js" />
+    <Content Include="Scripts\Custom\ISM.js" />
     <Content Include="Scripts\i18n\jquery-ui-timepicker-addon-i18n.js" />
     <Content Include="Scripts\i18n\jquery-ui-timepicker-addon-i18n.min.js" />
     <Content Include="Scripts\i18n\jquery-ui-timepicker-af.js" />
@@ -318,7 +342,6 @@
     <Content Include="Scripts\jquery-ui-sliderAccess.js" />
     <Content Include="Scripts\jquery-ui-timepicker-addon.js" />
     <Content Include="Scripts\jquery-ui-timepicker-addon.min.js" />
-    <Content Include="Views\Account\Basket.cshtml" />
     <Content Include="wwwroot\css\index.css" />
     <Content Include="Scripts\jquery-1.12.4.min.map" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
@@ -344,18 +367,6 @@
     <Content Include="Styles\index.scss" />
     <Content Include="Styles\Main\index.scss" />
     <Content Include="Styles\Manager\index.scss" />
-    <Content Include="Views\Account\Edit.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Profile.cshtml" />
-    <Content Include="Views\Account\PurchaseHistory.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Account\SaveProfileSuccess.cshtml" />
-    <Content Include="Views\Account\SuccessRegister.cshtml" />
-    <Content Include="Views\Events\Event.cshtml" />
-    <Content Include="Views\Events\Index.cshtml" />
-    <Content Include="Views\Events\PaymentFailed.cshtml" />
-    <Content Include="Views\Events\PaymentSuccess.cshtml" />
-    <Content Include="Views\Events\ProceedToCheckout.cshtml" />
     <Content Include="Views\Manager\Edit.cshtml" />
     <Content Include="Views\Manager\EditEvents.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\EventDto.cshtml" />
@@ -376,6 +387,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Events\Controllers\" />
+    <Folder Include="Areas\Events\Models\" />
+    <Folder Include="Areas\Events\Views\Shared\" />
+    <Folder Include="Areas\User\Controllers\" />
+    <Folder Include="Areas\User\Models\" />
+    <Folder Include="Areas\User\Views\Shared\" />
     <Folder Include="filters\" />
   </ItemGroup>
   <ItemGroup>

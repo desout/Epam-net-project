@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace EpamNetProject.DAL.Interfaces
 {
@@ -6,7 +7,7 @@ namespace EpamNetProject.DAL.Interfaces
     {
         TEntity Get(int id);
 
-        IEnumerable<TEntity> GetAll();
+        IQueryable<TEntity> GetAll();
 
         int Add(TEntity entity);
 

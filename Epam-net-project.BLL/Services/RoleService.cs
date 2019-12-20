@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.DAL.Interfaces;
 using EpamNetProject.DAL.models;
+using EpamNetProject.PLL.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace EpamNetProject.BLL.Services
@@ -42,7 +43,7 @@ namespace EpamNetProject.BLL.Services
             return Task.FromResult(_roleRepository.GetAll().Result.FirstOrDefault(x => x.Name == roleName));
         }
 
-        public async Task AddToRole(User user, string roleName)
+        public async Task AddToRole(UserDTO user, string roleName)
         {
             var role = (await _roleRepository.GetAll()).FirstOrDefault(x => x.Name == roleName);
             if (role != null)
@@ -52,7 +53,7 @@ namespace EpamNetProject.BLL.Services
             }
         }
 
-        public async Task RemoveFromRole(User user, string roleName)
+        public async Task RemoveFromRole(UserDTO user, string roleName)
         {
             var role = (await _roleRepository.GetAll()).FirstOrDefault(x => x.Name == roleName);
             if (role != null)
@@ -62,14 +63,14 @@ namespace EpamNetProject.BLL.Services
             }
         }
 
-        public async Task<IList<string>> GetRoles(User user)
+        public async Task<IList<string>> GetRoles(UserDTO user)
         {
-            var roles = await _roleRepository.GetAll();
+            var roles = (await _roleRepository.GetAll()).AsEnumerable();
             return roles.Where(x => x.Users.Contains(new IdentityUserRole {RoleId = x.Id, UserId = user.Id}))
                 .Select(x => x.Name).ToList();
         }
 
-        public async Task<bool> IsInRole(User user, string roleName)
+        public async Task<bool> IsInRole(UserDTO user, string roleName)
         {
             var role = (await _roleRepository.GetAll()).FirstOrDefault(x => x.Name == roleName);
             return role != null && role.Users.Contains(new IdentityUserRole {RoleId = role.Id, UserId = user.Id});

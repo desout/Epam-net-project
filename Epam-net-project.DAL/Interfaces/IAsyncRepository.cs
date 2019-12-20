@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace EpamNetProject.DAL.Interfaces
@@ -13,6 +14,6 @@ namespace EpamNetProject.DAL.Interfaces
 
         Task<TEntity> Get(string id);
 
-        Task<IEnumerable<TEntity>> GetAll();
+        Task<IQueryable<TEntity>> GetAll();
     }
 }

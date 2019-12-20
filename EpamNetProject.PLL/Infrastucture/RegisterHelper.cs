@@ -9,6 +9,7 @@ using EpamNetProject.DAL.models;
 using EpamNetProject.DAL.Repositories;
 using EpamNetProject.PLL.Interfaces;
 using EpamNetProject.PLL.Managers;
+using EpamNetProject.PLL.Models;
 using EpamNetProject.PLL.Services;
 using Microsoft.AspNet.Identity;
 
@@ -31,7 +32,7 @@ namespace EpamNetProject.PLL.Infrastucture
             builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
             builder.RegisterGeneric(typeof(AsyncRepository<>)).As(typeof(IAsyncRepository<>))
                 .InstancePerLifetimeScope();
-            builder.RegisterType<EventRepository>().As<IRepository<Event>>().InstancePerLifetimeScope();
+            builder.RegisterType<EventRepository>().As<IEventRepository>().InstancePerLifetimeScope();
 
             builder.RegisterType<EventService>().As<IEventService>()
                 .InstancePerLifetimeScope()
@@ -44,17 +45,17 @@ namespace EpamNetProject.PLL.Infrastucture
                 .InstancePerLifetimeScope();
             builder.RegisterType<RoleService>().As<IRoleService>()
                 .InstancePerLifetimeScope();
-            builder.RegisterType<MyUserService>().As<IMyUserService>()
+            builder.RegisterType<PLLUserManager>().As<IPLLUserManager>()
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<MyRoleStore>()
                 .As<IRoleStore<UserRole, string>>()
                 .InstancePerLifetimeScope();
             builder.RegisterType<MyUserStore>()
-                .As<IUserStore<User, string>>()
-                .As<IUserClaimStore<User, string>>()
-                .As<IUserPasswordStore<User, string>>()
-                .As<IUserRoleStore<User, string>>()
+                .As<IUserStore<UserDTO, string>>()
+                .As<IUserClaimStore<UserDTO, string>>()
+                .As<IUserPasswordStore<UserDTO, string>>()
+                .As<IUserRoleStore<UserDTO, string>>()
                 .SingleInstance()
                 .InstancePerLifetimeScope();
 

@@ -21,7 +21,7 @@ namespace EpamNetProject.BLL.Services
 
         private readonly IRepository<EventArea> _eventAreaRepository;
 
-        private readonly IRepository<Event> _eventRepository;
+        private readonly IEventRepository _eventRepository;
 
         private readonly IRepository<EventSeat> _eventSeatRepository;
 
@@ -35,7 +35,7 @@ namespace EpamNetProject.BLL.Services
 
         private readonly IRepository<UserProfile> _userProfileRepository;
 
-        public EventService(IRepository<Event> eventRepository, IRepository<Layout> layoutRepository,
+        public EventService(IEventRepository eventRepository, IRepository<Layout> layoutRepository,
             IRepository<Area> areaRepository, IRepository<Seat> seatRepository,
             IRepository<EventSeat> eventSeatRepository, IRepository<EventArea> eventAreaRepository,
             IRepository<UserProfile> userProfileRepository, int reserveTime,
@@ -86,7 +86,7 @@ namespace EpamNetProject.BLL.Services
                 throw new EntityException();
             }
 
-            if (userProfile?.ReserveDate != null)
+            if (userProfile.ReserveDate != null)
             {
                 return userProfile.ReserveDate;
             }
@@ -180,7 +180,8 @@ namespace EpamNetProject.BLL.Services
 
         public IEnumerable<EventAreaDto> GetAreasByEvent(int eventId)
         {
-            return _mapper.Map<List<EventAreaDto>>(_eventAreaRepository.GetAll().Where(x => x.EventId == eventId));
+            return _mapper.Map<List<EventAreaDto>>(_eventAreaRepository.GetAll().Where(x => x.EventId == eventId)
+                .AsEnumerable());
         }
 
         public IEnumerable<EventSeatDto> GetSeatsByEvent(int eventId)
@@ -189,30 +190,31 @@ namespace EpamNetProject.BLL.Services
                 _eventAreaRepository.GetAll().Where(a => a.EventId == eventId),
                 s => s.EventAreaId,
                 a => a.Id,
-                (s, a) => s));
+                (s, a) => s).AsEnumerable());
         }
 
         public IEnumerable<EventSeatDto> GetSeatsByUser(string userId)
         {
-            return _mapper.Map<List<EventSeatDto>>(_eventSeatRepository.GetAll().Where(x => x.UserId == userId));
+            return _mapper.Map<List<EventSeatDto>>(_eventSeatRepository.GetAll().Where(x => x.UserId == userId)
+                .AsEnumerable());
         }
 
         public List<EventAreaDto> GetAllAreas()
         {
-            return _mapper.Map<List<EventAreaDto>>(_eventAreaRepository.GetAll());
+            return _mapper.Map<List<EventAreaDto>>(_eventAreaRepository.GetAll().AsEnumerable());
         }
 
         public List<EventDto> GetUserPurchaseHistory(string userId)
         {
-            var events = _eventSeatRepository.GetAll().Where(x => x.UserId == userId).Join(
-                _eventAreaRepository.GetAll()
+            var events = _eventSeatRepository.GetAll().AsEnumerable().Where(x => x.UserId == userId).Join(
+                _eventAreaRepository.GetAll().AsEnumerable()
                     .Join(_eventRepository.GetAll(),
                         s => s.EventId,
                         a => a.Id,
                         (s, a) => a),
                 s => s.EventAreaId,
                 a => a.Id,
-                (s, a) => a);
+                (s, a) => a).ToList();
 
             return _mapper.Map<List<EventDto>>(events);
         }
@@ -252,21 +254,33 @@ namespace EpamNetProject.BLL.Services
 
         public List<PriceSeat> GetReservedSeatByUser(string userId)
         {
-            var seats = _mapper.Map<List<EventSeatDto>>(_eventSeatRepository.GetAll()
-                .Where(x => x.State == SeatStatus.Reserved && x.UserId == userId).ToList());
+            var seats = _eventSeatRepository.GetAll().Where(x => x.State == SeatStatus.Reserved && x.UserId == userId);
             var events = _eventRepository.GetAll().ToList();
             return _eventAreaRepository.GetAll().Join(seats, x => x.Id, c => c.EventAreaId,
-                (x, c) => new PriceSeat
+                (x, c) => new
                 {
-                    Seat = c, Price = x.Price, AreaName = x.Description,
-                    EventName = events.Find(e => e.Id == x.EventId).Name
-                }).ToList();
+                    Seat = c, x.Price, AreaName = x.Description, x.EventId
+                }).AsEnumerable().Select(x => new PriceSeat
+            {
+                Seat = _mapper.Map<EventSeatDto>(x.Seat), Price = x.Price, AreaName = x.AreaName,
+                EventName = events.Find(e => e.Id == x.EventId).Name
+            }).ToList();
         }
 
-        public void CheckReservation()
+        public void CheckReservation(string userId)
         {
-            var profiles = _userProfileRepository.GetAll().Where(x =>
-                x.ReserveDate.HasValue && x.ReserveDate?.AddMinutes(_reserveTime) < DateTime.UtcNow).ToList();
+            var profile = _userProfileRepository.GetAll().Where(x => x.UserId == userId).AsEnumerable().FirstOrDefault(
+                x => x.ReserveDate.HasValue && x.ReserveDate.Value.AddMinutes(_reserveTime) < DateTime.UtcNow);
+            
+            UpdateSeats(profile);
+            profile.ReserveDate = null;
+            _userProfileRepository.Update(profile);
+        }
+
+        public void CheckReservationAll()
+        {
+            var profiles = _userProfileRepository.GetAll().AsEnumerable().Where(x =>
+                x.ReserveDate.HasValue && x.ReserveDate.Value.AddMinutes(_reserveTime) < DateTime.UtcNow).ToList();
             foreach (var profile in profiles)
             {
                 UpdateSeats(profile);
@@ -274,7 +288,6 @@ namespace EpamNetProject.BLL.Services
                 _userProfileRepository.Update(profile);
             }
         }
-
         private bool IsSeatsExist(EventDto _event)
         {
             return _seatRepository.GetAll().Join(_areaRepository.GetAll().Where(a => a.LayoutId == _event.LayoutId),

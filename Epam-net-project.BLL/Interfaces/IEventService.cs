@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using EpamNetProject.BLL.Models;
 
 namespace EpamNetProject.BLL.Interfaces
@@ -36,6 +37,8 @@ namespace EpamNetProject.BLL.Interfaces
 
         List<PriceSeat> GetReservedSeatByUser(string userId);
 
-        void CheckReservation();
+        void CheckReservation(string userId);
+        
+        void CheckReservationAll();
     }
 }

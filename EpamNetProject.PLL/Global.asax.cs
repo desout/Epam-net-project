@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.Configuration;
 using System.Globalization;
 using System.Threading;
 using System.Web;
@@ -9,6 +10,8 @@ using System.Web.Routing;
 using Autofac;
 using Autofac.Extras.Quartz;
 using Autofac.Integration.Mvc;
+using EpamNetProject.BLL.Interfaces;
+using EpamNetProject.BLL.Services;
 using EpamNetProject.PLL.Infrastucture;
 using EpamNetProject.PLL.Jobs;
 
@@ -32,8 +35,7 @@ namespace EpamNetProject.PLL
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
-            ConfigureScheduler(container);
+            DependencyResolver.Current.GetService<IEventService>().CheckReservationAll();
         }
 
         protected void Application_AcquireRequestState(object sender, EventArgs e)
@@ -49,7 +51,7 @@ namespace EpamNetProject.PLL
         {
             var schedulerConfig = new NameValueCollection
             {
-                {"quartz.threadPool.threadCount", "3"},
+                {"quartz.threadPool.threadCount", "1000"},
                 {"quartz.scheduler.threadName", "MyScheduler"}
             };
 
@@ -57,15 +59,10 @@ namespace EpamNetProject.PLL
             {
                 ConfigurationProvider = c => schedulerConfig
             });
+            var delay = int.Parse(ConfigurationManager.AppSettings["ReserveTime"]);
 
             builder.RegisterModule(new QuartzAutofacJobsModule(typeof(BasketJob).Assembly));
-            builder.RegisterType<BasketScheduler>().AsSelf();
-        }
-
-        private static void ConfigureScheduler(IContainer container)
-        {
-            var scheduler = container.Resolve<BasketScheduler>();
-            scheduler.Start();
+            builder.RegisterType<BasketScheduler>().AsSelf().WithParameter("reserveTime", delay);
         }
     }
 }

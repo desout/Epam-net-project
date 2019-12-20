@@ -17,21 +17,21 @@ namespace EpamNetProject.BLL.Interfaces
 
         bool UpdateUserInfo(UserDTO user, string passwordHash);
 
-        Task CreateUser(User user);
+        Task CreateUser(UserDTO user);
 
-        Task UpdateUser(User user);
+        Task UpdateUser(UserDTO user);
 
-        Task DeleteUser(User user);
+        Task DeleteUser(UserDTO user);
 
-        Task<User> GetUser(string userId);
+        Task<UserDTO> GetUser(string userId);
 
-        Task<User> getUserByName(string userName);
+        Task<UserDTO> getUserByName(string userName);
 
-        Task<string> GetPasswordHashAsync(User user);
+        Task<string> GetPasswordHashAsync(UserDTO user);
 
-        Task<bool> HasPasswordAsync(User user);
+        Task<bool> HasPasswordAsync(UserDTO user);
 
-        Task SetPasswordHashAsync(User user, string passwordHash);
+        Task SetPasswordHashAsync(UserDTO user, string passwordHash);
 
         void AddUserProfile(UserDTO userDto, UserProfileDTO userProfile);
     }

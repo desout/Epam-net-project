@@ -40,7 +40,7 @@ namespace EpamNetProject.Integration.Tests
 
         private IRepository<Area> _areaRepository;
 
-        private IRepository<Event> _eventRepository;
+        private IEventRepository _eventRepository;
 
         private EventService _eventService;
 

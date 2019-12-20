@@ -7,7 +7,7 @@ using EpamNetProject.DAL.models;
 
 namespace EpamNetProject.DAL.Repositories
 {
-    public class EventRepository : IRepository<Event>
+    public class EventRepository : IEventRepository
     {
         internal MyContext _context;
 

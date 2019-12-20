@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using EpamNetProject.DAL.Interfaces;
 using EpamNetProject.DAL.models;
 
@@ -29,7 +30,7 @@ namespace EpamNetProject.DAL.Repositories
             return _dbSet.Find(id);
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public IQueryable<TEntity> GetAll()
         {
             return _dbSet;
         }

@@ -9,9 +9,9 @@ namespace EpamNetProject.PLL.Controllers
 {
     public class HomeController : Controller
     {
-        public HomeController(IMyUserService userService)
+        public HomeController(IPLLUserManager userManager)
         {
-            userService.SetInitialData(new UserDTO
+            userManager.SetInitialData(new UserDTO
             {
                 Email = "3809766@mail.ru",
                 UserName = "desout",

@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using EpamNetProject.PLL.filters;
 
 namespace EpamNetProject.PLL
 {
@@ -7,6 +8,7 @@ namespace EpamNetProject.PLL
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+            filters.Add(new ActionLogAttribute());
         }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 using EpamNetProject.DAL.Interfaces;
 
@@ -40,9 +41,9 @@ namespace EpamNetProject.DAL.Repositories
             return _dbSet.FindAsync(id);
         }
 
-        public Task<IEnumerable<TEntity>> GetAll()
+        public async Task<IQueryable<TEntity>> GetAll()
         {
-            return Task.FromResult((IEnumerable<TEntity>) _dbSet);
+            return _dbSet;
         }
     }
 }

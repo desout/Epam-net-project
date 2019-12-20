@@ -15,7 +15,7 @@ namespace EpamNetProject.BLL.Infrastucture
                 true
             );
             var result = results.FirstOrDefault();
-            return result != null ? result.ToString() : null;
+            return result?.ToString();
         }
     }
 }

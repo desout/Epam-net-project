@@ -1,0 +1,13 @@
+@using Resources
+@model List<EpamNetProject.BLL.Models.EventDto>
+@{
+    ViewBag.Title = "Events";
+}
+<div class="events__block">
+    <h2 class="events__title">@Resource.EVENTS_EVENTLISTTITLE</h2>
+    @foreach (var ev in Model)
+    {
+        @Html.DisplayFor(x => ev)
+    }
+
+</div>

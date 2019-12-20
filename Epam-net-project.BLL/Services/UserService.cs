@@ -88,45 +88,45 @@ namespace EpamNetProject.BLL.Services
             return true;
         }
 
-        public Task CreateUser(User user)
+        public Task CreateUser(UserDTO user)
         {
-            return _userRepository.Create(user);
+            return _userRepository.Create(_mapper.Map<User>(user));
         }
 
-        public Task UpdateUser(User user)
+        public Task UpdateUser(UserDTO user)
         {
-            return _userRepository.Update(user);
+            return _userRepository.Update(_mapper.Map<User>(user));
         }
 
-        public Task DeleteUser(User user)
+        public Task DeleteUser(UserDTO user)
         {
-            return _userRepository.Delete(user);
+            return _userRepository.Delete(_mapper.Map<User>(user));
         }
 
-        public Task<User> GetUser(string userId)
+        public async Task<UserDTO> GetUser(string userId)
         {
-            return _userRepository.Get(userId);
+            return _mapper.Map<UserDTO>(await _userRepository.Get(userId));
         }
 
-        public Task<User> getUserByName(string userName)
+        public async Task<UserDTO> getUserByName(string userName)
         {
-            return Task.FromResult(_userRepository.GetAll().Result.FirstOrDefault(x => x.UserName == userName));
+            return _mapper.Map<UserDTO>((await _userRepository.GetAll()).FirstOrDefault(x => x.UserName == userName));
         }
 
-        public async Task<string> GetPasswordHashAsync(User user)
+        public async Task<string> GetPasswordHashAsync(UserDTO user)
         {
             return (await _userRepository.Get(user.Id)).PasswordHash;
         }
 
-        public async Task<bool> HasPasswordAsync(User user)
+        public async Task<bool> HasPasswordAsync(UserDTO user)
         {
             return string.IsNullOrEmpty((await _userRepository.Get(user.Id)).PasswordHash);
         }
 
-        public Task SetPasswordHashAsync(User user, string passwordHash)
+        public Task SetPasswordHashAsync(UserDTO user, string passwordHash)
         {
             user.PasswordHash = passwordHash;
-            return _userRepository.Update(user);
+            return _userRepository.Update(_mapper.Map<User>(user));
         }
 
         public void AddUserProfile(UserDTO userDto, UserProfileDTO userProfile)

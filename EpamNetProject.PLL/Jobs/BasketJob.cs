@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Threading.Tasks;
 using EpamNetProject.BLL.Interfaces;
 using Quartz;
@@ -15,7 +16,8 @@ namespace EpamNetProject.PLL.Jobs
 
         async Task IJob.Execute(IJobExecutionContext context)
         {
-            _eventService.CheckReservation();
+            Debug.WriteLine($"Job - {context.JobDetail.Key.Name} now", "Action Filter Log");
+            _eventService.CheckReservation(context.JobDetail.Description);
         }
     }
 }

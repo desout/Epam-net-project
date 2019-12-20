@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.BLL.Services;
@@ -17,7 +18,7 @@ namespace EpamNetProject.BLL.Tests
         [SetUp]
         public void SetUp()
         {
-            _eventRepository = new Mock<IRepository<Event>>();
+            _eventRepository = new Mock<IEventRepository>();
             _layoutRepository = new Mock<IRepository<Layout>>();
             _areaRepository = new Mock<IRepository<Area>>();
             _seatRepository = new Mock<IRepository<Seat>>();
@@ -82,7 +83,7 @@ namespace EpamNetProject.BLL.Tests
                     new Layout {Id = 1, Description = "Description", LayoutName = "1 layout name", VenueId = 1},
                     new Layout {Id = 2, Description = "Description", LayoutName = "2 layout name", VenueId = 2},
                     new Layout {Id = 3, Description = "Description", LayoutName = "3 layout name", VenueId = 3}
-                });
+                }.AsQueryable());
             _areaRepository.Setup(x => x.GetAll())
                 .Returns(new List<Area>
                 {
@@ -92,7 +93,7 @@ namespace EpamNetProject.BLL.Tests
                     new Area {Id = 4, Description = "Description", CoordX = 40, CoordY = 50, LayoutId = 1},
                     new Area {Id = 5, Description = "Description", CoordX = 50, CoordY = 60, LayoutId = 3},
                     new Area {Id = 6, Description = "Description", CoordX = 60, CoordY = 70, LayoutId = 3}
-                });
+                }.AsQueryable());
             _seatRepository.Setup(x => x.GetAll())
                 .Returns(new List<Seat>
                 {
@@ -106,7 +107,7 @@ namespace EpamNetProject.BLL.Tests
                     new Seat {Id = 8, Number = 80, AreaId = 1, Row = 8},
                     new Seat {Id = 9, Number = 90, AreaId = 1, Row = 9},
                     new Seat {Id = 10, Number = 110, AreaId = 1, Row = 10}
-                });
+                }.AsQueryable());
 
             _eventService = new EventService(_eventRepository.Object, _layoutRepository.Object,
                 _areaRepository.Object, _seatRepository.Object, _eventSeatRepository.Object,
@@ -117,7 +118,7 @@ namespace EpamNetProject.BLL.Tests
 
         private Mock<IRepository<Area>> _areaRepository;
 
-        private Mock<IRepository<Event>> _eventRepository;
+        private Mock<IEventRepository> _eventRepository;
 
         private EventService _eventService;
 

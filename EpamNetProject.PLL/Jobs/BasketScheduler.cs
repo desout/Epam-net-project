@@ -1,3 +1,4 @@
+using System;
 using Quartz;
 
 namespace EpamNetProject.PLL.Jobs
@@ -6,26 +7,25 @@ namespace EpamNetProject.PLL.Jobs
     {
         private readonly IScheduler _scheduler;
 
-        public BasketScheduler(IScheduler scheduler)
+        private readonly int _reserveTime;
+        public BasketScheduler(IScheduler scheduler, int reserveTime)
         {
             _scheduler = scheduler;
+            _reserveTime = reserveTime;
         }
 
-        public void Start()
+        public void Start(string userId)
         {
             _scheduler.Start();
 
             var job = JobBuilder.Create<BasketJob>()
-                .WithIdentity("job", "admin")
+                .WithIdentity($"job-{userId}", "admin")
+                .WithDescription(userId)
                 .Build();
 
             var trigger = TriggerBuilder.Create()
-                .WithIdentity("trigger", "admin")
-                .WithSimpleSchedule(x => x
-                    .RepeatForever()
-                    .WithIntervalInSeconds(30)
-                )
-                .StartNow()
+                .WithIdentity($"trigger-{userId}", "admin")
+                .StartAt(DateTimeOffset.Now.AddMinutes(_reserveTime))
                 .Build();
 
             _scheduler.ScheduleJob(job, trigger);

@@ -10,6 +10,10 @@ namespace EpamNetProject.PLL
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                 "~/Scripts/jquery-ui-{version}.js",
                 "~/Scripts/jquery-ui.unobtrusive-{version}.js"));
+            bundles.Add(new ScriptBundle("~/bundles/ISM").Include(
+                "~/Scripts/Custom/ISM.js"));
+            bundles.Add(new ScriptBundle("~/bundles/CookieChecker").Include(
+                "~/Scripts/Custom/cookieChecker.js"));
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                 "~/Content/themes/base/jquery-ui.css",
                 "~/Content/themes/base/jquery.ui.core.css",
