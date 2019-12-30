@@ -12,6 +12,8 @@ namespace EpamNetProject.PLL
                 "~/Scripts/jquery-ui.unobtrusive-{version}.js"));
             bundles.Add(new ScriptBundle("~/bundles/ISM").Include(
                 "~/Scripts/Custom/ISM.js"));
+            bundles.Add(new ScriptBundle("~/bundles/ISM_EDIT").Include(
+                "~/Scripts/Custom/ISM_EDIT.js"));
             bundles.Add(new ScriptBundle("~/bundles/CookieChecker").Include(
                 "~/Scripts/Custom/cookieChecker.js"));
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(

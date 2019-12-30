@@ -403,6 +403,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add new area.
+        /// </summary>
+        public static string LAYOUT_CREATEAREA {
+            get {
+                return ResourceManager.GetString("LAYOUT_CREATEAREA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remaining time: .
         /// </summary>
         public static string MAIN_BASKETTIME {
@@ -417,6 +426,15 @@ namespace Resources {
         public static string MAIN_EDITEVENTS {
             get {
                 return ResourceManager.GetString("MAIN_EDITEVENTS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit layouts.
+        /// </summary>
+        public static string MAIN_EDITLAYOUTS {
+            get {
+                return ResourceManager.GetString("MAIN_EDITLAYOUTS", resourceCulture);
             }
         }
         
@@ -502,6 +520,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit layout.
+        /// </summary>
+        public static string MANAGER_EDIT_EDITLAYOUT {
+            get {
+                return ResourceManager.GetString("MANAGER_EDIT_EDITLAYOUT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Event list.
         /// </summary>
         public static string MANAGER_EDIT_EVENTSTITLE {
@@ -529,6 +556,33 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Layout description.
+        /// </summary>
+        public static string MANAGER_EDIT_LAYOUTDESCRIPTION {
+            get {
+                return ResourceManager.GetString("MANAGER_EDIT_LAYOUTDESCRIPTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Layout name.
+        /// </summary>
+        public static string MANAGER_EDIT_LAYOUTNAME {
+            get {
+                return ResourceManager.GetString("MANAGER_EDIT_LAYOUTNAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit layouts page.
+        /// </summary>
+        public static string MANAGER_EDIT_LAYOUTSTITLE {
+            get {
+                return ResourceManager.GetString("MANAGER_EDIT_LAYOUTSTITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Event name.
         /// </summary>
         public static string MANAGER_EDIT_NAME {
@@ -547,6 +601,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save changes.
+        /// </summary>
+        public static string MANAGER_EDIT_SAVELAYOUT {
+            get {
+                return ResourceManager.GetString("MANAGER_EDIT_SAVELAYOUT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Event time.
         /// </summary>
         public static string MANAGER_EDIT_TIME {
@@ -561,6 +624,15 @@ namespace Resources {
         public static string MANAGER_EDIT_TITLE {
             get {
                 return ResourceManager.GetString("MANAGER_EDIT_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Venue.
+        /// </summary>
+        public static string MANAGER_EDIT_VENUE {
+            get {
+                return ResourceManager.GetString("MANAGER_EDIT_VENUE", resourceCulture);
             }
         }
         

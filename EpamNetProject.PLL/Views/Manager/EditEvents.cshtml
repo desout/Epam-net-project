@@ -7,7 +7,7 @@
         <div data-eventId="@item.Id" class="event--item">
             <p class="event--item__name">@item.Name</p>
             <div class="event--item__actions">
-                <a href="@Url.Action(Resource.MANAGER_EDIT_EDIT, new {id = item.Id})">edit</a>
+                <a href="@Url.Action("Edit", new {id = item.Id})">@Resource.MANAGER_EDIT_EDIT</a>
                 <button onclick="deleteEvent(@item.Id)">@Resource.MANAGER_EDIT_DELETEEVENT</button>
             </div>
 

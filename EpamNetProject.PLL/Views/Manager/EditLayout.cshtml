@@ -1,0 +1,23 @@
+@model EpamNetProject.PLL.Models.LayoutViewModel
+@using Resources
+
+@using (Html.BeginForm("AddLayout", "Manager", FormMethod.Post, new { @class = "editEvent__form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.Id)
+    <label>
+        <p>@Resource.MANAGER_EDIT_LAYOUTNAME</p> @Html.EditorFor(x => x.LayoutName)
+    </label>
+    <label>
+        <p>@Resource.MANAGER_EDIT_LAYOUTDESCRIPTION </p>@Html.EditorFor(x => x.Description)
+    </label>
+    
+    <label>
+        <p>@Resource.MANAGER_EDIT_VENUE </p>@Html.DropDownListFor(x => x.VenueId, new SelectList(ViewBag.Venues, "Id", "Name"))
+    </label>
+    <div>
+        <button type="submit" class="button__submit">@Resource.MANAGER_EDIT_SAVELAYOUT</button>
+    </div>
+    <a href="@Url.Action("EditMainLayout", new {id = Model.Id})">@Resource.MANAGER_EDIT_EDITLAYOUT</a>
+}
+

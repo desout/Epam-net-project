@@ -231,11 +231,17 @@
   <data name="EVENT_PROCEED_TO_CHECKOUT" xml:space="preserve">
     <value>Перейти к покупке</value>
   </data>
+  <data name="LAYOUT_CREATEAREA" xml:space="preserve">
+    <value>Добавить новый сектор</value>
+  </data>
   <data name="MAIN_BASKETTIME" xml:space="preserve">
     <value>Оставшееся время: </value>
   </data>
   <data name="MAIN_EDITEVENTS" xml:space="preserve">
     <value>Редактировать события</value>
+  </data>
+  <data name="MAIN_EDITLAYOUTS" xml:space="preserve">
+    <value>Редактировать шаблоны</value>
   </data>
   <data name="MAIN_EVENTS" xml:space="preserve">
     <value>События</value>
@@ -264,6 +270,9 @@
   <data name="MANAGER_EDIT_EDIT" xml:space="preserve">
     <value>Редактировать</value>
   </data>
+  <data name="MANAGER_EDIT_EDITLAYOUT" xml:space="preserve">
+    <value>Редактировать шаблон стадиона</value>
+  </data>
   <data name="MANAGER_EDIT_EVENTSTITLE" xml:space="preserve">
     <value>Список событий</value>
   </data>
@@ -273,10 +282,22 @@
   <data name="MANAGER_EDIT_LAYOUT" xml:space="preserve">
     <value>Стадион</value>
   </data>
+  <data name="MANAGER_EDIT_LAYOUTDESCRIPTION" xml:space="preserve">
+    <value>Описание шаблона</value>
+  </data>
+  <data name="MANAGER_EDIT_LAYOUTNAME" xml:space="preserve">
+    <value>Имя шаблона</value>
+  </data>
+  <data name="MANAGER_EDIT_LAYOUTSTITLE" xml:space="preserve">
+    <value>Страница редактирования шаблонов</value>
+  </data>
   <data name="MANAGER_EDIT_NAME" xml:space="preserve">
     <value>Имя события</value>
   </data>
   <data name="MANAGER_EDIT_SAVE" xml:space="preserve">
+    <value>Сохранить изменения</value>
+  </data>
+  <data name="MANAGER_EDIT_SAVELAYOUT" xml:space="preserve">
     <value>Сохранить изменения</value>
   </data>
   <data name="MANAGER_EDIT_TIME" xml:space="preserve">
@@ -284,6 +305,9 @@
   </data>
   <data name="MANAGER_EDIT_TITLE" xml:space="preserve">
     <value>Заголовок</value>
+  </data>
+  <data name="MANAGER_EDIT_VENUE" xml:space="preserve">
+    <value>Место</value>
   </data>
   <data name="PAYMENT_FULLPRICETITLE" xml:space="preserve">
     <value>Полная стоимость</value>

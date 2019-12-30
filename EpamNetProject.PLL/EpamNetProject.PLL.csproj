@@ -191,8 +191,12 @@
     <Compile Include="Managers\ApplicationUserRoleManager.cs" />
     <Compile Include="Managers\MyRoleStore.cs" />
     <Compile Include="Managers\MyUserStore.cs" />
+    <Compile Include="Models\AddAreaModel.cs" />
+    <Compile Include="Models\AddSeatModel.cs" />
     <Compile Include="Models\EditEventViewModel.cs" />
     <Compile Include="Models\EventViewModel.cs" />
+    <Compile Include="Models\LayoutAreaViewModel.cs" />
+    <Compile Include="Models\LayoutViewModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\UserProfileViewModel.cs" />
@@ -289,6 +293,7 @@
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\Custom\cookieChecker.js" />
     <Content Include="Scripts\Custom\ISM.js" />
+    <Content Include="Scripts\Custom\ISM_EDIT.js" />
     <Content Include="Scripts\i18n\jquery-ui-timepicker-addon-i18n.js" />
     <Content Include="Scripts\i18n\jquery-ui-timepicker-addon-i18n.min.js" />
     <Content Include="Scripts\i18n\jquery-ui-timepicker-af.js" />
@@ -342,6 +347,10 @@
     <Content Include="Scripts\jquery-ui-sliderAccess.js" />
     <Content Include="Scripts\jquery-ui-timepicker-addon.js" />
     <Content Include="Scripts\jquery-ui-timepicker-addon.min.js" />
+    <Content Include="Views\Manager\EditLayout.cshtml" />
+    <Content Include="Views\Manager\EditLayoutForEvent.cshtml" />
+    <Content Include="Views\Manager\EditLayouts.cshtml" />
+    <Content Include="Views\Manager\EditMainLayout.cshtml" />
     <Content Include="wwwroot\css\index.css" />
     <Content Include="Scripts\jquery-1.12.4.min.map" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity.Core;
 using System.Linq;
 using AutoMapper;
 using EpamNetProject.BLL.Infrastucture;
@@ -93,9 +94,72 @@ namespace EpamNetProject.BLL.Services
             return _mapper.Map<VenueDto>(_venueRepository.Get(id));
         }
 
+        public List<VenueDto> GetVenues()
+        {
+            return _mapper.Map<List<VenueDto>>(_venueRepository.GetAll());
+        }
+
         public LayoutDto GetLayout(int id)
         {
             return _mapper.Map<LayoutDto>(_layoutRepository.Get(id));
+        }
+
+        public int UpdateLayout(LayoutDto layout)
+        {
+            return _layoutRepository.Update(_mapper.Map<Layout>(layout));
+        }
+
+        public List<AreaDto> GetAreasByLayout(int id)
+        {
+            return _mapper.Map<List<AreaDto>>(_areaRepository.GetAll().Where(x => x.LayoutId == id));
+        }
+
+        public List<SeatDto> GetSeatsByLayout(int id)
+        {
+            return _mapper.Map<List<SeatDto>>(_seatRepository.GetAll()
+                .Join(_areaRepository.GetAll().Where(x => x.LayoutId == id), x => x.AreaId, a => a.Id, (x, a) => x));
+        }
+
+        public int RemoveSeat(int id)
+        {
+            return _seatRepository.Remove(id);
+        }
+
+        AreaDto IVenueService.CreateArea(AreaDto areaDto)
+        {
+            var id = _areaRepository.Add(_mapper.Map<Area>(areaDto));
+
+            areaDto.Id = id;
+            return areaDto;
+        }
+
+        public SeatDto AddSeat(SeatDto seatDto)
+        {
+            if (_seatRepository.GetAll().Any(x => x.AreaId == seatDto.AreaId && x.Number == seatDto.Number &&
+                                                       x.Row == seatDto.Row))
+            {
+                throw new EntityException("This seat is exist now");
+            }
+            var id = _seatRepository.Add(_mapper.Map<Seat>(seatDto));
+
+            seatDto.Id = id;
+            return seatDto;
+        }
+
+        public int UpdateArea(AreaDto area)
+        {
+            var baseArea = _areaRepository.Get(area.Id);
+            baseArea.Price = area.Price;
+            baseArea.Description = area.Description;
+            if (area.CoordX.HasValue)
+            {
+                baseArea.CoordX = area.CoordX.Value;
+            }
+            if (area.CoordY.HasValue)
+            {
+                baseArea.CoordY = area.CoordY.Value;
+            }
+            return _areaRepository.Update(baseArea);
         }
 
         public SeatDto GetSeat(int id)

@@ -301,7 +301,10 @@ namespace EpamNetProject.BLL.Services
             return _eventSeatRepository.GetAll().Join(_eventAreaRepository.GetAll().Where(x => x.EventId == id),
                 s => s.EventAreaId, a => a.Id, (s, a) => s).Any(x => x.State != SeatStatus.Free);
         }
-
+        private bool IsSeatsBoughtByArea(int id)
+        {
+            return _eventSeatRepository.GetAll().Where(x => x.EventAreaId == id).Any(x => x.State != SeatStatus.Free);
+        }
         private void UpdateSeats(UserProfile profile)
         {
             var seats = _eventSeatRepository.GetAll()
@@ -314,6 +317,37 @@ namespace EpamNetProject.BLL.Services
             }
         }
 
+        public EventAreaDto CreateEventArea(EventAreaDto eventArea)
+        {
+            var id = _eventAreaRepository.Add(_mapper.Map<EventArea>(eventArea));
+
+            eventArea.Id = id;
+            return eventArea;
+        }
+        
+        public int UpdateEventArea(EventAreaDto eventArea)
+        {
+            
+            var baseArea = _eventAreaRepository.Get(eventArea.Id);
+            if (!baseArea.Price.Equals(eventArea.Price))
+            {
+                if (IsSeatsBoughtByArea(eventArea.Id))
+                {
+                    throw new ValidationException("Price cannot be changed if some seats bought");
+                }
+            }
+
+            if (eventArea.CoordX.HasValue)
+            {
+                baseArea.CoordX = eventArea.CoordX.Value;
+            }
+            if (eventArea.CoordY.HasValue)
+            {
+                baseArea.CoordY = eventArea.CoordY.Value;
+            }
+            baseArea.Description = eventArea.Description;
+            return _eventAreaRepository.Update(baseArea);
+        }
         private bool IsEventExist(EventDto _event)
         {
             return _eventRepository.GetAll()
@@ -322,6 +356,29 @@ namespace EpamNetProject.BLL.Services
                     l => l.Id,
                     (e, l) => e)
                 .Any(e => e.EventDate == _event.EventDate);
+        }
+
+        public int RemoveSeat(int id)
+        {
+            if (_eventSeatRepository.Get(id).State == SeatStatus.Free)
+            {
+                return _eventSeatRepository.Remove(id);
+            }
+
+            return -1;
+        }
+
+        public EventSeatDto AddSeat(EventSeatDto eventSeatDto)
+        {
+            if (_eventSeatRepository.GetAll().Any(x => x.EventAreaId == eventSeatDto.EventAreaId && x.Number == eventSeatDto.Number &&
+                                                       x.Row == eventSeatDto.Row))
+            {
+                throw new EntityException("This seat is exist now");
+            }
+            var id = _eventSeatRepository.Add(_mapper.Map<EventSeat>(eventSeatDto));
+
+            eventSeatDto.Id = id;
+            return eventSeatDto;
         }
     }
 }

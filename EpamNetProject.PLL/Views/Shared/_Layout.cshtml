@@ -12,8 +12,31 @@
     <title>Epam training application</title>
     @Styles.Render("~/wwwroot/css/index.css")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
 </head>
 <body>
+<div class="modal">
+    <div>
+        <p>description: <input type="text" class="modal__input-areaDescription"></p>
+        <p>price: <input type="text" class="modal__input-areaPrice"></p>
+        <input type="text" hidden="hidden" class="modal__input-areaId-hidden">
+        <input type="text" hidden="hidden" class="modal__input-coordY-hidden">
+        <input type="text" hidden="hidden" class="modal__input-coordX-hidden">
+        <button type="button" id="modal-changeAreaPosition">Change area position</button>
+        <button type="button" id="modal-changeArea-submit">Change</button>
+    </div>
+
+</div>
+
+<div class="modal-seat">
+    <div>
+        <p>row: <input type="text" class="modal-seat__input-row"></p>
+        <p>number: <input type="text" class="modal-seat__input-number"></p>
+        <input type="text" hidden="hidden" class="modal-seat__input-areaId-hidden">
+        <button type="button" id="modal-seat-addSeat-submit">Add</button>
+    </div>
+</div>
+
 <div class="navbar">
     <div class="navbar__appName">
         @Html.ActionLink(Resource.ApplicationName, "Index", "Home", new {area = ""}, new {@class = "navbar__brand"})
@@ -36,6 +59,10 @@
             {
                 <li>@Html.ActionLink(Resource.MAIN_EDITEVENTS, "EditEvents", "Manager")</li>
             }
+            if (Context.User.IsInRole("Manager") || Context.User.IsInRole("Admin"))
+            {
+                 <li>@Html.ActionLink(Resource.MAIN_EDITLAYOUTS, "EditLayouts", "Manager")</li>
+            }
         }
         <li>@Html.ActionLink(Resource.MAIN_EVENTS, "Index", "Events", new { area = "Events"}, null)</li>
         <li>
@@ -56,7 +83,6 @@
 <footer>
     <p>&copy; @DateTime.Now.2019 - Epam training application</p>
 </footer>
-@Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/CookieChecker")
 @RenderSection("scripts", false)
 <script >
@@ -74,6 +100,13 @@ $(document).ready(function(){
       $('[datetime-picker]').datetimepicker();
       cookieChecker.checkCookie();
        });
+
+$(document).on('click',function (e) {
+ var el = '.modal,.modal-seat';
+ if ($(e.target).is(el)) {
+ 	$('.modal,.modal-seat').hide();
+}
+});
 </script>
 
 </body>

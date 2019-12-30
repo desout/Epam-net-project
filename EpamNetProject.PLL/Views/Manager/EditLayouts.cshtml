@@ -1,0 +1,17 @@
+@model IEnumerable<EpamNetProject.BLL.Models.LayoutDto>
+@using Resources
+
+<div class="editEvent__block">
+    <h2 class="editEvent__title">@Resource.MANAGER_EDIT_LAYOUTSTITLE</h2>
+    @foreach (var item in Model)
+    {
+        <div data-eventId="@item.Id" class="event--item">
+            <p class="event--item__name">@item.LayoutName</p>
+            <div class="event--item__actions">
+                <a href="@Url.Action("EditLayout", new {id = item.Id})">@Resource.MANAGER_EDIT_EDIT</a>
+            </div>
+
+        </div>
+    }
+    <a class="editEvent__block__AddNew" href="@Url.Action("EditLayout")">Add</a>
+</div>
