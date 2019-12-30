@@ -1,20 +1,36 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.BLL.Services;
 using EpamNetProject.DAL.Interfaces;
 using EpamNetProject.DAL.models;
-using Moq;
-using NUnit.Framework;
 
 namespace EpamNetProject.BLL.Tests
 {
     [TestFixture]
     public class EventServiceTests
     {
+        private const int ReturnId = 10;
+
+        private Mock<IRepository<Area>> _areaRepository;
+
+        private Mock<IRepository<EventArea>> _eventAreaRepository;
+
+        private Mock<IEventRepository> _eventRepository;
+
+        private Mock<IRepository<EventSeat>> _eventSeatRepository;
+
+        private EventService _eventService;
+
+        private Mock<IRepository<Layout>> _layoutRepository;
+
+        private Mock<IMapperConfigurationProvider> _mapper;
+
+        private Mock<IRepository<Seat>> _seatRepository;
+
+        private Mock<IRepository<UserProfile>> _userProfileRepository;
+
         [SetUp]
         public void SetUp()
         {
@@ -113,26 +129,6 @@ namespace EpamNetProject.BLL.Tests
                 _areaRepository.Object, _seatRepository.Object, _eventSeatRepository.Object,
                 _eventAreaRepository.Object, _userProfileRepository.Object, 15, _mapper.Object);
         }
-
-        private const int ReturnId = 10;
-
-        private Mock<IRepository<Area>> _areaRepository;
-
-        private Mock<IEventRepository> _eventRepository;
-
-        private EventService _eventService;
-
-        private Mock<IRepository<Layout>> _layoutRepository;
-
-        private Mock<IRepository<Seat>> _seatRepository;
-
-        private Mock<IRepository<EventSeat>> _eventSeatRepository;
-
-        private Mock<IRepository<EventArea>> _eventAreaRepository;
-
-        private Mock<IRepository<UserProfile>> _userProfileRepository;
-
-        private Mock<IMapperConfigurationProvider> _mapper;
 
         [Test]
         public void CreateEvent_WhenEventWithDateInPast_ShouldReturnDateInPastValidationException()

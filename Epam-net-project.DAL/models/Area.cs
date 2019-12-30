@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace EpamNetProject.DAL.models
+﻿namespace EpamNetProject.DAL.models
 {
     public class Area : BaseEntity
     {

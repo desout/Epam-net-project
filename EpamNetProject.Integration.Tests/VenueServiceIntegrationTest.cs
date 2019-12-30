@@ -1,6 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-using System.Configuration;
-using System.Transactions;
 using EpamNetProject.BLL.Infrastucture;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
@@ -9,14 +6,24 @@ using EpamNetProject.DAL;
 using EpamNetProject.DAL.Interfaces;
 using EpamNetProject.DAL.models;
 using EpamNetProject.DAL.Repositories;
-using FluentAssertions;
-using NUnit.Framework;
 
 namespace EpamNetProject.Integration.Tests
 {
     [TestFixture]
     public class VenueServiceIntegrationTest
     {
+        private IRepository<Area> _areaRepository;
+
+        private IRepository<Layout> _layoutRepository;
+
+        private IMapperConfigurationProvider _mapper;
+
+        private IRepository<Seat> _seatRepository;
+
+        private IRepository<Venue> _venueRepository;
+
+        private VenueService _venueService;
+
         [SetUp]
         public void SetUp()
         {
@@ -31,18 +38,6 @@ namespace EpamNetProject.Integration.Tests
             _venueService = new VenueService(_seatRepository, _layoutRepository,
                 _venueRepository, _areaRepository, _mapper);
         }
-
-        private IRepository<Area> _areaRepository;
-
-        private IRepository<Layout> _layoutRepository;
-
-        private IRepository<Seat> _seatRepository;
-
-        private IRepository<Venue> _venueRepository;
-
-        private VenueService _venueService;
-
-        private IMapperConfigurationProvider _mapper;
 
         [Test]
         public void CreateArea_WhenAreaDescriptionExists_ShouldReturnValidationException()

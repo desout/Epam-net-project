@@ -1,10 +1,10 @@
 @using System.Web.Script.Serialization
-@model EpamNetProject.PLL.Models.LayoutAreaViewModel
 @using Resources
+@model EpamNetProject.PLL.Models.LayoutAreaViewModel
 <span>
-	Legend <br/>
-	left click on area - add seat<br/>
-	right click on area - edit area<br/>
+    Legend <br/>
+    left click on area - add seat<br/>
+    right click on area - edit area<br/>
 </span>
 <span class="tooltip"></span>
 <button data-id="button-create-area">@Resource.LAYOUT_CREATEAREA</button>
@@ -13,7 +13,7 @@
 @Scripts.Render("~/bundles/ISM_EDIT")
 <script>
     @{
-        JavaScriptSerializer js = new JavaScriptSerializer();
+        var js = new JavaScriptSerializer();
         var areasString = js.Serialize(Model.Areas);
         var seatsString = js.Serialize(Model.Seats);
     }

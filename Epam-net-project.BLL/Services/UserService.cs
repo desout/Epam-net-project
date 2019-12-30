@@ -1,6 +1,4 @@
-using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using EpamNetProject.BLL.Infrastucture;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.DAL.Interfaces;

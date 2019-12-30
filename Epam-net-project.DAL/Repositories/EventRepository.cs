@@ -1,7 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.SqlClient;
-using System.Linq;
 using EpamNetProject.DAL.Interfaces;
 using EpamNetProject.DAL.models;
 
@@ -21,11 +18,12 @@ namespace EpamNetProject.DAL.Repositories
 
         public int Add(Event entity)
         {
-            var returnedId =_context.Database.SqlQuery<int>("EventInsert @Name, @Descr, @EventDate, @LayoutId, @ImgUrl",
-                    new SqlParameter("@Name", entity.Name), 
+            var returnedId = _context.Database.SqlQuery<int>(
+                    "EventInsert @Name, @Descr, @EventDate, @LayoutId, @ImgUrl",
+                    new SqlParameter("@Name", entity.Name),
                     new SqlParameter("@Descr", entity.Description),
-                    new SqlParameter("@EventDate", entity.EventDate), 
-                    new SqlParameter("@LayoutId", entity.LayoutId), 
+                    new SqlParameter("@EventDate", entity.EventDate),
+                    new SqlParameter("@LayoutId", entity.LayoutId),
                     new SqlParameter("@ImgUrl", entity.ImgUrl))
                 .FirstOrDefault();
             _context.SaveChanges();
@@ -44,7 +42,7 @@ namespace EpamNetProject.DAL.Repositories
 
         public int Remove(int id)
         {
-           _context.Database.ExecuteSqlCommand("EXEC EventDeleteById @Id", new SqlParameter("@Id", id));
+            _context.Database.ExecuteSqlCommand("EXEC EventDeleteById @Id", new SqlParameter("@Id", id));
             _context.SaveChanges();
             return id;
         }
@@ -52,11 +50,11 @@ namespace EpamNetProject.DAL.Repositories
         public int Update(Event entity)
         {
             _context.Database.ExecuteSqlCommand("EXEC EventUpdate @Name, @Descr, @EventDate, @LayoutId, @Id, @ImgUrl",
-                new SqlParameter("@Name", entity.Name), 
+                new SqlParameter("@Name", entity.Name),
                 new SqlParameter("@Descr", entity.Description),
-                new SqlParameter("@EventDate", entity.EventDate), 
+                new SqlParameter("@EventDate", entity.EventDate),
                 new SqlParameter("@LayoutId", entity.LayoutId),
-                new SqlParameter("@Id", entity.Id), 
+                new SqlParameter("@Id", entity.Id),
                 new SqlParameter("@ImgUrl", entity.ImgUrl));
             _context.SaveChanges();
             return entity.Id;

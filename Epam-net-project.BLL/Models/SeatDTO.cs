@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using EpamNetProject.DAL.Models;
-
-namespace EpamNetProject.BLL.Models
+﻿namespace EpamNetProject.BLL.Models
 {
     public class SeatDto
     {

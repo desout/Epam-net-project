@@ -16,9 +16,10 @@ namespace EpamNetProject.PLL.Areas.Events.Controllers
     [ActionErrorLog]
     public class EventsController : Controller
     {
+        private readonly BasketScheduler _basketScheduler;
+
         private readonly IEventService _eventService;
 
-        private readonly BasketScheduler _basketScheduler;
         public EventsController(IEventService eventService, BasketScheduler basketScheduler)
         {
             _eventService = eventService;
@@ -64,7 +65,7 @@ namespace EpamNetProject.PLL.Areas.Events.Controllers
                 var delay = int.Parse(ConfigurationManager.AppSettings["ReserveTime"]);
                 var expires = delay - TimeSpan.FromTicks(DateTime.UtcNow.Ticks - reserveDate.Value.Ticks).TotalMinutes;
                 var returnedValue = reserveDate.Value
-                    .Subtract(new DateTime(1970,1,1,0,0,0,DateTimeKind.Utc))
+                    .Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc))
                     .TotalMilliseconds;
                 var cookie = new HttpCookie("reserveDate")
                     {HttpOnly = false, Value = returnedValue.ToString(), Expires = DateTime.Now.AddMinutes(expires)};
@@ -76,14 +77,13 @@ namespace EpamNetProject.PLL.Areas.Events.Controllers
             {
                 return Json(false);
             }
-            
         }
 
         [Authorize]
         public ActionResult ProceedToCheckout()
         {
             var userId = User.Identity.GetUserId();
-            return View(_eventService.GetReservedSeatByUser(userId).GroupBy(x=>x.EventName));
+            return View(_eventService.GetReservedSeatByUser(userId).GroupBy(x => x.EventName));
         }
 
         [Authorize]
@@ -93,6 +93,7 @@ namespace EpamNetProject.PLL.Areas.Events.Controllers
             var isSuccess = _eventService.ChangeStatusToBuy(userId, totalAmount);
             return View(isSuccess ? "PaymentSuccess" : "PaymentFailed");
         }
+
         [HttpPost]
         [Authorize]
         public ActionResult Deselect(int id)
@@ -103,27 +104,30 @@ namespace EpamNetProject.PLL.Areas.Events.Controllers
                 if (reserveDate.HasValue)
                 {
                     var delay = int.Parse(ConfigurationManager.AppSettings["ReserveTime"]);
-                    var expires = delay - TimeSpan.FromTicks(DateTime.UtcNow.Ticks - reserveDate.Value.Ticks).TotalMinutes;
+                    var expires = delay - TimeSpan.FromTicks(DateTime.UtcNow.Ticks - reserveDate.Value.Ticks)
+                                      .TotalMinutes;
                     var returnedValue = reserveDate.Value
-                        .Subtract(new DateTime(1970,1,1,0,0,0,DateTimeKind.Utc))
+                        .Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc))
                         .TotalMilliseconds;
                     var cookie = new HttpCookie("reserveDate")
-                        {HttpOnly = false, Value = returnedValue.ToString(), Expires = DateTime.Now.AddMinutes(expires)};
+                    {
+                        HttpOnly = false, Value = returnedValue.ToString(), Expires = DateTime.Now.AddMinutes(expires)
+                    };
                     Response.Cookies.Set(cookie);
                 }
                 else
                 {
                     Response.Cookies["reserveDate"].Expires = DateTime.Now.AddDays(-1);
                 }
+
                 return Json(true);
             }
             catch
             {
-
                 return Json(false);
             }
         }
-        
+
         private void ConfigureScheduler()
         {
             _basketScheduler.Start(User.Identity.GetUserId());

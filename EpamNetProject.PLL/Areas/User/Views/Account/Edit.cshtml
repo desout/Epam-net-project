@@ -5,7 +5,6 @@
     <h1 class="editProfile__TITLE">@Resource.ACCOUNT_EDIT_TITLE</h1>
     @using (Html.BeginForm("SaveProfile", "Account", new {@class = "editProfile__form"}))
     {
-        
         @Html.AntiForgeryToken()
         @Html.HiddenFor(x => x.UserId)
         <label>

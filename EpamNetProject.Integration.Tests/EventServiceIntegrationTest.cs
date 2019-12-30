@@ -1,7 +1,4 @@
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.Configuration;
-using System.Transactions;
 using EpamNetProject.BLL.Infrastucture;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
@@ -10,14 +7,30 @@ using EpamNetProject.DAL;
 using EpamNetProject.DAL.Interfaces;
 using EpamNetProject.DAL.models;
 using EpamNetProject.DAL.Repositories;
-using FluentAssertions;
-using NUnit.Framework;
 
 namespace EpamNetProject.Integration.Tests
 {
     [TestFixture]
     public class EventServiceIntegrationTest
     {
+        private IRepository<Area> _areaRepository;
+
+        private IRepository<EventArea> _eventAreaRepository;
+
+        private IEventRepository _eventRepository;
+
+        private IRepository<EventSeat> _eventSeatRepository;
+
+        private EventService _eventService;
+
+        private IRepository<Layout> _layoutRepository;
+
+        private IMapperConfigurationProvider _mapper;
+
+        private IRepository<Seat> _seatRepository;
+
+        private IRepository<UserProfile> _userProfileRepository;
+
         [SetUp]
         public void SetUp()
         {
@@ -37,24 +50,6 @@ namespace EpamNetProject.Integration.Tests
                 _areaRepository, _seatRepository, _eventSeatRepository, _eventAreaRepository, _userProfileRepository,
                 15, _mapper);
         }
-
-        private IRepository<Area> _areaRepository;
-
-        private IEventRepository _eventRepository;
-
-        private EventService _eventService;
-
-        private IRepository<Layout> _layoutRepository;
-
-        private IRepository<Seat> _seatRepository;
-
-        private IRepository<EventSeat> _eventSeatRepository;
-
-        private IRepository<EventArea> _eventAreaRepository;
-
-        private IRepository<UserProfile> _userProfileRepository;
-
-        private IMapperConfigurationProvider _mapper;
 
         [Test]
         public void CreateEvent_WhenEventWithSameTimeExists_ShouldReturnSameTimeValidationException()

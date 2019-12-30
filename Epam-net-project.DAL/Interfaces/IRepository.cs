@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace EpamNetProject.DAL.Interfaces
+﻿namespace EpamNetProject.DAL.Interfaces
 {
     public interface IRepository<TEntity> where TEntity : class
     {

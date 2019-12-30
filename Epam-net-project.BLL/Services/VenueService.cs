@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Data.Entity.Core;
-using System.Linq;
-using AutoMapper;
 using EpamNetProject.BLL.Infrastucture;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
@@ -89,11 +85,6 @@ namespace EpamNetProject.BLL.Services
             return _seatRepository.Add(_mapper.Map<Seat>(seat));
         }
 
-        public VenueDto GetVenue(int id)
-        {
-            return _mapper.Map<VenueDto>(_venueRepository.Get(id));
-        }
-
         public List<VenueDto> GetVenues()
         {
             return _mapper.Map<List<VenueDto>>(_venueRepository.GetAll());
@@ -136,10 +127,11 @@ namespace EpamNetProject.BLL.Services
         public SeatDto AddSeat(SeatDto seatDto)
         {
             if (_seatRepository.GetAll().Any(x => x.AreaId == seatDto.AreaId && x.Number == seatDto.Number &&
-                                                       x.Row == seatDto.Row))
+                                                  x.Row == seatDto.Row))
             {
                 throw new EntityException("This seat is exist now");
             }
+
             var id = _seatRepository.Add(_mapper.Map<Seat>(seatDto));
 
             seatDto.Id = id;
@@ -155,11 +147,18 @@ namespace EpamNetProject.BLL.Services
             {
                 baseArea.CoordX = area.CoordX.Value;
             }
+
             if (area.CoordY.HasValue)
             {
                 baseArea.CoordY = area.CoordY.Value;
             }
+
             return _areaRepository.Update(baseArea);
+        }
+
+        public VenueDto GetVenue(int id)
+        {
+            return _mapper.Map<VenueDto>(_venueRepository.Get(id));
         }
 
         public SeatDto GetSeat(int id)

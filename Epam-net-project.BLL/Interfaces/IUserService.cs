@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using EpamNetProject.BLL.Infrastucture;
-using EpamNetProject.DAL.models;
 using EpamNetProject.PLL.Models;
 
 namespace EpamNetProject.BLL.Interfaces

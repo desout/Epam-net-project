@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Data;
-using System.Data.Entity.Core;
-using System.Linq;
-using AutoMapper;
 using EpamNetProject.BLL.Infrastucture;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.DAL.Interfaces;
 using EpamNetProject.DAL.models;
 using EpamNetProject.DAL.Models;
-using Ninject.Infrastructure.Language;
 
 namespace EpamNetProject.BLL.Services
 {
@@ -175,7 +169,7 @@ namespace EpamNetProject.BLL.Services
                 return 0;
             }
 
-            return (seats.Count() / availableSeatsCount) * 100;
+            return seats.Count() / availableSeatsCount * 100;
         }
 
         public IEnumerable<EventAreaDto> GetAreasByEvent(int eventId)
@@ -271,7 +265,7 @@ namespace EpamNetProject.BLL.Services
         {
             var profile = _userProfileRepository.GetAll().Where(x => x.UserId == userId).AsEnumerable().FirstOrDefault(
                 x => x.ReserveDate.HasValue && x.ReserveDate.Value.AddMinutes(_reserveTime) < DateTime.UtcNow);
-            
+
             UpdateSeats(profile);
             profile.ReserveDate = null;
             _userProfileRepository.Update(profile);
@@ -288,34 +282,6 @@ namespace EpamNetProject.BLL.Services
                 _userProfileRepository.Update(profile);
             }
         }
-        private bool IsSeatsExist(EventDto _event)
-        {
-            return _seatRepository.GetAll().Join(_areaRepository.GetAll().Where(a => a.LayoutId == _event.LayoutId),
-                s => s.AreaId,
-                a => a.Id,
-                (s, a) => s).Any();
-        }
-
-        private bool IsSeatsBought(int id)
-        {
-            return _eventSeatRepository.GetAll().Join(_eventAreaRepository.GetAll().Where(x => x.EventId == id),
-                s => s.EventAreaId, a => a.Id, (s, a) => s).Any(x => x.State != SeatStatus.Free);
-        }
-        private bool IsSeatsBoughtByArea(int id)
-        {
-            return _eventSeatRepository.GetAll().Where(x => x.EventAreaId == id).Any(x => x.State != SeatStatus.Free);
-        }
-        private void UpdateSeats(UserProfile profile)
-        {
-            var seats = _eventSeatRepository.GetAll()
-                .Where(x => x.State == SeatStatus.Reserved && x.UserId == profile.UserId).ToList();
-            foreach (var seat in seats)
-            {
-                seat.State = 0;
-                seat.UserId = null;
-                _eventSeatRepository.Update(_mapper.Map<EventSeat>(seat));
-            }
-        }
 
         public EventAreaDto CreateEventArea(EventAreaDto eventArea)
         {
@@ -324,10 +290,9 @@ namespace EpamNetProject.BLL.Services
             eventArea.Id = id;
             return eventArea;
         }
-        
+
         public int UpdateEventArea(EventAreaDto eventArea)
         {
-            
             var baseArea = _eventAreaRepository.Get(eventArea.Id);
             if (!baseArea.Price.Equals(eventArea.Price))
             {
@@ -341,21 +306,14 @@ namespace EpamNetProject.BLL.Services
             {
                 baseArea.CoordX = eventArea.CoordX.Value;
             }
+
             if (eventArea.CoordY.HasValue)
             {
                 baseArea.CoordY = eventArea.CoordY.Value;
             }
+
             baseArea.Description = eventArea.Description;
             return _eventAreaRepository.Update(baseArea);
-        }
-        private bool IsEventExist(EventDto _event)
-        {
-            return _eventRepository.GetAll()
-                .Join(_layoutRepository.GetAll(),
-                    e => e.LayoutId,
-                    l => l.Id,
-                    (e, l) => e)
-                .Any(e => e.EventDate == _event.EventDate);
         }
 
         public int RemoveSeat(int id)
@@ -370,15 +328,58 @@ namespace EpamNetProject.BLL.Services
 
         public EventSeatDto AddSeat(EventSeatDto eventSeatDto)
         {
-            if (_eventSeatRepository.GetAll().Any(x => x.EventAreaId == eventSeatDto.EventAreaId && x.Number == eventSeatDto.Number &&
-                                                       x.Row == eventSeatDto.Row))
+            if (_eventSeatRepository.GetAll().Any(x =>
+                x.EventAreaId == eventSeatDto.EventAreaId && x.Number == eventSeatDto.Number &&
+                x.Row == eventSeatDto.Row))
             {
                 throw new EntityException("This seat is exist now");
             }
+
             var id = _eventSeatRepository.Add(_mapper.Map<EventSeat>(eventSeatDto));
 
             eventSeatDto.Id = id;
             return eventSeatDto;
+        }
+
+        private bool IsSeatsExist(EventDto _event)
+        {
+            return _seatRepository.GetAll().Join(_areaRepository.GetAll().Where(a => a.LayoutId == _event.LayoutId),
+                s => s.AreaId,
+                a => a.Id,
+                (s, a) => s).Any();
+        }
+
+        private bool IsSeatsBought(int id)
+        {
+            return _eventSeatRepository.GetAll().Join(_eventAreaRepository.GetAll().Where(x => x.EventId == id),
+                s => s.EventAreaId, a => a.Id, (s, a) => s).Any(x => x.State != SeatStatus.Free);
+        }
+
+        private bool IsSeatsBoughtByArea(int id)
+        {
+            return _eventSeatRepository.GetAll().Where(x => x.EventAreaId == id).Any(x => x.State != SeatStatus.Free);
+        }
+
+        private void UpdateSeats(UserProfile profile)
+        {
+            var seats = _eventSeatRepository.GetAll()
+                .Where(x => x.State == SeatStatus.Reserved && x.UserId == profile.UserId).ToList();
+            foreach (var seat in seats)
+            {
+                seat.State = 0;
+                seat.UserId = null;
+                _eventSeatRepository.Update(_mapper.Map<EventSeat>(seat));
+            }
+        }
+
+        private bool IsEventExist(EventDto _event)
+        {
+            return _eventRepository.GetAll()
+                .Join(_layoutRepository.GetAll(),
+                    e => e.LayoutId,
+                    l => l.Id,
+                    (e, l) => e)
+                .Any(e => e.EventDate == _event.EventDate);
         }
     }
 }

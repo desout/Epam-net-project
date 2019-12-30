@@ -66,9 +66,9 @@ namespace EpamNetProject.PLL.Services
         public List<string> Register(UserDTO user)
         {
             var operationDetails = _applicationUserManager.Create(user, user.Password);
-            if (operationDetails.Errors.Any())
+            if (Enumerable.Any<string>(operationDetails.Errors))
             {
-                return operationDetails.Errors.ToList();
+                return Enumerable.ToList<string>(operationDetails.Errors);
             }
 
             user.Id = _userService.getUserByName(user.UserName).Result.Id;

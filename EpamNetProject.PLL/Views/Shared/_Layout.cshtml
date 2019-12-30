@@ -42,29 +42,30 @@
         @Html.ActionLink(Resource.ApplicationName, "Index", "Home", new {area = ""}, new {@class = "navbar__brand"})
     </div>
     <div class="navbar__basket">
-     <p> @Resource.MAIN_BASKETTIME</p> <p class="navbar__basket--time"></p>
+        <p> @Resource.MAIN_BASKETTIME</p>
+        <p class="navbar__basket--time"></p>
     </div>
     <ul class="navbar__navigation">
-        <li>@Html.Action("Basket","Account", new { area = "User"})</li>
+        <li>@Html.Action("Basket", "Account", new {area = "User"})</li>
         @if (!User.Identity.IsAuthenticated)
         {
-            <li>@Html.ActionLink(Resource.MAIN_LOGIN, "Login", "Account", new { area = "User"}, null)</li>
-            <li>@Html.ActionLink(Resource.MAIN_REGISTER, "Register", "Account", new { area = "User"}, null)</li>
+            <li>@Html.ActionLink(Resource.MAIN_LOGIN, "Login", "Account", new {area = "User"}, null)</li>
+            <li>@Html.ActionLink(Resource.MAIN_REGISTER, "Register", "Account", new {area = "User"}, null)</li>
         }
         else
         {
-            <li>@Html.ActionLink(Resource.MAIN_PROFILE, "Profile", "Account", new { area = "User"}, null)</li>
-            <li>@Html.ActionLink(Resource.MAIN_LOGOUT, "Logout", "Account", new { area = "User"}, null)</li>
+            <li>@Html.ActionLink(Resource.MAIN_PROFILE, "Profile", "Account", new {area = "User"}, null)</li>
+            <li>@Html.ActionLink(Resource.MAIN_LOGOUT, "Logout", "Account", new {area = "User"}, null)</li>
             if (Context.User.IsInRole("Manager") || Context.User.IsInRole("Admin"))
             {
                 <li>@Html.ActionLink(Resource.MAIN_EDITEVENTS, "EditEvents", "Manager")</li>
             }
             if (Context.User.IsInRole("Manager") || Context.User.IsInRole("Admin"))
             {
-                 <li>@Html.ActionLink(Resource.MAIN_EDITLAYOUTS, "EditLayouts", "Manager")</li>
+                <li>@Html.ActionLink(Resource.MAIN_EDITLAYOUTS, "EditLayouts", "Manager")</li>
             }
         }
-        <li>@Html.ActionLink(Resource.MAIN_EVENTS, "Index", "Events", new { area = "Events"}, null)</li>
+        <li>@Html.ActionLink(Resource.MAIN_EVENTS, "Index", "Events", new {area = "Events"}, null)</li>
         <li>
             @using (Html.BeginForm("ChangeCulture", "Home", FormMethod.Post))
             {

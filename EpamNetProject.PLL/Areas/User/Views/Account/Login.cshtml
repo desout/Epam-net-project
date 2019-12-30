@@ -6,12 +6,13 @@
     {
         @Html.AntiForgeryToken()
         <div >
-             <label><p>@Resource.ACCOUNT_LOGIN_USERNAME</p> @Html.EditorFor(x => x.UserName)</label>
+            <label>
+                <p>@Resource.ACCOUNT_LOGIN_USERNAME</p> @Html.EditorFor(x => x.UserName)</label>
         </div>
         <div>
-            <label><p>@Resource.ACCOUNT_LOGIN_PASSWORD</p> @Html.EditorFor(x => x.Password)</label>
+            <label>
+                <p>@Resource.ACCOUNT_LOGIN_PASSWORD</p> @Html.EditorFor(x => x.Password)</label>
         </div>
         <button type="submit" class="button__submit"> @Resource.ACCOUNT_LOGIN_SUBMITBUTTON</button>
     }
 </div>
-

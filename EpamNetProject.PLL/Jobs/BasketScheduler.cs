@@ -5,9 +5,10 @@ namespace EpamNetProject.PLL.Jobs
 {
     public class BasketScheduler
     {
+        private readonly int _reserveTime;
+
         private readonly IScheduler _scheduler;
 
-        private readonly int _reserveTime;
         public BasketScheduler(IScheduler scheduler, int reserveTime)
         {
             _scheduler = scheduler;

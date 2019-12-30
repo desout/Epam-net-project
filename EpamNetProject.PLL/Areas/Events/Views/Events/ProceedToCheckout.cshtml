@@ -1,12 +1,11 @@
 @using Resources
-@model IEnumerable<IGrouping<string,EpamNetProject.BLL.Models.PriceSeat>>
+@model IEnumerable<IGrouping<string, EpamNetProject.BLL.Models.PriceSeat>>
 
 <h1>@Resource.PAYMENT_METHOD</h1>
 @using (Html.BeginForm("Buy", "Events", FormMethod.Post))
 {
-    
     <h3>@Resource.PAYMENT_SEATSTITLE</h3>
-                                    
+
     foreach (var group in Model)
     {
         <h4>@group.Key</h4>
@@ -16,7 +15,7 @@
         }
     }
     var fullPrice = Model.SelectMany(x => x).Sum(x => x.Price);
-    
+
     <p>@Resource.PAYMENT_FULLPRICETITLE - @fullPrice</p>
     @Html.Hidden("totalAmount", fullPrice)
     <button type="submit" class="button__submit">@Resource.PAYMENT_SUBMIT</button>

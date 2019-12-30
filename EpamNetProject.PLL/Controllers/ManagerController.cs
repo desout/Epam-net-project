@@ -1,12 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Data.Entity.Core;
 using System.Linq;
-using System.Web.Helpers;
 using System.Web.Mvc;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
-using EpamNetProject.DAL.models;
 using EpamNetProject.PLL.Models;
 
 namespace EpamNetProject.PLL.Controllers
@@ -207,7 +204,6 @@ namespace EpamNetProject.PLL.Controllers
                 Data = new {Success = true, Area = baseArea},
                 JsonRequestBehavior = JsonRequestBehavior.DenyGet
             };
-
         }
 
         public JsonResult ChangeArea(EventAreaDto area)
@@ -239,6 +235,7 @@ namespace EpamNetProject.PLL.Controllers
                 };
             }
         }
+
         [HttpPost]
         [Authorize(Roles = "Manager, Admin")]
         public JsonResult RemoveSeat(int id)
@@ -246,6 +243,7 @@ namespace EpamNetProject.PLL.Controllers
             var removeId = _eventService.RemoveSeat(id);
             return Json(removeId > 0);
         }
+
         [Authorize(Roles = "Manager, Admin")]
         public ActionResult AddSeat(AddSeatModel model)
         {
@@ -278,17 +276,16 @@ namespace EpamNetProject.PLL.Controllers
                     JsonRequestBehavior = JsonRequestBehavior.DenyGet
                 };
             }
-            
         }
+
         [Authorize(Roles = "Manager, Admin")]
         public ActionResult EditMainLayout(int? id)
         {
-
             if (!id.HasValue)
             {
                 return View(new LayoutAreaViewModel());
             }
-            
+
             var seats = _venueService.GetSeatsByLayout(id.Value).ToList();
             var areas = _venueService.GetAreasByLayout(id.Value).ToList();
 
@@ -300,6 +297,7 @@ namespace EpamNetProject.PLL.Controllers
             };
             return View(returnedModel);
         }
+
         [Authorize(Roles = "Manager, Admin")]
         public ActionResult ChangeMainArea(AreaDto area)
         {
@@ -330,6 +328,7 @@ namespace EpamNetProject.PLL.Controllers
                 };
             }
         }
+
         [Authorize(Roles = "Manager, Admin")]
         public ActionResult AddMainSeat(AddSeatModel model)
         {
@@ -363,12 +362,14 @@ namespace EpamNetProject.PLL.Controllers
                 };
             }
         }
+
         [Authorize(Roles = "Manager, Admin")]
         public ActionResult RemoveMainSeat(int id)
         {
             var removeId = _venueService.RemoveSeat(id);
             return Json(removeId > 0);
         }
+
         [Authorize(Roles = "Manager, Admin")]
         public ActionResult AddMainArea(AddAreaModel area)
         {

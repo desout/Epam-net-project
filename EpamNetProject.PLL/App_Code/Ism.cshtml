@@ -1,8 +1,6 @@
 @using System.Web.Optimization
 @using System.Web.Script.Serialization
 @using EpamNetProject.BLL.Models
-
-
 @helper ISM(List<EventAreaDto> areas, List<EventSeatDto> seats, string link, string linkDeselect)
 {
     <div id="ISM__MAP" style="position: relative; height: 200px; width: 300px;align-self: center;"></div>
@@ -12,12 +10,12 @@
     @Scripts.Render("~/bundles/ISM")
     <script>
         @{
-            JavaScriptSerializer js = new JavaScriptSerializer();
+            var js = new JavaScriptSerializer();
             var areasString = js.Serialize(areas);
             var seatsString = js.Serialize(seats);
         }
         var areasLocal = JSON.parse('@areasString'.replace(/&quot;/g, '"'));
         var seatsLocal = JSON.parse('@seatsString'.replace(/&quot;/g, '"'));
-        generateSim(areasLocal,seatsLocal,'@(link)','@(linkDeselect)')
+        generateSim(areasLocal,seatsLocal,'@( link)','@( linkDeselect)')
 </script>
 }

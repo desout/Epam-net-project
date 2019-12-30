@@ -1,4 +1,3 @@
-using EpamNetProject.DAL.models;
 using EpamNetProject.PLL.Models;
 using Microsoft.AspNet.Identity;
 

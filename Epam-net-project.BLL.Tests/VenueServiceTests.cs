@@ -1,20 +1,36 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.BLL.Services;
 using EpamNetProject.DAL.Interfaces;
 using EpamNetProject.DAL.models;
-using Moq;
-using NUnit.Framework;
 
 namespace EpamNetProject.BLL.Tests
 {
     [TestFixture]
     public class VenueServiceTests
     {
+        private const int ReturnIdVenue = 10;
+
+        private const int ReturnIdSeat = 20;
+
+        private const int ReturnIdLayout = 30;
+
+        private const int ReturnIdArea = 40;
+
+        private Mock<IRepository<Area>> _areaRepository;
+
+        private Mock<IRepository<Layout>> _layoutRepository;
+
+        private Mock<IMapperConfigurationProvider> _mapper;
+
+        private Mock<IRepository<Seat>> _seatRepository;
+
+        private Mock<IRepository<Venue>> _venueRepository;
+
+        private VenueService _venueService;
+
         [SetUp]
         public void SetUp()
         {
@@ -96,26 +112,6 @@ namespace EpamNetProject.BLL.Tests
             _venueService = new VenueService(_seatRepository.Object, _layoutRepository.Object,
                 _venueRepository.Object, _areaRepository.Object, _mapper.Object);
         }
-
-        private const int ReturnIdVenue = 10;
-
-        private const int ReturnIdSeat = 20;
-
-        private const int ReturnIdLayout = 30;
-
-        private const int ReturnIdArea = 40;
-
-        private Mock<IRepository<Area>> _areaRepository;
-
-        private Mock<IRepository<Layout>> _layoutRepository;
-
-        private Mock<IRepository<Seat>> _seatRepository;
-
-        private Mock<IRepository<Venue>> _venueRepository;
-
-        private VenueService _venueService;
-
-        private Mock<IMapperConfigurationProvider> _mapper;
 
         [Test]
         public void CreateArea_WhenAreaDescriptionExists_ShouldReturnValidationException()

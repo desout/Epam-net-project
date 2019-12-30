@@ -120,7 +120,8 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
                     {
                         IsPersistent = true
                     }, claim);
-                    var user = _userService.getUserProfile(AuthenticationManager.AuthenticationResponseGrant.Identity.GetUserId());
+                    var user = _userService.getUserProfile(AuthenticationManager.AuthenticationResponseGrant.Identity
+                        .GetUserId());
                     var cookie = new HttpCookie("lang")
                         {HttpOnly = false, Value = user.Language, Expires = DateTime.Now.AddYears(1)};
                     Response.Cookies.Set(cookie);
@@ -135,7 +136,7 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
         public ActionResult Logout()
         {
             AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home", new {area=""});
+            return RedirectToAction("Index", "Home", new {area = ""});
         }
 
         public ActionResult Register()
@@ -185,7 +186,6 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
             }
 
 
-
             return View(model);
         }
 
@@ -200,7 +200,7 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
                 JsonRequestBehavior = JsonRequestBehavior.DenyGet
             };
         }
-        
+
         public PartialViewResult Basket()
         {
             var countOfItems = 0;
@@ -208,7 +208,8 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
             {
                 countOfItems = _eventService.GetReservedSeatByUser(User.Identity.GetUserId()).Count;
             }
-            return PartialView("Basket",countOfItems);
+
+            return PartialView("Basket", countOfItems);
         }
     }
 }

@@ -1,9 +1,7 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using EpamNetProject.BLL.Interfaces;
-using EpamNetProject.DAL.models;
 using EpamNetProject.PLL.Interfaces;
 using EpamNetProject.PLL.Models;
 using Microsoft.AspNet.Identity;
@@ -49,7 +47,7 @@ namespace EpamNetProject.PLL.Managers
 
         public async Task<string> GetPasswordHashAsync(UserDTO user)
         {
-           return await _userService.GetPasswordHashAsync(user);
+            return await _userService.GetPasswordHashAsync(user);
         }
 
         public async Task<bool> HasPasswordAsync(UserDTO user)

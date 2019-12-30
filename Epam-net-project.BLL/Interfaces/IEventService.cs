@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using EpamNetProject.BLL.Models;
-using EpamNetProject.DAL.models;
 
 namespace EpamNetProject.BLL.Interfaces
 {
@@ -13,7 +11,7 @@ namespace EpamNetProject.BLL.Interfaces
         int UpdateEvent(EventDto Event);
 
         int UpdateEventArea(EventAreaDto area);
-        
+
         DateTime? ReserveSeat(int id, string userId);
 
         DateTime? UnReserveSeat(int id, string userId);
@@ -27,7 +25,7 @@ namespace EpamNetProject.BLL.Interfaces
         IEnumerable<EventAreaDto> GetAreasByEvent(int eventId);
 
         IEnumerable<EventSeatDto> GetSeatsByUser(string userId);
-        
+
         EventAreaDto CreateEventArea(EventAreaDto eventArea);
 
         List<EventAreaDto> GetAllAreas();
@@ -43,10 +41,11 @@ namespace EpamNetProject.BLL.Interfaces
         List<PriceSeat> GetReservedSeatByUser(string userId);
 
         void CheckReservation(string userId);
-        
+
         void CheckReservationAll();
 
         int RemoveSeat(int id);
+
         EventSeatDto AddSeat(EventSeatDto eventSeatDto);
     }
 }

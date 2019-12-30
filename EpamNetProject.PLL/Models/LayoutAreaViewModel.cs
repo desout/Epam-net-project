@@ -5,12 +5,12 @@ namespace EpamNetProject.PLL.Models
 {
     public class LayoutAreaViewModel
     {
-        
         public List<AreaDto> Areas;
+
+        public int LayoutId;
 
         public List<SeatDto> Seats;
 
-        public int LayoutId;
         public LayoutAreaViewModel()
         {
             Areas = new List<AreaDto>();
