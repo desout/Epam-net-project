@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PLL", "PLL", "{C4D822C1-F66
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EpamNetProject.PLL", "EpamNetProject.PLL\EpamNetProject.PLL.csproj", "{4DE299AB-DD47-42AE-ADB2-C8C0E26A27D6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EpamNetProject.AutomatedUITests", "EpamNetProject.AutomatedUITests\EpamNetProject.AutomatedUITests.csproj", "{1619A4BC-A635-483B-A6A3-8626ECE9E4E3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{4DE299AB-DD47-42AE-ADB2-C8C0E26A27D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DE299AB-DD47-42AE-ADB2-C8C0E26A27D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DE299AB-DD47-42AE-ADB2-C8C0E26A27D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1619A4BC-A635-483B-A6A3-8626ECE9E4E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1619A4BC-A635-483B-A6A3-8626ECE9E4E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1619A4BC-A635-483B-A6A3-8626ECE9E4E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1619A4BC-A635-483B-A6A3-8626ECE9E4E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
