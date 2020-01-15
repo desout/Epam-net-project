@@ -1,4 +1,5 @@
-﻿using EpamNetProject.DAL.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using EpamNetProject.DAL.Models;
 
 namespace EpamNetProject.BLL.Models
 {

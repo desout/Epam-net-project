@@ -90,8 +90,16 @@ namespace EpamNetProject.PLL.Areas.Events.Controllers
         public ActionResult Buy(decimal totalAmount)
         {
             var userId = User.Identity.GetUserId();
-            var isSuccess = _eventService.ChangeStatusToBuy(userId, totalAmount);
-            return View(isSuccess ? "PaymentSuccess" : "PaymentFailed");
+            try
+            {
+                var countOfTickets = _eventService.ChangeStatusToBuy(userId, totalAmount);
+                return View("PaymentSuccess", countOfTickets);
+            }
+            catch
+            {
+                return View("PaymentFailed");
+
+            }
         }
 
         [HttpPost]

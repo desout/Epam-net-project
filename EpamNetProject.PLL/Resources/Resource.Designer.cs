@@ -169,6 +169,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Incorrect login or password.
+        /// </summary>
+        public static string ACCOUNT_ERRORINCORRECTLOGINPASSWORD {
+            get {
+                return ResourceManager.GetString("ACCOUNT_ERRORINCORRECTLOGINPASSWORD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         public static string ACCOUNT_LOGIN_PASSWORD {
@@ -466,7 +475,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Payment end succesfull.
+        ///   Looks up a localized string similar to .
         /// </summary>
         public static string MAIN_PAYMENTSUCCESS {
             get {

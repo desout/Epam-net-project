@@ -1,3 +1,4 @@
+using AutoMapper;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.DAL.models;

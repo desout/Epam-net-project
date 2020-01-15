@@ -2,6 +2,7 @@
 @model EpamNetProject.PLL.Models.LoginModel
 
 <div class="login__block">
+    @Html.ValidationSummary()
     @using (Html.BeginForm("Login", "Account", FormMethod.Post, new {@class = "login__form"}))
     {
         @Html.AntiForgeryToken()

@@ -1,3 +1,5 @@
+using Microsoft.AspNet.Identity.EntityFramework;
+
 namespace EpamNetProject.PLL.Models
 {
     public class UserDTO : IdentityUser

@@ -1,4 +1,7 @@
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.Configuration;
+using System.Transactions;
 using EpamNetProject.BLL.Infrastucture;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
@@ -7,6 +10,8 @@ using EpamNetProject.DAL;
 using EpamNetProject.DAL.Interfaces;
 using EpamNetProject.DAL.models;
 using EpamNetProject.DAL.Repositories;
+using FluentAssertions;
+using NUnit.Framework;
 
 namespace EpamNetProject.Integration.Tests
 {

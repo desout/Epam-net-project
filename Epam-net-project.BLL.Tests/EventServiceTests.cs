@@ -1,10 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using EpamNetProject.BLL.Infrastucture;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.BLL.Services;
 using EpamNetProject.DAL.Interfaces;
 using EpamNetProject.DAL.models;
+using Moq;
+using NUnit.Framework;
 
 namespace EpamNetProject.BLL.Tests
 {
@@ -25,7 +30,7 @@ namespace EpamNetProject.BLL.Tests
 
         private Mock<IRepository<Layout>> _layoutRepository;
 
-        private Mock<IMapperConfigurationProvider> _mapper;
+        private IMapperConfigurationProvider _mapper;
 
         private Mock<IRepository<Seat>> _seatRepository;
 
@@ -41,7 +46,7 @@ namespace EpamNetProject.BLL.Tests
             _eventSeatRepository = new Mock<IRepository<EventSeat>>();
             _eventAreaRepository = new Mock<IRepository<EventArea>>();
             _userProfileRepository = new Mock<IRepository<UserProfile>>();
-            _mapper = new Mock<IMapperConfigurationProvider>();
+            _mapper = new MapperConfigurationProvider();
             _eventRepository.Setup(x => x.GetAll())
                 .Returns(new List<Event>
                 {
@@ -127,7 +132,7 @@ namespace EpamNetProject.BLL.Tests
 
             _eventService = new EventService(_eventRepository.Object, _layoutRepository.Object,
                 _areaRepository.Object, _seatRepository.Object, _eventSeatRepository.Object,
-                _eventAreaRepository.Object, _userProfileRepository.Object, 15, _mapper.Object);
+                _eventAreaRepository.Object, _userProfileRepository.Object, 15, _mapper);
         }
 
         [Test]
@@ -178,7 +183,8 @@ namespace EpamNetProject.BLL.Tests
             var sEvent = new EventDto
             {
                 Name = "New Event", Description = "Description", LayoutId = 1,
-                EventDate = DateTime.Today.Add(TimeSpan.FromDays(1))
+                EventDate = DateTime.Today.Add(TimeSpan.FromDays(1)),
+                ImgUrl = "img url"
             };
 
             var result = _eventService.CreateEvent(sEvent);

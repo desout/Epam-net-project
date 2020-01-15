@@ -153,6 +153,9 @@
   <data name="ACCOUNT_EDIT_TITLE" xml:space="preserve">
     <value>Редактирование профиля</value>
   </data>
+  <data name="ACCOUNT_ERRORINCORRECTLOGINPASSWORD" xml:space="preserve">
+    <value>Неверный логин или пароль</value>
+  </data>
   <data name="ACCOUNT_LOGIN_PASSWORD" xml:space="preserve">
     <value>Пароль</value>
   </data>

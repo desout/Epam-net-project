@@ -1,4 +1,6 @@
-﻿namespace EpamNetProject.BLL.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace EpamNetProject.BLL.Models
 {
     public class EventAreaDto
     {

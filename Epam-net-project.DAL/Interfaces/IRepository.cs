@@ -1,4 +1,6 @@
-﻿namespace EpamNetProject.DAL.Interfaces
+﻿using System.Linq;
+
+namespace EpamNetProject.DAL.Interfaces
 {
     public interface IRepository<TEntity> where TEntity : class
     {

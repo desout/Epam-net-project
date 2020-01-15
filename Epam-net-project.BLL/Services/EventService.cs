@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Data;
+using System.Data.Entity.Core;
+using System.Linq;
+using AutoMapper;
 using EpamNetProject.BLL.Infrastucture;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.DAL.Interfaces;
 using EpamNetProject.DAL.models;
 using EpamNetProject.DAL.Models;
+using Ninject.Infrastructure.Language;
 
 namespace EpamNetProject.BLL.Services
 {
@@ -213,7 +219,7 @@ namespace EpamNetProject.BLL.Services
             return _mapper.Map<List<EventDto>>(events);
         }
 
-        public bool ChangeStatusToBuy(string userId, decimal totalAmount)
+        public int ChangeStatusToBuy(string userId, decimal totalAmount)
         {
             var seats = _eventSeatRepository.GetAll().Where(x => x.State == SeatStatus.Reserved && x.UserId == userId)
                 .ToList();
@@ -221,7 +227,7 @@ namespace EpamNetProject.BLL.Services
             var userProfile = _userProfileRepository.GetAll().FirstOrDefault(x => x.UserId == userId);
             if (userProfile != null && userProfile.Balance < totalAmount)
             {
-                return false;
+                throw new UnauthorizedAccessException();
             }
 
             foreach (var seat in seats)
@@ -232,13 +238,13 @@ namespace EpamNetProject.BLL.Services
 
             if (userProfile == null)
             {
-                return true;
+                throw new UnauthorizedAccessException();
             }
 
             userProfile.Balance -= totalAmount;
             _userProfileRepository.Update(userProfile);
 
-            return true;
+            return seats.Count ;
         }
 
         public int RemoveEvent(int id)

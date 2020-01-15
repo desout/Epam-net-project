@@ -34,7 +34,7 @@ namespace EpamNetProject.BLL.Interfaces
 
         List<EventDto> GetUserPurchaseHistory(string userId);
 
-        bool ChangeStatusToBuy(string userId, decimal totalAmount);
+        int ChangeStatusToBuy(string userId, decimal totalAmount);
 
         int RemoveEvent(int id);
 

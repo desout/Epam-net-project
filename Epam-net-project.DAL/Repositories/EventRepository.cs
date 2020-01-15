@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.SqlClient;
+using System.Linq;
 using EpamNetProject.DAL.Interfaces;
 using EpamNetProject.DAL.models;
 

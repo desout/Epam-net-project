@@ -45,7 +45,7 @@ namespace EpamNetProject.PLL.Services
             return claim;
         }
 
-        public async Task SetInitialData(UserDTO adminDto, List<string> roles)
+        public async Task SetInitialData(List<UserDTO> users, List<string> roles)
         {
             foreach (var roleName in roles)
             {
@@ -56,11 +56,21 @@ namespace EpamNetProject.PLL.Services
                     await _applicationRoleManager.CreateAsync(role);
                 }
             }
+            foreach(var user in users)
+            {
+                try
+                {
+                    var hashPassword = _applicationUserManager.PasswordHasher.HashPassword(user.Password);
+                    await _userService.Create(user, hashPassword);
+                    user.Id = (await _userService.getUserByName(user.UserName)).Id;
+                    _applicationUserManager.AddToRole(user.Id, user.Role);
+                }
+                catch
+                {
+                }
 
-            var hashPassword = _applicationUserManager.PasswordHasher.HashPassword(adminDto.Password);
-            await _userService.Create(adminDto, hashPassword);
-            adminDto.Id = _userService.getUserByName(adminDto.UserName).Result.Id;
-            _applicationUserManager.AddToRole(adminDto.Id, adminDto.Role);
+            }
+          
         }
 
         public List<string> Register(UserDTO user)

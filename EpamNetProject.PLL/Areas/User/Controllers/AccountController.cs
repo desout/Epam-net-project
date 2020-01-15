@@ -111,7 +111,7 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
                 var claim = await _ipllUserManager.Authenticate(userDto);
                 if (claim == null)
                 {
-                    ModelState.AddModelError("", "Неверный логин или пароль.");
+                    ModelState.AddModelError(String.Empty, Resources.Resource.ACCOUNT_ERRORINCORRECTLOGINPASSWORD);
                 }
                 else
                 {
@@ -125,7 +125,7 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
                     var cookie = new HttpCookie("lang")
                         {HttpOnly = false, Value = user.Language, Expires = DateTime.Now.AddYears(1)};
                     Response.Cookies.Set(cookie);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Home", new {area="" });
                 }
             }
 

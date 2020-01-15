@@ -1,10 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using EpamNetProject.BLL.Infrastucture;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.BLL.Services;
 using EpamNetProject.DAL.Interfaces;
 using EpamNetProject.DAL.models;
+using Moq;
+using NUnit.Framework;
 
 namespace EpamNetProject.BLL.Tests
 {
@@ -23,7 +28,7 @@ namespace EpamNetProject.BLL.Tests
 
         private Mock<IRepository<Layout>> _layoutRepository;
 
-        private Mock<IMapperConfigurationProvider> _mapper;
+        private IMapperConfigurationProvider _mapper;
 
         private Mock<IRepository<Seat>> _seatRepository;
 
@@ -38,7 +43,7 @@ namespace EpamNetProject.BLL.Tests
             _layoutRepository = new Mock<IRepository<Layout>>();
             _areaRepository = new Mock<IRepository<Area>>();
             _seatRepository = new Mock<IRepository<Seat>>();
-            _mapper = new Mock<IMapperConfigurationProvider>();
+            _mapper = new MapperConfigurationProvider();
 
             _venueRepository.Setup(x => x.GetAll())
                 .Returns(new List<Venue>
@@ -110,7 +115,7 @@ namespace EpamNetProject.BLL.Tests
                 }.AsQueryable());
 
             _venueService = new VenueService(_seatRepository.Object, _layoutRepository.Object,
-                _venueRepository.Object, _areaRepository.Object, _mapper.Object);
+                _venueRepository.Object, _areaRepository.Object, _mapper);
         }
 
         [Test]
@@ -135,7 +140,7 @@ namespace EpamNetProject.BLL.Tests
         public void CreateArea_WhenModelValid_ShouldReturnNewId()
         {
             var area = new AreaDto
-                {Description = "new Description", CoordX = 10, CoordY = 20, LayoutId = 1};
+                {Description = "new Description", CoordX = 10, CoordY = 20, LayoutId = 1, Price= 100};
 
             var result = _venueService.CreateArea(area);
 

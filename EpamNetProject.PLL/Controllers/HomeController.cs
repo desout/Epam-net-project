@@ -11,14 +11,26 @@ namespace EpamNetProject.PLL.Controllers
     {
         public HomeController(IPLLUserManager userManager)
         {
-            userManager.SetInitialData(new UserDTO
+            userManager.SetInitialData(new List<UserDTO>
             {
-                Email = "3809766@mail.ru",
-                UserName = "desout",
-                Password = "Desoutside1",
-                Role = "Admin",
-                UserProfile = new UserProfileDTO
-                    {FirstName = "Andrei", Surname = "Anelkin", Language = "en", TimeZone = "UTC-11"}
+                new UserDTO
+                {
+                    Email = "3809766@mail.ru",
+                    UserName = "desout",
+                    Password = "Desoutside1",
+                    Role = "Admin",
+                    UserProfile = new UserProfileDTO
+                        {FirstName = "Andrei", Surname = "Anelkin", Language = "en", TimeZone = "UTC-11"}
+                },
+                new UserDTO
+                {
+                    Email = "1015036@mail.ru",
+                    UserName = "desout1",
+                    Password = "Desoutside1",
+                    Role = "User",
+                    UserProfile = new UserProfileDTO
+                        {FirstName = "Andrei1", Surname = "Anelkin1", Language = "en", TimeZone = "UTC-11"}
+                }
             }, new List<string> {"User", "Admin", "Manager"});
         }
 

@@ -48,7 +48,7 @@ namespace EpamNetProject.PLL.Controllers
                     Description = eventDto.Description,
                     Time = eventDto.EventDate,
                     Title = eventDto.Name,
-                    ImgUrl = string.Empty,
+                    ImgUrl = eventDto.ImgUrl,
                     Layout = eventDto.LayoutId
                 });
             }

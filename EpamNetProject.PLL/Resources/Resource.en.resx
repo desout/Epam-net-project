@@ -153,6 +153,9 @@
   <data name="ACCOUNT_EDIT_TITLE" xml:space="preserve">
     <value>Edit profile</value>
   </data>
+  <data name="ACCOUNT_ERRORINCORRECTLOGINPASSWORD" xml:space="preserve">
+    <value>Incorrect login or password</value>
+  </data>
   <data name="ACCOUNT_LOGIN_PASSWORD" xml:space="preserve">
     <value>Password</value>
   </data>
