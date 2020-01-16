@@ -81,7 +81,7 @@ namespace EpamNetProject.Integration.Tests
                 var sEvent = new EventDto
                 {
                     Name = "New Event", Description = "Description", LayoutId = 1,
-                    EventDate = DateTime.Today.Add(TimeSpan.FromDays(23))
+                    EventDate = DateTime.Today.Add(TimeSpan.FromDays(23)), ImgUrl="img url", EventAvailability = 100
                 };
 
                 var result = _eventService.CreateEvent(sEvent);
