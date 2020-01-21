@@ -2,7 +2,6 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
-using System.Threading;
 using TechTalk.SpecFlow;
 
 namespace EpamNetProject.AutomatedUITests
@@ -14,17 +13,16 @@ namespace EpamNetProject.AutomatedUITests
         public AuthorizationSteps()
         {
             _driver = new ChromeDriver();
+            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            _driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(10);
+            _driver.Manage().Window.Maximize();
 
         }
 
         [Given(@"I am on login page")]
         public void GivenIAmOnLoginPage()
         {
-            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-            _driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(10);
-            _driver.Manage().Window.Maximize();
             _driver.Navigate().GoToUrl("http://localhost:5000/User/Account/Login");
-            
         }
         
         [When(@"I enter  Username '(.*)' and Password '(.*)'")]
@@ -32,13 +30,9 @@ namespace EpamNetProject.AutomatedUITests
         {
             var usernameBox = _driver.FindElement(By.Id("UserName"));
             var passwordBox = _driver.FindElement(By.Id("Password"));
-           
-
+            
             usernameBox.SendKeys(username);
-            Thread.Sleep(1000);
-
             passwordBox.SendKeys(password);
-            Thread.Sleep(1000);
            
         }
         
@@ -47,7 +41,6 @@ namespace EpamNetProject.AutomatedUITests
         {
             var submitBtn = _driver.FindElement(By.ClassName(p0));
             submitBtn.Click();
-            Thread.Sleep(1000);
         }
         
         [Then(@"main page will open")]
@@ -60,6 +53,7 @@ namespace EpamNetProject.AutomatedUITests
         public void ThenIHavePossibilityToSelectEditEventMenu()
         {
             var linkCount = _driver.FindElements(By.CssSelector(".navbar__navigation a[href='/Manager/EditEvents']")).Count;
+            
             Assert.AreEqual(1, linkCount);
         }
         
@@ -67,6 +61,7 @@ namespace EpamNetProject.AutomatedUITests
         public void ThenNameExistInHeader_(string username)
         {
             var actualUser = _driver.FindElement(By.Id("userName-header")).Text;
+            
             Assert.IsTrue(actualUser.Contains(username));
         }
         
@@ -74,6 +69,7 @@ namespace EpamNetProject.AutomatedUITests
         public void ThenIHaveNotPossibilityToSelectEditEventMenu()
         {
             var linkCount = _driver.FindElements(By.CssSelector(".navbar__navigation a[href='/Manager/EditEvents']")).Count;
+            
             Assert.AreEqual(0, linkCount);
         }
         
@@ -87,6 +83,7 @@ namespace EpamNetProject.AutomatedUITests
         public void ThenErrorOccurred()
         {
             var errorCount = _driver.FindElements(By.CssSelector(".validation-summary-errors li")).Count;
+            
             Assert.IsTrue(errorCount > 0);
         }
         public void Dispose()

@@ -123,19 +123,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthorizationSteps.cs" />
-    <Compile Include="BuyTicketFeature.feature.cs" />
-    <Compile Include="BuyTicketFeatureSteps.cs" />
-    <Compile Include="EventActions.feature.cs" />
-    <Compile Include="EventActionsSteps.cs" />
+    <Compile Include="Authorization\Authorization.feature.cs" />
+    <Compile Include="Authorization\AuthorizationSteps.cs" />
+    <Compile Include="BuyTicket\BuyTicketFeature.feature.cs" />
+    <Compile Include="BuyTicket\BuyTicketFeatureSteps.cs" />
+    <Compile Include="Events\EventActions.feature.cs" />
+    <Compile Include="Events\EventActionsSteps.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="BuyTicketFeature.feature" />
-    <None Include="EventActions.feature" />
+    <None Include="Authorization\Authorization.feature" />
+    <None Include="BuyTicket\BuyTicketFeature.feature" />
+    <None Include="Events\EventActions.feature" />
     <None Include="packages.config" />
-    <None Include="Authorization.feature" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="chromedriver.exe">
