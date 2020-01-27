@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.PLL.Models;
+using Microsoft.AspNet.Identity;
 
 namespace EpamNetProject.PLL.Controllers
 {
@@ -170,7 +171,7 @@ namespace EpamNetProject.PLL.Controllers
         {
             var returnedEvent = _eventService.GetEvent(id);
 
-            var seats = _eventService.GetSeatsByEvent(id).ToList();
+            var seats = _eventService.GetSeatsByEvent(id, User.Identity.GetUserId()).ToList();
             var areas = _eventService.GetAreasByEvent(id).ToList();
 
             var returnedModel = new EventViewModel

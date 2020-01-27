@@ -2,12 +2,13 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
+using System.Threading;
 using TechTalk.SpecFlow;
 
 namespace EpamNetProject.AutomatedUITests
 {
     [Binding]
-    public class EventActionsSteps: IDisposable
+    public class EventActionsSteps : IDisposable
     {
         private readonly IWebDriver _driver;
 
@@ -107,8 +108,9 @@ namespace EpamNetProject.AutomatedUITests
                 .FindElement(By.XPath(
                     $"//*[@class='{paragraphClassname}' and text()='{text}']/following-sibling::div[@class='{blockClassname}']"))
                 .FindElement(By.TagName("button"));
-            
+
             element.Click();
+            Thread.Sleep(1000);
         }
 
         [Then(@"Event with Name ""(.*)"" not exists")]

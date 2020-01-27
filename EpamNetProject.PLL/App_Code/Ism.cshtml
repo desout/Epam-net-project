@@ -4,7 +4,7 @@
 @helper ISM(List<EventAreaDto> areas, List<EventSeatDto> seats, string link, string linkDeselect)
 {
     <div id="ISM__MAP" style="position: relative; height: 200px; width: 300px;align-self: center;"></div>
-    <h1 class="ErrorClass" hidden="hidden">
+    <h1 class="ErrorClass" style="display: none">
         This seat not available
     </h1>
     @Scripts.Render("~/bundles/ISM")

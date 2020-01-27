@@ -42,7 +42,7 @@ namespace EpamNetProject.PLL.Areas.Events.Controllers
             var areas = new List<EventAreaDto>();
             if (User.Identity.IsAuthenticated)
             {
-                seats = _eventService.GetSeatsByEvent(id).ToList();
+                seats = _eventService.GetSeatsByEvent(id, User.Identity.GetUserId()).ToList();
                 areas = _eventService.GetAreasByEvent(id).ToList();
             }
 
@@ -95,9 +95,9 @@ namespace EpamNetProject.PLL.Areas.Events.Controllers
                 var countOfTickets = _eventService.ChangeStatusToBuy(userId, totalAmount);
                 return View("PaymentSuccess", countOfTickets);
             }
-            catch
+            catch(Exception e)
             {
-                return View("PaymentFailed");
+                return View("PaymentFailed", e);
 
             }
         }

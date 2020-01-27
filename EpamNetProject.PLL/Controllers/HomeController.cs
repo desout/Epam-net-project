@@ -20,7 +20,10 @@ namespace EpamNetProject.PLL.Controllers
                     Password = "Desoutside1",
                     Role = "Admin",
                     UserProfile = new UserProfileDTO
-                        {FirstName = "Andrei", Surname = "Anelkin", Language = "en", TimeZone = "UTC-11"}
+                    {
+                        FirstName = "Andrei", Surname = "Anelkin", Language = "en", TimeZone = "UTC-11",
+                        Balance = 100000
+                    }
                 },
                 new UserDTO
                 {
@@ -29,7 +32,7 @@ namespace EpamNetProject.PLL.Controllers
                     Password = "Desoutside1",
                     Role = "User",
                     UserProfile = new UserProfileDTO
-                        {FirstName = "Andrei1", Surname = "Anelkin1", Language = "en", TimeZone = "UTC-11"}
+                        {FirstName = "Andrei1", Surname = "Anelkin1", Language = "en", TimeZone = "UTC-11", Balance = 0}
                 }
             }, new List<string> {"User", "Admin", "Manager"});
         }

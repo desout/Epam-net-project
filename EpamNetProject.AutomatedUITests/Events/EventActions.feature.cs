@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace EpamNetProject.AutomatedUITests
+namespace EpamNetProject.AutomatedUITests.Events
 {
     using TechTalk.SpecFlow;
     using System;

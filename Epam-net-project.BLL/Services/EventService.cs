@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
+using System.Data.Entity;
 using System.Data.Entity.Core;
 using System.Linq;
 using AutoMapper;
@@ -184,13 +185,21 @@ namespace EpamNetProject.BLL.Services
                 .AsEnumerable());
         }
 
-        public IEnumerable<EventSeatDto> GetSeatsByEvent(int eventId)
+        public IEnumerable<EventSeatDto> GetSeatsByEvent(int eventId, string userId)
         {
             return _mapper.Map<List<EventSeatDto>>(_eventSeatRepository.GetAll().Join(
                 _eventAreaRepository.GetAll().Where(a => a.EventId == eventId),
                 s => s.EventAreaId,
                 a => a.Id,
-                (s, a) => s).AsEnumerable());
+                (s, a) => s).AsEnumerable()).Select(s =>
+            {
+                if (s.State == SeatStatus.Reserved)
+                {
+                    s.State = s.UserId == userId ? SeatStatus.Reserved : SeatStatus.Bought;
+                }
+
+                return s;
+            });
         }
 
         public IEnumerable<EventSeatDto> GetSeatsByUser(string userId)
@@ -227,7 +236,7 @@ namespace EpamNetProject.BLL.Services
             var userProfile = _userProfileRepository.GetAll().FirstOrDefault(x => x.UserId == userId);
             if (userProfile != null && userProfile.Balance < totalAmount)
             {
-                throw new UnauthorizedAccessException();
+                throw new Exception("Not enough money on balance");
             }
 
             foreach (var seat in seats)
@@ -238,13 +247,13 @@ namespace EpamNetProject.BLL.Services
 
             if (userProfile == null)
             {
-                throw new UnauthorizedAccessException();
+                throw new UnauthorizedAccessException("Unexpected error");
             }
 
             userProfile.Balance -= totalAmount;
             _userProfileRepository.Update(userProfile);
 
-            return seats.Count ;
+            return seats.Count;
         }
 
         public int RemoveEvent(int id)

@@ -136,6 +136,7 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
         public ActionResult Logout()
         {
             AuthenticationManager.SignOut();
+            Response.Cookies["reserveDate"].Expires = DateTime.Now.AddDays(-1);
             return RedirectToAction("Index", "Home", new {area = ""});
         }
 

@@ -30,7 +30,7 @@ namespace EpamNetProject.BLL.Interfaces
 
         List<EventAreaDto> GetAllAreas();
 
-        IEnumerable<EventSeatDto> GetSeatsByEvent(int eventId);
+        IEnumerable<EventSeatDto> GetSeatsByEvent(int eventId, string userId);
 
         List<EventDto> GetUserPurchaseHistory(string userId);
 
