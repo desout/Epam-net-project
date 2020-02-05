@@ -6,7 +6,9 @@ using System.Web;
 using System.Web.Mvc;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
+using EpamNetProject.PLL.Extensions;
 using EpamNetProject.PLL.filters;
+using EpamNetProject.PLL.Helpers;
 using EpamNetProject.PLL.Jobs;
 using EpamNetProject.PLL.Models;
 using Microsoft.AspNet.Identity;
@@ -42,7 +44,7 @@ namespace EpamNetProject.PLL.Areas.Events.Controllers
             var areas = new List<EventAreaDto>();
             if (User.Identity.IsAuthenticated)
             {
-                seats = _eventService.GetSeatsByEvent(id, User.Identity.GetUserId()).ToList();
+                seats = _eventService.GetSeatsByEvent(id, User.GetUserId()).ToList();
                 areas = _eventService.GetAreasByEvent(id).ToList();
             }
 
@@ -57,39 +59,32 @@ namespace EpamNetProject.PLL.Areas.Events.Controllers
 
         [HttpPost]
         [Authorize]
-        public JsonResult Select(int id)
+        public ActionResult Select(int id)
         {
             try
             {
-                var reserveDate = _eventService.ReserveSeat(id, User.Identity.GetUserId());
-                var delay = int.Parse(ConfigurationManager.AppSettings["ReserveTime"]);
-                var expires = delay - TimeSpan.FromTicks(DateTime.UtcNow.Ticks - reserveDate.Value.Ticks).TotalMinutes;
-                var returnedValue = reserveDate.Value
-                    .Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc))
-                    .TotalMilliseconds;
-                var cookie = new HttpCookie("reserveDate")
-                    {HttpOnly = false, Value = returnedValue.ToString(), Expires = DateTime.Now.AddMinutes(expires)};
-                Response.Cookies.Set(cookie);
+                var basketTime = _eventService.ReserveSeat(id, User.GetUserId());
+                Response.Cookies.Set(basketTime.Value.ToJsCookieTime());
                 ConfigureScheduler();
-                return Json(true);
+                return HttpResponseHelper.Ok();
             }
             catch (Exception e)
             {
-                return Json(false);
+                return HttpResponseHelper.Error();
             }
         }
 
         [Authorize]
         public ActionResult ProceedToCheckout()
         {
-            var userId = User.Identity.GetUserId();
+            var userId = User.GetUserId();
             return View(_eventService.GetReservedSeatByUser(userId).GroupBy(x => x.EventName));
         }
 
         [Authorize]
         public ActionResult Buy(decimal totalAmount)
         {
-            var userId = User.Identity.GetUserId();
+            var userId = User.GetUserId();
             try
             {
                 var countOfTickets = _eventService.ChangeStatusToBuy(userId, totalAmount);
@@ -108,37 +103,27 @@ namespace EpamNetProject.PLL.Areas.Events.Controllers
         {
             try
             {
-                var reserveDate = _eventService.UnReserveSeat(id, User.Identity.GetUserId());
-                if (reserveDate.HasValue)
+                var basketTime = _eventService.UnReserveSeat(id, User.GetUserId());
+                if (basketTime.HasValue)
                 {
-                    var delay = int.Parse(ConfigurationManager.AppSettings["ReserveTime"]);
-                    var expires = delay - TimeSpan.FromTicks(DateTime.UtcNow.Ticks - reserveDate.Value.Ticks)
-                                      .TotalMinutes;
-                    var returnedValue = reserveDate.Value
-                        .Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc))
-                        .TotalMilliseconds;
-                    var cookie = new HttpCookie("reserveDate")
-                    {
-                        HttpOnly = false, Value = returnedValue.ToString(), Expires = DateTime.Now.AddMinutes(expires)
-                    };
-                    Response.Cookies.Set(cookie);
+                    Response.Cookies.Set(basketTime.Value.ToJsCookieTime());
                 }
                 else
                 {
-                    Response.Cookies["reserveDate"].Expires = DateTime.Now.AddDays(-1);
+                    Response.Cookies["basketTime"].Expires = DateTime.Now.AddDays(-1);
                 }
 
-                return Json(true);
+                return HttpResponseHelper.Ok();
             }
             catch
             {
-                return Json(false);
+                return HttpResponseHelper.Error();
             }
         }
 
         private void ConfigureScheduler()
         {
-            _basketScheduler.Start(User.Identity.GetUserId());
+            _basketScheduler.Start(User.GetUserId());
         }
     }
 }

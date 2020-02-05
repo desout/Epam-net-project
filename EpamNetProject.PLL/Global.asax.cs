@@ -58,10 +58,10 @@ namespace EpamNetProject.PLL
             {
                 ConfigurationProvider = c => schedulerConfig
             });
-            var delay = int.Parse(ConfigurationManager.AppSettings["ReserveTime"]);
+            var delay = int.Parse(ConfigurationManager.AppSettings["basketLeaveTime"]);
 
             builder.RegisterModule(new QuartzAutofacJobsModule(typeof(BasketJob).Assembly));
-            builder.RegisterType<BasketScheduler>().AsSelf().WithParameter("reserveTime", delay);
+            builder.RegisterType<BasketScheduler>().AsSelf().WithParameter("basketLeaveTime", delay);
         }
     }
 }

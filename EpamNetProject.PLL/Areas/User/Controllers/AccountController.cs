@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using EpamNetProject.BLL.Interfaces;
+using EpamNetProject.BLL.Models;
+using EpamNetProject.PLL.Extensions;
+using EpamNetProject.PLL.Helpers;
 using EpamNetProject.PLL.Interfaces;
 using EpamNetProject.PLL.Managers;
 using EpamNetProject.PLL.Models;
@@ -38,7 +41,7 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
         [Authorize]
         public ActionResult Profile()
         {
-            var userProfile = _userService.getUserProfile(User.Identity.GetUserId());
+            var userProfile = _userService.getUserProfile(User.GetUserId());
             return View(userProfile);
         }
 
@@ -46,7 +49,7 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
         [Authorize]
         public ActionResult Edit()
         {
-            var user = _userService.getUserInfo(User.Identity.GetUserId());
+            var user = _userService.getUserInfo(User.GetUserId());
             return View(new UserProfileViewModel
             {
                 Email = user.Email,
@@ -78,7 +81,7 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
                         TimeZone = model.TimeZone
                     }
                 }, hashPassword);
-                var user = _userService.getUserProfile(User.Identity.GetUserId());
+                var user = _userService.getUserProfile(User.GetUserId());
                 var cookie = new HttpCookie("lang")
                     {HttpOnly = false, Value = user.Language, Expires = DateTime.Now.AddYears(1)};
                 Response.Cookies.Set(cookie);
@@ -92,7 +95,7 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
         [Authorize]
         public PartialViewResult PurchaseHistory()
         {
-            var items = _eventService.GetUserPurchaseHistory(AuthenticationManager.User.Identity.GetUserId());
+            var items = _eventService.GetUserPurchaseHistory(AuthenticationManager.User.GetUserId());
             return PartialView(items);
         }
 
@@ -136,7 +139,7 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
         public ActionResult Logout()
         {
             AuthenticationManager.SignOut();
-            Response.Cookies["reserveDate"].Expires = DateTime.Now.AddDays(-1);
+            Response.Cookies["basketTime"].Expires = DateTime.Now.AddDays(-1);
             return RedirectToAction("Index", "Home", new {area = ""});
         }
 
@@ -165,8 +168,8 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
                         {
                             Balance = 0,
                             FirstName = model.FirstName,
-                            Language = model.Language,
-                            ReserveDate = null,
+                            Language = model.Language, 
+                            basketTime = null,
                             Surname = model.Surname,
                             TimeZone = model.TimeZone
                         }
@@ -192,14 +195,10 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
 
         [HttpPost]
         [Authorize]
-        public JsonResult AddToBalance(decimal count)
+        public ActionResult AddToBalance(decimal count)
         {
-            var newBalance = _userService.addBalance(User.Identity.GetUserId(), count);
-            return new JsonResult
-            {
-                Data = new {Success = true, NewBalance = newBalance},
-                JsonRequestBehavior = JsonRequestBehavior.DenyGet
-            };
+            var newBalance = _userService.addBalance(User.GetUserId(), count);
+            return HttpResponseHelper.Ok(new {NewBalance = newBalance});
         }
 
         public PartialViewResult Basket()
@@ -207,7 +206,7 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
             var countOfItems = 0;
             if (User.Identity.IsAuthenticated)
             {
-                countOfItems = _eventService.GetReservedSeatByUser(User.Identity.GetUserId()).Count;
+                countOfItems = _eventService.GetReservedSeatByUser(User.GetUserId()).Count;
             }
 
             return PartialView("Basket", countOfItems);

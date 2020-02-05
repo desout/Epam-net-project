@@ -18,9 +18,16 @@ Scenario: Successful authorization by user
 	And I have not possibility to select edit event menu
 	And "desout1" name exist in header.
 
-Scenario: Unsuccessful authorization by admin
-	Given I am on login page
-	When I enter  Username 'desout' and Password 'drogba'
-	And I press button with class "button__submit"
-	Then Nothing happens
-	And Error Occurred
+	Scenario Outline: Unsuccessful authorization by admin
+		Given I am on login page
+		When I enter  Username '<Login>' and Password '<Password>'
+		And I press button with class "button__submit"
+		Then I am stayed on login page
+		And Error Occurred
+
+		Examples:
+			| Login  | Password |
+			| desout | drogba   |
+			| desout |          |
+			|        | drogba   |
+			|        |          |   

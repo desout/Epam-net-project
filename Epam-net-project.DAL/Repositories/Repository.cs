@@ -1,7 +1,7 @@
 ﻿using EpamNetProject.DAL.Interfaces;
-using EpamNetProject.DAL.models;
 using System.Data.Entity;
 using System.Linq;
+using EpamNetProject.DAL.Models;
 
 namespace EpamNetProject.DAL.Repositories
 {

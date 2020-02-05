@@ -8,7 +8,7 @@ using EpamNetProject.BLL.Models;
 using EpamNetProject.BLL.Services;
 using EpamNetProject.DAL;
 using EpamNetProject.DAL.Interfaces;
-using EpamNetProject.DAL.models;
+using EpamNetProject.DAL.Models;
 using EpamNetProject.DAL.Repositories;
 using FluentAssertions;
 using NUnit.Framework;
@@ -81,11 +81,12 @@ namespace EpamNetProject.Integration.Tests
                 var sEvent = new EventDto
                 {
                     Name = "New Event", Description = "Description", LayoutId = 1,
-                    EventDate = DateTime.Today.Add(TimeSpan.FromDays(23))
+                    EventDate = DateTime.Today.Add(TimeSpan.FromDays(23)), ImgUrl = ""
                 };
 
                 var result = _eventService.CreateEvent(sEvent);
                 sEvent.Id = result;
+                sEvent.EventAvailability = 100;
                 sEvent.Should().BeEquivalentTo(_eventService.GetEvent(result));
             }
         }

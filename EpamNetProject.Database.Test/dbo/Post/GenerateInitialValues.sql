@@ -126,10 +126,59 @@ VALUES
 ('Description', 150,20,2, 30),
 ('Description', 150,20,1, 40)
 
+
+--users
+INSERT INTO [dbo].[AspNetUsers]
+           ([Id]
+           ,[Email]
+           ,[EmailConfirmed]
+           ,[PasswordHash]
+           ,[SecurityStamp]
+           ,[PhoneNumber]
+           ,[PhoneNumberConfirmed]
+           ,[TwoFactorEnabled]
+           ,[LockoutEndDateUtc]
+           ,[LockoutEnabled]
+           ,[AccessFailedCount]
+           ,[UserName])
+     VALUES
+           ('3c13f18e-754e-4b28-8e8c-0363357d5241','1015036@mail.ru', 0, 'AMQurvcuXuvEanMox0DJ6LHX64udnKpuegVVgcuDv2/vW/9q+2Sl4gTcBf9zWSE5wA==', null,null,0,0,null,0,0,'desout1'),
+		   ('25724293-ca00-4b8a-ae86-74d55f291be6','3809766@mail.ru', 0, 'AB8MRHpvKyoXXovRGUCzcCO3iPxaEtTMC6FYrZYDw2jQTHRoztGUXuhS9Zct6KVgdA==', null,null,0,0,null,0,0,'desout')
+--roles
+INSERT INTO [dbo].[AspNetRoles]
+           ([Id]
+           ,[Name]
+           ,[Discriminator])
+     VALUES
+           ('16e28c50-d069-4b16-8c28-a0c6e8cdf003','Admin','UserRole'),
+		   ('cbb7d71e-29f7-4a9f-95b1-453572cc2185','Manager','UserRole'),
+		   ('f57201c0-774e-4ec7-a0aa-0f8158cfffc4','User','UserRole')
+
+--claims
+INSERT INTO [dbo].[AspNetUserClaims]
+           ([UserId]
+           ,[ClaimType]
+           ,[ClaimValue])
+     VALUES
+           ('25724293-ca00-4b8a-ae86-74d55f291be6','http://schemas.microsoft.com/ws/2008/06/identity/claims/role','Admin'),
+		   ('3c13f18e-754e-4b28-8e8c-0363357d5241','http://schemas.microsoft.com/ws/2008/06/identity/claims/role','User')
+--profiles
+INSERT INTO [dbo].[UserProfiles]
+           ([TimeZone]
+           ,[Language]
+           ,[FirstName]
+           ,[Surname]
+           ,[UserId]
+           ,[Balance]
+           ,[BasketTime])
+     VALUES
+           ('UTC-11','en','Andrei','Anelkin','25724293-ca00-4b8a-ae86-74d55f291be6',100000,null),
+		    ('UTC-11','en','Andrei1','Anelkin1','3c13f18e-754e-4b28-8e8c-0363357d5241',0,null)
+
 --- EventSEATS
 INSERT INTO dbo.EventSeats(Number,EventAreaId,Row,State,UserId)
 VALUES
-(1,1,1,0,null),
+(1,1,1,2,'25724293-ca00-4b8a-ae86-74d55f291be6'),
 (2,1,1,0,null),
 (3,1,1,0,null),
 (4,1,1,0,null),

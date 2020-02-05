@@ -1,0 +1,31 @@
+@using Resources
+@model EpamNetProject.PLL.Models.EditEventViewModel
+
+@using (Html.BeginForm(Model.Id.HasValue ? "Update" : "Add", "EditEvent", FormMethod.Post, new {@class = "editEvent__form"}))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.Id)
+    <label>
+        <p>@Resource.MANAGER_EDIT_NAME</p> @Html.EditorFor(x => x.Name)
+    </label>
+    <label>
+        <p>@Resource.MANAGER_EDIT_DESCRIPTION </p>@Html.EditorFor(x => x.Description)
+    </label>
+    <label>
+        <p>@Resource.MANAGER_EDIT_TIME </p>@Html.EditorFor(x => x.Time, new {htmlAttributes = new {datetime_picker = true}})
+    </label>
+    <label>
+        <p>@Resource.MANAGER_EDIT_TITLE </p>@Html.EditorFor(x => x.Title)
+    </label>
+    <label>
+        <p>@Resource.MANAGER_EDIT_IMGURL</p> @Html.EditorFor(x => x.ImgUrl)
+    </label>
+    <label>
+        <p>@Resource.MANAGER_EDIT_LAYOUT </p>@Html.DropDownListFor(x => x.Layout, new SelectList(ViewBag.Layouts, "Id", "LayoutName"))
+    </label>
+    <div>
+        <button type="submit" class="button__submit">@Resource.MANAGER_EDIT_SAVE</button>
+    </div>
+
+    <a href="@Url.Action("EditLayoutForEvent", "EditLayout", new {id = Model.Id})">@Resource.MANAGER_EDIT_EDITLAYOUT</a>
+}

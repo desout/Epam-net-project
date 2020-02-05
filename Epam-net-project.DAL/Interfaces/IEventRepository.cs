@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using EpamNetProject.DAL.models;
+using EpamNetProject.DAL.Models;
 
 namespace EpamNetProject.DAL.Interfaces
 {

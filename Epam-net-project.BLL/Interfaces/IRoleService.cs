@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using EpamNetProject.DAL.models;
-using EpamNetProject.PLL.Models;
+using EpamNetProject.BLL.Models;
+using EpamNetProject.DAL.Models;
 
 namespace EpamNetProject.BLL.Interfaces
 {

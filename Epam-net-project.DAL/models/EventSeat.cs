@@ -1,6 +1,4 @@
-﻿using EpamNetProject.DAL.Models;
-
-namespace EpamNetProject.DAL.models
+﻿namespace EpamNetProject.DAL.Models
 {
     public class EventSeat : BaseEntity
     {

@@ -1,4 +1,4 @@
-﻿namespace EpamNetProject.DAL.models
+﻿namespace EpamNetProject.DAL.Models
 {
     public class EventArea : BaseEntity
     {

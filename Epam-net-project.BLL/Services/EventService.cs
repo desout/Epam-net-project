@@ -10,7 +10,6 @@ using EpamNetProject.BLL.Infrastucture;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.DAL.Interfaces;
-using EpamNetProject.DAL.models;
 using EpamNetProject.DAL.Models;
 using Ninject.Infrastructure.Language;
 
@@ -30,7 +29,7 @@ namespace EpamNetProject.BLL.Services
 
         private readonly IMapper _mapper;
 
-        private readonly int _reserveTime;
+        private readonly int _basketLeaveTime;
 
         private readonly IRepository<Seat> _seatRepository;
 
@@ -39,7 +38,7 @@ namespace EpamNetProject.BLL.Services
         public EventService(IEventRepository eventRepository, IRepository<Layout> layoutRepository,
             IRepository<Area> areaRepository, IRepository<Seat> seatRepository,
             IRepository<EventSeat> eventSeatRepository, IRepository<EventArea> eventAreaRepository,
-            IRepository<UserProfile> userProfileRepository, int reserveTime,
+            IRepository<UserProfile> userProfileRepository, int basketLeaveTime,
             IMapperConfigurationProvider mapperConfigurationProvider)
         {
             _eventRepository = eventRepository;
@@ -50,7 +49,7 @@ namespace EpamNetProject.BLL.Services
             _eventAreaRepository = eventAreaRepository;
             _userProfileRepository = userProfileRepository;
             _mapper = mapperConfigurationProvider.GetMapperConfig();
-            _reserveTime = reserveTime;
+            _basketLeaveTime = basketLeaveTime;
         }
 
         public int UpdateEvent(EventDto Event)
@@ -87,15 +86,15 @@ namespace EpamNetProject.BLL.Services
                 throw new EntityException();
             }
 
-            if (userProfile.ReserveDate != null)
+            if (userProfile.BasketTime != null)
             {
-                return userProfile.ReserveDate;
+                return userProfile.BasketTime;
             }
 
-            userProfile.ReserveDate = DateTime.UtcNow;
+            userProfile.BasketTime = DateTime.UtcNow;
             _userProfileRepository.Update(userProfile);
 
-            return userProfile.ReserveDate;
+            return userProfile.BasketTime;
         }
 
         public DateTime? UnReserveSeat(int id, string userId)
@@ -113,10 +112,10 @@ namespace EpamNetProject.BLL.Services
 
             if (_eventSeatRepository.GetAll().Where(x => x.UserId == userId).ToList().Count != 0)
             {
-                return userProfile.ReserveDate;
+                return userProfile.BasketTime;
             }
 
-            userProfile.ReserveDate = null;
+            userProfile.BasketTime = null;
             _userProfileRepository.Update(userProfile);
 
 
@@ -279,21 +278,21 @@ namespace EpamNetProject.BLL.Services
         public void CheckReservation(string userId)
         {
             var profile = _userProfileRepository.GetAll().Where(x => x.UserId == userId).AsEnumerable().FirstOrDefault(
-                x => x.ReserveDate.HasValue && x.ReserveDate.Value.AddMinutes(_reserveTime) < DateTime.UtcNow);
+                x => x.BasketTime.HasValue && x.BasketTime.Value.AddMinutes(_basketLeaveTime) < DateTime.UtcNow);
 
             UpdateSeats(profile);
-            profile.ReserveDate = null;
+            profile.BasketTime = null;
             _userProfileRepository.Update(profile);
         }
 
         public void CheckReservationAll()
         {
             var profiles = _userProfileRepository.GetAll().AsEnumerable().Where(x =>
-                x.ReserveDate.HasValue && x.ReserveDate.Value.AddMinutes(_reserveTime) < DateTime.UtcNow).ToList();
+                x.BasketTime.HasValue && x.BasketTime.Value.AddMinutes(_basketLeaveTime) < DateTime.UtcNow).ToList();
             foreach (var profile in profiles)
             {
                 UpdateSeats(profile);
-                profile.ReserveDate = null;
+                profile.BasketTime = null;
                 _userProfileRepository.Update(profile);
             }
         }

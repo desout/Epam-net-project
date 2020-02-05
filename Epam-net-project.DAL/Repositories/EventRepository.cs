@@ -3,7 +3,7 @@ using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
 using EpamNetProject.DAL.Interfaces;
-using EpamNetProject.DAL.models;
+using EpamNetProject.DAL.Models;
 
 namespace EpamNetProject.DAL.Repositories
 {

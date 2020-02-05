@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EpamNetProject.BLL.Interfaces;
+using EpamNetProject.BLL.Models;
 using EpamNetProject.DAL.Interfaces;
-using EpamNetProject.DAL.models;
-using EpamNetProject.PLL.Models;
+using EpamNetProject.DAL.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace EpamNetProject.BLL.Services

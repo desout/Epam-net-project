@@ -3,7 +3,7 @@
 @using EpamNetProject.PLL.Statics
 @using Resources
 @{
-    var delay = int.Parse(ConfigurationManager.AppSettings["ReserveTime"]);
+    var delay = int.Parse(ConfigurationManager.AppSettings["basketLeaveTime"]);
 }
 <!DOCTYPE html>
 <html>
@@ -60,11 +60,11 @@
             <li>@Html.ActionLink(Resource.MAIN_LOGOUT, "Logout", "Account", new {area = "User"}, null)</li>
             if (Context.User.IsInRole("Manager") || Context.User.IsInRole("Admin"))
             {
-                <li>@Html.ActionLink(Resource.MAIN_EDITEVENTS, "EditEvents", "Manager", new {area = ""}, null)</li>
+                <li>@Html.ActionLink(Resource.MAIN_EDITEVENTS, "EditEvents", "EditEvent", new {area = "Manager"}, null)</li>
             }
             if (Context.User.IsInRole("Manager") || Context.User.IsInRole("Admin"))
             {
-                <li>@Html.ActionLink(Resource.MAIN_EDITLAYOUTS, "EditLayouts", "Manager", new {area = ""}, null)</li>
+                <li>@Html.ActionLink(Resource.MAIN_EDITLAYOUTS, "EditLayouts", "EditLayout", new {area = "Manager"}, null)</li>
             }
         }
         <li>@Html.ActionLink(Resource.MAIN_EVENTS, "Index", "Events", new {area = "Events"}, null)</li>

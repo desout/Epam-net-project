@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace EpamNetProject.PLL.Models
+namespace EpamNetProject.BLL.Models
 {
     public class UserProfileDTO
     {
@@ -26,6 +26,6 @@ namespace EpamNetProject.PLL.Models
         [Required]
         public string UserId { get; set; }
 
-        public DateTime? ReserveDate { get; set; }
+        public DateTime? basketTime { get; set; }
     }
 }

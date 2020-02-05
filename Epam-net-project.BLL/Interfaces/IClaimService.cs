@@ -1,6 +1,6 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
-using EpamNetProject.PLL.Models;
+using EpamNetProject.BLL.Models;
 
 namespace EpamNetProject.BLL.Interfaces
 {

@@ -1,6 +1,6 @@
 using System;
 
-namespace EpamNetProject.DAL.models
+namespace EpamNetProject.DAL.Models
 {
     public class UserProfile : BaseEntity
     {
@@ -16,6 +16,6 @@ namespace EpamNetProject.DAL.models
 
         public string UserId { get; set; }
 
-        public DateTime? ReserveDate { get; set; }
+        public DateTime? BasketTime { get; set; }
     }
 }

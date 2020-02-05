@@ -3,8 +3,7 @@
 
 @mytag
 Scenario: Buy ticket
-	Given I have logged in with Username 'desout' and Password 'Desoutside1'
-	And Account balance not zero
+	Given I have logged in as manager
 	When I go to event and select seat
 	And I press button "Proceed to checkout"
 	Then Page with selected seats will open.
@@ -12,8 +11,7 @@ Scenario: Buy ticket
 	Then Successful payment page opened
 
 Scenario: Buy ticket failure zero balance
-	Given I have logged in with Username 'desout1' and Password 'Desoutside1'
-	And Account balance is zero
+	Given I have logged in as user
 	When I go to event and select seat
 	And I press button "Proceed to checkout"
 	Then Page with selected seats will open.
@@ -21,8 +19,6 @@ Scenario: Buy ticket failure zero balance
 	Then Failure payment page opened
 
 Scenario: Buy ticket failure seat reserved
-	Given I have logged in with Username 'desout' and Password 'Desoutside1'
-	And Account balance not zero
-	Given At least one seat bought or buy seat
+	Given I have logged in as admin
 	When I go to event and select reserved seat
 	Then Error with classname "ErrorClass" is shown

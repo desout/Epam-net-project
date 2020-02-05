@@ -7,7 +7,7 @@ using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.BLL.Services;
 using EpamNetProject.DAL.Interfaces;
-using EpamNetProject.DAL.models;
+using EpamNetProject.DAL.Models;
 using Moq;
 using NUnit.Framework;
 

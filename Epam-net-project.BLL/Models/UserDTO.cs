@@ -1,6 +1,6 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace EpamNetProject.PLL.Models
+namespace EpamNetProject.BLL.Models
 {
     public class UserDTO : IdentityUser
     {

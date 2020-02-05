@@ -7,7 +7,7 @@ using EpamNetProject.BLL.Models;
 using EpamNetProject.BLL.Services;
 using EpamNetProject.DAL;
 using EpamNetProject.DAL.Interfaces;
-using EpamNetProject.DAL.models;
+using EpamNetProject.DAL.Models;
 using EpamNetProject.DAL.Repositories;
 using FluentAssertions;
 using NUnit.Framework;

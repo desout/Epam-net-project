@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using EpamNetProject.BLL.Infrastucture;
 using EpamNetProject.BLL.Interfaces;
+using EpamNetProject.BLL.Models;
 using EpamNetProject.DAL.Interfaces;
-using EpamNetProject.DAL.models;
-using EpamNetProject.PLL.Models;
+using EpamNetProject.DAL.Models;
 
 namespace EpamNetProject.BLL.Services
 {
