@@ -6,7 +6,7 @@ namespace EpamNetProject.AutomatedUITests.Pages
 {
     public class ProceedToCheckoutPage
     {
-        private IWebDriver _driver;
+        private readonly IWebDriver _driver;
 
         private readonly IWebElement _submitButton;
 
@@ -17,7 +17,7 @@ namespace EpamNetProject.AutomatedUITests.Pages
         private readonly IWebElement _errorBlock;
 
 
-        public ProceedToCheckoutPage(IWebDriver driver)
+        private ProceedToCheckoutPage(IWebDriver driver)
         {
             _driver = driver;
             try
@@ -53,11 +53,6 @@ namespace EpamNetProject.AutomatedUITests.Pages
             return new ProceedToCheckoutPage(webDriver);
         }
 
-        public bool IsPageOpen()
-        {
-            return _driver.Url.Equals("http://localhost:5000/Events/Events/Buy");
-        }
-
         public ProceedToCheckoutPage PressSubmitButton()
         {
             _submitButton.Click();
@@ -78,7 +73,7 @@ namespace EpamNetProject.AutomatedUITests.Pages
         {
             return "Not enough money on balance".Equals(_errorBlock.Text);
         }
-
+        
         private const string CountOfTicketsId = "countOfTickets";
 
         private const string SelectedSeatClassname = "selectedSeat-item";

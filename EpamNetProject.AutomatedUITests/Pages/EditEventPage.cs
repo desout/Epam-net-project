@@ -4,7 +4,7 @@ namespace EpamNetProject.AutomatedUITests.Pages
 {
     public class EditEventPage
     {
-        private IWebDriver _driver;
+        private readonly IWebDriver _driver;
 
         private readonly IWebElement _submitButton;
 
@@ -18,7 +18,7 @@ namespace EpamNetProject.AutomatedUITests.Pages
 
         private readonly IWebElement _imgUrlField;
 
-        public EditEventPage(IWebDriver driver)
+        private EditEventPage(IWebDriver driver)
         {
             _driver = driver;
             _submitButton = _driver.FindElement(By.ClassName(SubmitButtonClassname));

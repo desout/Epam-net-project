@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using OpenQA.Selenium;
 
@@ -13,15 +14,20 @@ namespace EpamNetProject.AutomatedUITests.Pages
 
         private readonly IWebElement _loginButton;
 
+        private readonly IReadOnlyCollection<IWebElement> _validationErrors;
+
         public LoginPage(IWebDriver driver)
         {
             _driver = driver;
-            if (driver.Url.Equals("http://localhost:5000/User/Account/Login"))
+            if (!driver.Url.Equals(PageLink))
             {
-                _userNameTextField = _driver.FindElement(By.Id(UserNameTextFieldId));
-                _passwordTextField = _driver.FindElement(By.Id(PasswordTextFieldId));
-                _loginButton = _driver.FindElement(By.ClassName(LoginButtonClassname));
+                return;
             }
+
+            _userNameTextField = _driver.FindElement(By.Id(UserNameTextFieldId));
+            _passwordTextField = _driver.FindElement(By.Id(PasswordTextFieldId));
+            _loginButton = _driver.FindElement(By.ClassName(LoginButtonClassname));
+            _validationErrors = _driver.FindElements(By.CssSelector(ValidationSummarySelector));
         }
 
         public static LoginPage GetPage(IWebDriver webDriver)
@@ -31,7 +37,7 @@ namespace EpamNetProject.AutomatedUITests.Pages
 
         public LoginPage GoToPage()
         {
-            _driver.Navigate().GoToUrl("http://localhost:5000/User/Account/Login");
+            _driver.Navigate().GoToUrl(PageLink);
             return new LoginPage(_driver);
         }
 
@@ -56,13 +62,17 @@ namespace EpamNetProject.AutomatedUITests.Pages
 
         public bool IsPageOpen()
         {
-            return _driver.Url.Equals("http://localhost:5000/User/Account/Login");
+            return _driver.Url.Equals(PageLink);
         }
 
         public bool IsErrorOccured()
         {
-            return _driver.FindElements(By.CssSelector(".validation-summary-errors li, .field-validation-error")).Any();
+            return _validationErrors.Any();
         }
+
+        private const string ValidationSummarySelector = ".validation-summary-errors li, .field-validation-error";
+
+        private const string PageLink = "http://localhost:5000/User/Account/Login";
 
         private const string UserNameTextFieldId = "UserName";
 

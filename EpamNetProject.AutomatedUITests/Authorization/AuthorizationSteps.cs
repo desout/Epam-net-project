@@ -36,7 +36,7 @@ namespace EpamNetProject.AutomatedUITests.Authorization
         [Then(@"I have possibility to select edit event menu")]
         public void ThenIHavePossibilityToSelectEditEventMenu()
         {
-            Assert.IsTrue(LandingPage.GetPage(Driver).isEditEventsLinkPresent());
+            Assert.IsTrue(LandingPage.GetPage(Driver).IsEditEventsLinkPresent());
         }
         
         [Then(@"""(.*)"" name exist in header\.")]
@@ -49,7 +49,7 @@ namespace EpamNetProject.AutomatedUITests.Authorization
         public void ThenIHaveNotPossibilityToSelectEditEventMenu()
         {
 
-            Assert.IsTrue(!LandingPage.GetPage(Driver).isEditEventsLinkPresent());
+            Assert.IsTrue(!LandingPage.GetPage(Driver).IsEditEventsLinkPresent());
         }
         
         [Then(@"I am stayed on login page")]

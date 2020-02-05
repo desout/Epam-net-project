@@ -5,12 +5,13 @@ namespace EpamNetProject.AutomatedUITests.Pages
 {
     public class EditEventsPage
     {
-        private IWebDriver _driver;
-        public EditEventsPage(IWebDriver driver)
+        private readonly IWebDriver _driver;
+
+        private EditEventsPage(IWebDriver driver)
         {
             _driver = driver;
         }
-        
+
         public static EditEventsPage GetPage(IWebDriver webDriver)
         {
             return new EditEventsPage(webDriver);
@@ -18,10 +19,10 @@ namespace EpamNetProject.AutomatedUITests.Pages
 
         public EditEventsPage GoToPage()
         {
-            _driver.Navigate().GoToUrl("http://localhost:5000/Manager/EditEvent/EditEvents");
+            _driver.Navigate().GoToUrl(PageLink);
             return this;
         }
-        
+
         public EditEventsPage ClickDeleteButtonOnEvent(string text)
         {
             var element = _driver
@@ -42,14 +43,17 @@ namespace EpamNetProject.AutomatedUITests.Pages
             element.Click();
             return EditEventPage.GetPage(_driver);
         }
-        
-        private const string ParagraphClassname = "event--item__name";
-        private const string BlockClassname = "event--item__actions";
 
         public EditEventPage ClickAddNewButton()
         {
             _driver.FindElement(By.ClassName("editEvent__block__AddNew")).Click();
             return EditEventPage.GetPage(_driver);
         }
+
+        private const string PageLink = "http://localhost:5000/Manager/EditEvent/EditEvents";
+
+        private const string ParagraphClassname = "event--item__name";
+
+        private const string BlockClassname = "event--item__actions";
     }
 }
