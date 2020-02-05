@@ -16,26 +16,6 @@ namespace EpamNetProject.BLL.Tests
     [TestFixture]
     public class VenueServiceTests
     {
-        private const int ReturnIdVenue = 10;
-
-        private const int ReturnIdSeat = 20;
-
-        private const int ReturnIdLayout = 30;
-
-        private const int ReturnIdArea = 40;
-
-        private Mock<IRepository<Area>> _areaRepository;
-
-        private Mock<IRepository<Layout>> _layoutRepository;
-
-        private IMapperConfigurationProvider _mapper;
-
-        private Mock<IRepository<Seat>> _seatRepository;
-
-        private Mock<IRepository<Venue>> _venueRepository;
-
-        private VenueService _venueService;
-
         [SetUp]
         public void SetUp()
         {
@@ -118,6 +98,26 @@ namespace EpamNetProject.BLL.Tests
                 _venueRepository.Object, _areaRepository.Object, _mapper);
         }
 
+        private const int ReturnIdVenue = 10;
+
+        private const int ReturnIdSeat = 20;
+
+        private const int ReturnIdLayout = 30;
+
+        private const int ReturnIdArea = 40;
+
+        private Mock<IRepository<Area>> _areaRepository;
+
+        private Mock<IRepository<Layout>> _layoutRepository;
+
+        private IMapperConfigurationProvider _mapper;
+
+        private Mock<IRepository<Seat>> _seatRepository;
+
+        private Mock<IRepository<Venue>> _venueRepository;
+
+        private VenueService _venueService;
+
         [Test]
         public void CreateArea_WhenAreaDescriptionExists_ShouldReturnValidationException()
         {
@@ -140,7 +140,7 @@ namespace EpamNetProject.BLL.Tests
         public void CreateArea_WhenModelValid_ShouldReturnNewId()
         {
             var area = new AreaDto
-                {Description = "new Description", CoordX = 10, CoordY = 20, LayoutId = 1, Price= 100};
+                {Description = "new Description", CoordX = 10, CoordY = 20, LayoutId = 1, Price = 100};
 
             var result = _venueService.CreateArea(area);
 

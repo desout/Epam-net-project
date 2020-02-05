@@ -78,7 +78,6 @@ namespace EpamNetProject.AutomatedUITests.Events
         [Then(@"I press link in block with text ""(.*)""")]
         public void ThenIPressLinkInBlockWithText(string text)
         {
-
             EditEventsPage.GetPage(Driver).ClickEditLinkOnEvent(text);
         }
 

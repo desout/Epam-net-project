@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading;
 using OpenQA.Selenium;
@@ -7,9 +6,14 @@ namespace EpamNetProject.AutomatedUITests.Pages
 {
     public class EventsPage
     {
+        private const string PageLink = "http://localhost:5000/Events/Events";
+
+        private const string FirstEventClassName = "event--item__name";
+
         private readonly IWebDriver _driver;
-        
+
         private readonly IWebElement _firstEvent;
+
         private EventsPage(IWebDriver driver)
         {
             _driver = driver;
@@ -39,8 +43,5 @@ namespace EpamNetProject.AutomatedUITests.Pages
             Thread.Sleep(1000);
             return EventPage.GetPage(_driver);
         }
-
-        private const string PageLink = "http://localhost:5000/Events/Events";
-        private const string FirstEventClassName = "event--item__name";
     }
 }

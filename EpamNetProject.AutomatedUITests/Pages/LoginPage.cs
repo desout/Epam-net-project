@@ -6,13 +6,23 @@ namespace EpamNetProject.AutomatedUITests.Pages
 {
     public class LoginPage
     {
+        private const string ValidationSummarySelector = ".validation-summary-errors li, .field-validation-error";
+
+        private const string PageLink = "http://localhost:5000/User/Account/Login";
+
+        private const string UserNameTextFieldId = "UserName";
+
+        private const string PasswordTextFieldId = "Password";
+
+        private const string LoginButtonClassname = "button__submit";
+
         private readonly IWebDriver _driver;
 
-        private readonly IWebElement _userNameTextField;
+        private readonly IWebElement _loginButton;
 
         private readonly IWebElement _passwordTextField;
 
-        private readonly IWebElement _loginButton;
+        private readonly IWebElement _userNameTextField;
 
         private readonly IReadOnlyCollection<IWebElement> _validationErrors;
 
@@ -69,15 +79,5 @@ namespace EpamNetProject.AutomatedUITests.Pages
         {
             return _validationErrors.Any();
         }
-
-        private const string ValidationSummarySelector = ".validation-summary-errors li, .field-validation-error";
-
-        private const string PageLink = "http://localhost:5000/User/Account/Login";
-
-        private const string UserNameTextFieldId = "UserName";
-
-        private const string PasswordTextFieldId = "Password";
-
-        private const string LoginButtonClassname = "button__submit";
     }
 }

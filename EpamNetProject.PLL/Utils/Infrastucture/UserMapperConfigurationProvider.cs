@@ -2,7 +2,6 @@ using AutoMapper;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.DAL.Models;
 using EpamNetProject.PLL.Interfaces;
-using EpamNetProject.PLL.Models;
 
 namespace EpamNetProject.PLL.Infrastucture
 {

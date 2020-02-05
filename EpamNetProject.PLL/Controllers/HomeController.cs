@@ -7,8 +7,6 @@ namespace EpamNetProject.PLL.Controllers
 {
     public class HomeController : Controller
     {
-        
-
         [HttpGet]
         public ActionResult Index()
         {

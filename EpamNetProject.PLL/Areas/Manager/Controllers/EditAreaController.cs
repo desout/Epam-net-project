@@ -8,16 +8,16 @@ using EpamNetProject.PLL.Models;
 
 namespace EpamNetProject.PLL.Areas.Manager.Controllers
 {
-    public class EditAreaController: Controller
+    public class EditAreaController : Controller
     {
         private readonly IEventService _eventService;
+
         private readonly IVenueService _venueService;
 
         public EditAreaController(IEventService eventService, IVenueService venueService)
         {
             _eventService = eventService;
             _venueService = venueService;
-
         }
 
         [Authorize(Roles = "Manager, Admin")]
@@ -35,6 +35,7 @@ namespace EpamNetProject.PLL.Areas.Manager.Controllers
             });
             return HttpResponseHelper.Ok(new {Area = baseArea});
         }
+
         [Authorize(Roles = "Manager, Admin")]
         public ActionResult ChangeArea(EventAreaDto area)
         {
@@ -53,6 +54,7 @@ namespace EpamNetProject.PLL.Areas.Manager.Controllers
                 return HttpResponseHelper.Error();
             }
         }
+
         [HttpPost]
         [Authorize(Roles = "Manager, Admin")]
         public ActionResult RemoveSeat(int id)
@@ -82,6 +84,7 @@ namespace EpamNetProject.PLL.Areas.Manager.Controllers
                 return HttpResponseHelper.Error();
             }
         }
+
         [Authorize(Roles = "Manager, Admin")]
         public ActionResult ChangeMainArea(AreaDto area)
         {

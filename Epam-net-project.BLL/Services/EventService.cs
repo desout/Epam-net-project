@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
-using System.Data.Entity;
 using System.Data.Entity.Core;
 using System.Linq;
 using AutoMapper;
@@ -19,6 +18,8 @@ namespace EpamNetProject.BLL.Services
     {
         private readonly IRepository<Area> _areaRepository;
 
+        private readonly int _basketLeaveTime;
+
         private readonly IRepository<EventArea> _eventAreaRepository;
 
         private readonly IEventRepository _eventRepository;
@@ -28,8 +29,6 @@ namespace EpamNetProject.BLL.Services
         private readonly IRepository<Layout> _layoutRepository;
 
         private readonly IMapper _mapper;
-
-        private readonly int _basketLeaveTime;
 
         private readonly IRepository<Seat> _seatRepository;
 

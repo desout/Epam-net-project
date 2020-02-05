@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using EpamNetProject.BLL.Models;
-using EpamNetProject.PLL.Models;
 
 namespace EpamNetProject.PLL.Interfaces
 {

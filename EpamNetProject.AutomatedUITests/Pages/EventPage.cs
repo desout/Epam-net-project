@@ -5,20 +5,28 @@ namespace EpamNetProject.AutomatedUITests.Pages
 {
     public class EventPage
     {
+        private const string ProceedToCheckoutId = "proceed-to-checkout";
+
+        private const string ReservedSeatSelector = "[data-seat-status='2']";
+
+        private const string AvailableSeatSelector = "[data-seat-status='0']";
+
+        private const string ErrorBlockClassName = "ErrorClass";
+
+        private readonly IWebElement _availableSeat;
+
         private readonly IWebDriver _driver;
 
         private readonly IWebElement _errorBlock;
 
-        private readonly IWebElement _availableSeat;
+        private readonly IWebElement _proceedToCheckoutButton;
 
         private readonly IWebElement _reservedSeat;
-
-        private readonly IWebElement _proceedToCheckoutButton;
 
         private EventPage(IWebDriver driver)
         {
             _driver = driver;
-            
+
             _errorBlock = _driver.FindElement(By.ClassName(ErrorBlockClassName));
             _availableSeat = _driver.FindElement(By.CssSelector(AvailableSeatSelector));
             _reservedSeat = _driver.FindElement(By.CssSelector(ReservedSeatSelector));
@@ -54,13 +62,5 @@ namespace EpamNetProject.AutomatedUITests.Pages
             _proceedToCheckoutButton.Click();
             return this;
         }
-
-        private const string ProceedToCheckoutId = "proceed-to-checkout";
-
-        private const string ReservedSeatSelector = "[data-seat-status='2']";
-
-        private const string AvailableSeatSelector = "[data-seat-status='0']";
-
-        private const string ErrorBlockClassName = "ErrorClass";
     }
 }

@@ -8,7 +8,7 @@ using EpamNetProject.PLL.Models;
 
 namespace EpamNetProject.PLL.Areas.Manager.Controllers
 {
-    public class EditEventController: Controller
+    public class EditEventController : Controller
     {
         private readonly IEventService _eventService;
 
@@ -27,7 +27,6 @@ namespace EpamNetProject.PLL.Areas.Manager.Controllers
             return View(_eventService.GetAllEvents());
         }
 
-        
 
         [Authorize(Roles = "Manager, Admin")]
         public ActionResult Edit(int? id)
@@ -49,7 +48,6 @@ namespace EpamNetProject.PLL.Areas.Manager.Controllers
                 ImgUrl = eventDto.ImgUrl,
                 Layout = eventDto.LayoutId
             });
-
         }
 
         [HttpPost]
@@ -121,6 +119,5 @@ namespace EpamNetProject.PLL.Areas.Manager.Controllers
 
             return View("Edit", model);
         }
-        
     }
 }

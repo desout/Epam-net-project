@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
@@ -11,7 +9,6 @@ using EpamNetProject.PLL.filters;
 using EpamNetProject.PLL.Helpers;
 using EpamNetProject.PLL.Jobs;
 using EpamNetProject.PLL.Models;
-using Microsoft.AspNet.Identity;
 
 namespace EpamNetProject.PLL.Areas.Events.Controllers
 {
@@ -90,10 +87,9 @@ namespace EpamNetProject.PLL.Areas.Events.Controllers
                 var countOfTickets = _eventService.ChangeStatusToBuy(userId, totalAmount);
                 return View("PaymentSuccess", countOfTickets);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return View("PaymentFailed", e);
-
             }
         }
 

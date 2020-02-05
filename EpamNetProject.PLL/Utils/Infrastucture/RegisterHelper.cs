@@ -10,7 +10,6 @@ using EpamNetProject.DAL.Models;
 using EpamNetProject.DAL.Repositories;
 using EpamNetProject.PLL.Interfaces;
 using EpamNetProject.PLL.Managers;
-using EpamNetProject.PLL.Models;
 using EpamNetProject.PLL.Services;
 using Microsoft.AspNet.Identity;
 

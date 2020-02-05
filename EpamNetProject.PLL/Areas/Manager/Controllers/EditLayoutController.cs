@@ -8,7 +8,7 @@ using EpamNetProject.PLL.Models;
 
 namespace EpamNetProject.PLL.Areas.Manager.Controllers
 {
-    public class EditLayoutController: Controller
+    public class EditLayoutController : Controller
     {
         private readonly IEventService _eventService;
 
@@ -19,13 +19,14 @@ namespace EpamNetProject.PLL.Areas.Manager.Controllers
             _eventService = eventService;
             _venueService = venueService;
         }
-        
+
         [HttpGet]
         [Authorize(Roles = "Manager, Admin")]
         public ActionResult EditLayouts()
         {
             return View(_venueService.GetLayouts());
         }
+
         [Authorize(Roles = "Manager, Admin")]
         public ActionResult EditLayout(int? id)
         {
@@ -116,9 +117,6 @@ namespace EpamNetProject.PLL.Areas.Manager.Controllers
             };
             return View(returnedModel);
         }
-
-
-
 
 
         [Authorize(Roles = "Manager, Admin")]

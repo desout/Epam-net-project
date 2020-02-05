@@ -5,6 +5,12 @@ namespace EpamNetProject.AutomatedUITests.Pages
 {
     public class EditEventsPage
     {
+        private const string PageLink = "http://localhost:5000/Manager/EditEvent/EditEvents";
+
+        private const string ParagraphClassname = "event--item__name";
+
+        private const string BlockClassname = "event--item__actions";
+
         private readonly IWebDriver _driver;
 
         private EditEventsPage(IWebDriver driver)
@@ -49,11 +55,5 @@ namespace EpamNetProject.AutomatedUITests.Pages
             _driver.FindElement(By.ClassName("editEvent__block__AddNew")).Click();
             return EditEventPage.GetPage(_driver);
         }
-
-        private const string PageLink = "http://localhost:5000/Manager/EditEvent/EditEvents";
-
-        private const string ParagraphClassname = "event--item__name";
-
-        private const string BlockClassname = "event--item__actions";
     }
 }

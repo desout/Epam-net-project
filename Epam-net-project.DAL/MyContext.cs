@@ -1,6 +1,6 @@
-using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
 using EpamNetProject.DAL.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace EpamNetProject.DAL
 {

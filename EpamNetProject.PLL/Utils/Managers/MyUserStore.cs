@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.PLL.Interfaces;
-using EpamNetProject.PLL.Models;
 using Microsoft.AspNet.Identity;
 
 namespace EpamNetProject.PLL.Managers

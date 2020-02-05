@@ -1,13 +1,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using OpenQA.Selenium;
+
 namespace EpamNetProject.AutomatedUITests.Pages
 {
     public class LandingPage
     {
+        private const string PageLink = "http://localhost:5000/";
+
+        private const string EditEventsLinkSelector = ".navbar__navigation a[href='/Manager/EditEvent/EditEvents']";
+
+        private const string UserNameTextFieldId = "userName-header";
+
         private readonly IWebDriver _driver;
-        private readonly IWebElement _userNameElement;
+
         private readonly IReadOnlyCollection<IWebElement> _editEventsLink;
+
+        private readonly IWebElement _userNameElement;
 
         private LandingPage(IWebDriver driver)
         {
@@ -20,7 +29,7 @@ namespace EpamNetProject.AutomatedUITests.Pages
             _userNameElement = _driver.FindElement(By.Id(UserNameTextFieldId));
             _editEventsLink = _driver.FindElements(By.CssSelector(EditEventsLinkSelector));
         }
-        
+
         public static LandingPage GetPage(IWebDriver webDriver)
         {
             return new LandingPage(webDriver);
@@ -41,14 +50,10 @@ namespace EpamNetProject.AutomatedUITests.Pages
         {
             return _editEventsLink.Any();
         }
+
         public bool CheckUserName(string userName)
         {
             return _userNameElement.Text.Contains(userName);
         }
-
-        private const string PageLink = "http://localhost:5000/";
-        private const string EditEventsLinkSelector = ".navbar__navigation a[href='/Manager/EditEvent/EditEvents']";
-        
-        private const string UserNameTextFieldId = "userName-header";
     }
 }

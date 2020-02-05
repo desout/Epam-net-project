@@ -1,6 +1,6 @@
-﻿using EpamNetProject.DAL.Interfaces;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
+using EpamNetProject.DAL.Interfaces;
 using EpamNetProject.DAL.Models;
 
 namespace EpamNetProject.DAL.Repositories

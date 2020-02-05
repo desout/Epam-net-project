@@ -4,19 +4,33 @@ namespace EpamNetProject.AutomatedUITests.Pages
 {
     public class EditEventPage
     {
-        private readonly IWebDriver _driver;
+        private const string NameTextFieldId = "Name";
 
-        private readonly IWebElement _submitButton;
+        private const string DescriptionTextFieldId = "Description";
+
+        private const string TimeTextFieldId = "Time";
+
+        private const string TitleTextFieldId = "Title";
+
+        private const string ImgUrlTextFieldId = "ImgUrl";
+
+        private const string DatepickerCloseButtonClassname = "ui-datepicker-close";
+
+        private const string SubmitButtonClassname = "button__submit";
 
         private readonly IWebElement _descriptionTextField;
 
+        private readonly IWebDriver _driver;
+
+        private readonly IWebElement _imgUrlField;
+
         private readonly IWebElement _nameTextField;
+
+        private readonly IWebElement _submitButton;
 
         private readonly IWebElement _timeTextField;
 
         private readonly IWebElement _titleTextField;
-
-        private readonly IWebElement _imgUrlField;
 
         private EditEventPage(IWebDriver driver)
         {
@@ -86,19 +100,5 @@ namespace EpamNetProject.AutomatedUITests.Pages
             el.Clear();
             el.SendKeys(field);
         }
-
-        private const string NameTextFieldId = "Name";
-
-        private const string DescriptionTextFieldId = "Description";
-
-        private const string TimeTextFieldId = "Time";
-
-        private const string TitleTextFieldId = "Title";
-
-        private const string ImgUrlTextFieldId = "ImgUrl";
-
-        private const string DatepickerCloseButtonClassname = "ui-datepicker-close";
-
-        private const string SubmitButtonClassname = "button__submit";
     }
 }

@@ -16,26 +16,6 @@ namespace EpamNetProject.BLL.Tests
     [TestFixture]
     public class EventServiceTests
     {
-        private const int ReturnId = 10;
-
-        private Mock<IRepository<Area>> _areaRepository;
-
-        private Mock<IRepository<EventArea>> _eventAreaRepository;
-
-        private Mock<IEventRepository> _eventRepository;
-
-        private Mock<IRepository<EventSeat>> _eventSeatRepository;
-
-        private EventService _eventService;
-
-        private Mock<IRepository<Layout>> _layoutRepository;
-
-        private IMapperConfigurationProvider _mapper;
-
-        private Mock<IRepository<Seat>> _seatRepository;
-
-        private Mock<IRepository<UserProfile>> _userProfileRepository;
-
         [SetUp]
         public void SetUp()
         {
@@ -134,6 +114,26 @@ namespace EpamNetProject.BLL.Tests
                 _areaRepository.Object, _seatRepository.Object, _eventSeatRepository.Object,
                 _eventAreaRepository.Object, _userProfileRepository.Object, 15, _mapper);
         }
+
+        private const int ReturnId = 10;
+
+        private Mock<IRepository<Area>> _areaRepository;
+
+        private Mock<IRepository<EventArea>> _eventAreaRepository;
+
+        private Mock<IEventRepository> _eventRepository;
+
+        private Mock<IRepository<EventSeat>> _eventSeatRepository;
+
+        private EventService _eventService;
+
+        private Mock<IRepository<Layout>> _layoutRepository;
+
+        private IMapperConfigurationProvider _mapper;
+
+        private Mock<IRepository<Seat>> _seatRepository;
+
+        private Mock<IRepository<UserProfile>> _userProfileRepository;
 
         [Test]
         public void CreateEvent_WhenEventWithDateInPast_ShouldReturnDateInPastValidationException()

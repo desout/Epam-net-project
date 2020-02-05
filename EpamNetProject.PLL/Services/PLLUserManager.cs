@@ -8,7 +8,6 @@ using EpamNetProject.BLL.Models;
 using EpamNetProject.DAL.Models;
 using EpamNetProject.PLL.Interfaces;
 using EpamNetProject.PLL.Managers;
-using EpamNetProject.PLL.Models;
 using Microsoft.AspNet.Identity;
 
 namespace EpamNetProject.PLL.Services
@@ -57,7 +56,8 @@ namespace EpamNetProject.PLL.Services
                     await _applicationRoleManager.CreateAsync(role);
                 }
             }
-            foreach(var user in users)
+
+            foreach (var user in users)
             {
                 try
                 {
@@ -69,17 +69,15 @@ namespace EpamNetProject.PLL.Services
                 catch
                 {
                 }
-
             }
-          
         }
 
         public List<string> Register(UserDTO user)
         {
             var operationDetails = _applicationUserManager.Create(user, user.Password);
-            if (Enumerable.Any<string>(operationDetails.Errors))
+            if (operationDetails.Errors.Any())
             {
-                return Enumerable.ToList<string>(operationDetails.Errors);
+                return operationDetails.Errors.ToList();
             }
 
             user.Id = _userService.getUserByName(user.UserName).Result.Id;

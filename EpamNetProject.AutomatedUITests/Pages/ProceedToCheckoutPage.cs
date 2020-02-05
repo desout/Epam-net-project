@@ -6,15 +6,23 @@ namespace EpamNetProject.AutomatedUITests.Pages
 {
     public class ProceedToCheckoutPage
     {
+        private const string CountOfTicketsId = "countOfTickets";
+
+        private const string SelectedSeatClassname = "selectedSeat-item";
+
+        private const string SubmitButtonClassname = "button__submit";
+
+        private const string ErrorBlockTag = "h2";
+
         private readonly IWebDriver _driver;
 
-        private readonly IWebElement _submitButton;
+        private readonly IWebElement _errorBlock;
 
         private readonly ReadOnlyCollection<IWebElement> _selectedSeats;
 
-        private readonly IWebElement _ticketCountField;
+        private readonly IWebElement _submitButton;
 
-        private readonly IWebElement _errorBlock;
+        private readonly IWebElement _ticketCountField;
 
 
         private ProceedToCheckoutPage(IWebDriver driver)
@@ -38,6 +46,7 @@ namespace EpamNetProject.AutomatedUITests.Pages
             {
                 // ignored
             }
+
             try
             {
                 _ticketCountField = _driver.FindElement(By.Id(CountOfTicketsId));
@@ -73,13 +82,5 @@ namespace EpamNetProject.AutomatedUITests.Pages
         {
             return "Not enough money on balance".Equals(_errorBlock.Text);
         }
-        
-        private const string CountOfTicketsId = "countOfTickets";
-
-        private const string SelectedSeatClassname = "selectedSeat-item";
-
-        private const string SubmitButtonClassname = "button__submit";
-
-        private const string ErrorBlockTag = "h2";
     }
 }

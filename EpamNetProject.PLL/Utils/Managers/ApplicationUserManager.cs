@@ -1,5 +1,4 @@
 using EpamNetProject.BLL.Models;
-using EpamNetProject.PLL.Models;
 using Microsoft.AspNet.Identity;
 
 namespace EpamNetProject.PLL.Managers

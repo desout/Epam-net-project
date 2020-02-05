@@ -13,6 +13,7 @@ using EpamNetProject.PLL.Managers;
 using EpamNetProject.PLL.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
+using Resources;
 
 namespace EpamNetProject.PLL.Areas.User.Controllers
 {
@@ -114,7 +115,7 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
                 var claim = await _ipllUserManager.Authenticate(userDto);
                 if (claim == null)
                 {
-                    ModelState.AddModelError(String.Empty, Resources.Resource.ACCOUNT_ERRORINCORRECTLOGINPASSWORD);
+                    ModelState.AddModelError(string.Empty, Resource.ACCOUNT_ERRORINCORRECTLOGINPASSWORD);
                 }
                 else
                 {
@@ -128,7 +129,7 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
                     var cookie = new HttpCookie("lang")
                         {HttpOnly = false, Value = user.Language, Expires = DateTime.Now.AddYears(1)};
                     Response.Cookies.Set(cookie);
-                    return RedirectToAction("Index", "Home", new {area="" });
+                    return RedirectToAction("Index", "Home", new {area = ""});
                 }
             }
 
@@ -168,7 +169,7 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
                         {
                             Balance = 0,
                             FirstName = model.FirstName,
-                            Language = model.Language, 
+                            Language = model.Language,
                             basketTime = null,
                             Surname = model.Surname,
                             TimeZone = model.TimeZone
