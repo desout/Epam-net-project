@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using EpamNetProject.BLL.Models;
 
-namespace EpamNetProject.PLL.Models
+namespace EpamNetProject.PLL.Utils.Models
 {
     public class EventViewModel
     {

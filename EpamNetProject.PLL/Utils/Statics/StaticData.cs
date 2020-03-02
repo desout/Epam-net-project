@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace EpamNetProject.PLL.Statics
+namespace EpamNetProject.PLL.Utils.Statics
 {
     public static class StaticData
     {

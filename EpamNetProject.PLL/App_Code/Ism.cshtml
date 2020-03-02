@@ -1,21 +1,33 @@
 @using System.Web.Optimization
-@using System.Web.Script.Serialization
 @using EpamNetProject.BLL.Models
+
 @helper ISM(List<EventAreaDto> areas, List<EventSeatDto> seats, string link, string linkDeselect)
 {
-    <div id="ISM__MAP" style="position: relative; height: 200px; width: 300px;align-self: center;"></div>
+    <div id="ISM__MAP" style="position: relative; height: 200px; width: 300px;align-self: center;">
+        @foreach (var area in areas)
+        {
+            var currentSeats = seats.Where(x => x.EventAreaId == area.Id).ToList();
+            var maxX = currentSeats.Max(x => (x.Number-1)*10+5) + 20;
+            var maxY = currentSeats.Max(x=>(x.Row - 1) * 20 + 5) + 20;
+            <div style="top: @( area.CoordY)px; left: @( area.CoordX)px; width: @(maxX)px; height: @(maxY)px" class="area">
+                <p class="area--description">
+                    @area.Description
+                </p>
+                @foreach (var seat in currentSeats)
+                {
+                    var top = (seat.Row - 1) * 20 + 5;
+                    var left = (seat.Number - 1) * 10 + 5;
+                    <p style="top: @( top)px; left: @( left)px" data-seat-id="@seat.Id" data-seat-status="@((int)seat.State)" class="areaDescription seat">@seat.Number</p>
+                }
+            </div>
+        }
+    </div>
     <h1 class="ErrorClass" style="display: none">
         This seat not available
     </h1>
     @Scripts.Render("~/bundles/ISM")
+    
     <script>
-        @{
-            var js = new JavaScriptSerializer();
-            var areasString = js.Serialize(areas);
-            var seatsString = js.Serialize(seats);
-        }
-        var areasLocal = JSON.parse('@areasString'.replace(/&quot;/g, '"'));
-        var seatsLocal = JSON.parse('@seatsString'.replace(/&quot;/g, '"'));
-        generateSim(areasLocal,seatsLocal,'@( link)','@( linkDeselect)')
-</script>
+        generateSim('@( link)','@( linkDeselect)')
+    </script>
 }

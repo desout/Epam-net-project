@@ -1,14 +1,15 @@
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using OpenQA.Selenium;
 
 namespace EpamNetProject.AutomatedUITests.Pages
 {
-    public class LoginPage
+    public class LoginPage: BasePage
     {
         private const string ValidationSummarySelector = ".validation-summary-errors li, .field-validation-error";
 
-        private const string PageLink = "http://localhost:5000/User/Account/Login";
+        private readonly string _pageLink;
 
         private const string UserNameTextFieldId = "UserName";
 
@@ -16,68 +17,46 @@ namespace EpamNetProject.AutomatedUITests.Pages
 
         private const string LoginButtonClassname = "button__submit";
 
-        private readonly IWebDriver _driver;
+        private static IWebElement LoginButton => findElementBy(LoginButtonClassname, SelectorType.ClassName);
 
-        private readonly IWebElement _loginButton;
+        private static IWebElement PasswordTextField => findElementBy(PasswordTextFieldId, SelectorType.Id);
 
-        private readonly IWebElement _passwordTextField;
+        private static IWebElement UserNameTextField => findElementBy(UserNameTextFieldId, SelectorType.Id);
 
-        private readonly IWebElement _userNameTextField;
+        private static IReadOnlyCollection<IWebElement> ValidationErrors => findElementsBy(ValidationSummarySelector, SelectorType.Css);
 
-        private readonly IReadOnlyCollection<IWebElement> _validationErrors;
-
-        public LoginPage(IWebDriver driver)
+        public LoginPage()
         {
-            _driver = driver;
-            if (!driver.Url.Equals(PageLink))
-            {
-                return;
-            }
-
-            _userNameTextField = _driver.FindElement(By.Id(UserNameTextFieldId));
-            _passwordTextField = _driver.FindElement(By.Id(PasswordTextFieldId));
-            _loginButton = _driver.FindElement(By.ClassName(LoginButtonClassname));
-            _validationErrors = _driver.FindElements(By.CssSelector(ValidationSummarySelector));
-        }
-
-        public static LoginPage GetPage(IWebDriver webDriver)
-        {
-            return new LoginPage(webDriver);
-        }
-
-        public LoginPage GoToPage()
-        {
-            _driver.Navigate().GoToUrl(PageLink);
-            return new LoginPage(_driver);
+            _pageLink = $"{ConfigurationManager.AppSettings["rootUrl"]}User/Account/Login";
         }
 
         public LoginPage TypeUserName(string userName)
         {
-            _userNameTextField.SendKeys(userName);
+            UserNameTextField.SendKeys(userName);
             return this;
         }
 
         public LoginPage TypePassword(string password)
         {
-            _passwordTextField.SendKeys(password);
+            PasswordTextField.SendKeys(password);
 
             return this;
         }
 
         public LandingPage ClickLoginButton()
         {
-            _loginButton.Click();
-            return LandingPage.GetPage(_driver);
+            LoginButton.Click();
+            return new LandingPage();
         }
 
         public bool IsPageOpen()
         {
-            return _driver.Url.Equals(PageLink);
+            return Driver.Url.Equals(_pageLink);
         }
 
         public bool IsErrorOccured()
         {
-            return _validationErrors.Any();
+            return ValidationErrors.Any();
         }
     }
 }

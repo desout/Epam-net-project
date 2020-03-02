@@ -1,10 +1,12 @@
 using System;
 using System.Linq;
 using System.Web.Mvc;
+using AutoMapper;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
-using EpamNetProject.PLL.Extensions;
-using EpamNetProject.PLL.Models;
+using EpamNetProject.PLL.Utils.Extensions;
+using EpamNetProject.PLL.Utils.Interfaces;
+using EpamNetProject.PLL.Utils.Models;
 
 namespace EpamNetProject.PLL.Areas.Manager.Controllers
 {
@@ -13,11 +15,14 @@ namespace EpamNetProject.PLL.Areas.Manager.Controllers
         private readonly IEventService _eventService;
 
         private readonly IVenueService _venueService;
+        
+        private readonly IMapper _mapper;
 
-        public EditLayoutController(IEventService eventService, IVenueService venueService)
+        public EditLayoutController(IEventService eventService, IVenueService venueService, IUserMapperConfigurationProvider userMapperConfigurationProvider)
         {
             _eventService = eventService;
             _venueService = venueService;
+            _mapper = userMapperConfigurationProvider.GetMapperConfig();
         }
 
         [HttpGet]
@@ -37,13 +42,7 @@ namespace EpamNetProject.PLL.Areas.Manager.Controllers
             }
 
             var layoutDto = _venueService.GetLayout(id.Value);
-            return View(new LayoutViewModel
-            {
-                Id = layoutDto.Id,
-                VenueId = layoutDto.VenueId,
-                Description = layoutDto.Description,
-                LayoutName = layoutDto.LayoutName
-            });
+            return View(_mapper.Map<LayoutViewModel>(layoutDto));
         }
 
         [Authorize(Roles = "Manager, Admin")]
@@ -56,12 +55,7 @@ namespace EpamNetProject.PLL.Areas.Manager.Controllers
 
             try
             {
-                _venueService.CreateLayout(new LayoutDto
-                {
-                    Description = model.Description,
-                    LayoutName = model.LayoutName,
-                    VenueId = model.VenueId
-                });
+                _venueService.CreateLayout(_mapper.Map<LayoutDto>(model));
 
                 return RedirectToAction("EditLayouts");
             }
@@ -83,13 +77,7 @@ namespace EpamNetProject.PLL.Areas.Manager.Controllers
 
             try
             {
-                _venueService.UpdateLayout(new LayoutDto
-                {
-                    Id = model.Id.Value,
-                    Description = model.Description,
-                    LayoutName = model.LayoutName,
-                    VenueId = model.VenueId
-                });
+                _venueService.UpdateLayout(_mapper.Map<LayoutDto>(model));
 
                 return RedirectToAction("EditLayouts");
             }

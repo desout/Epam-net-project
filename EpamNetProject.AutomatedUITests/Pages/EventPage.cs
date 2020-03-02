@@ -3,7 +3,7 @@ using OpenQA.Selenium;
 
 namespace EpamNetProject.AutomatedUITests.Pages
 {
-    public class EventPage
+    public class EventPage: BasePage
     {
         private const string ProceedToCheckoutId = "proceed-to-checkout";
 
@@ -11,55 +11,41 @@ namespace EpamNetProject.AutomatedUITests.Pages
 
         private const string AvailableSeatSelector = "[data-seat-status='0']";
 
-        private const string ErrorBlockClassName = "ErrorClass";
+        private const string ErrorBlockClassName = "validation-summary-errors";
 
-        private readonly IWebElement _availableSeat;
+        private static IWebElement AvailableSeat => findElementBy(AvailableSeatSelector,SelectorType.Css);
 
-        private readonly IWebDriver _driver;
+        private static IWebElement ErrorBlock => findElementBy(ErrorBlockClassName, SelectorType.ClassName);
 
-        private readonly IWebElement _errorBlock;
+        private static IWebElement ProceedToCheckoutButton => findElementBy(ProceedToCheckoutId, SelectorType.Id);
 
-        private readonly IWebElement _proceedToCheckoutButton;
+        private static IWebElement ReservedSeat => findElementBy(ReservedSeatSelector, SelectorType.Css);
 
-        private readonly IWebElement _reservedSeat;
-
-        private EventPage(IWebDriver driver)
+        public EventPage()
         {
-            _driver = driver;
-
-            _errorBlock = _driver.FindElement(By.ClassName(ErrorBlockClassName));
-            _availableSeat = _driver.FindElement(By.CssSelector(AvailableSeatSelector));
-            _reservedSeat = _driver.FindElement(By.CssSelector(ReservedSeatSelector));
-            _proceedToCheckoutButton = _driver.FindElement(By.Id(ProceedToCheckoutId));
         }
-
-        public static EventPage GetPage(IWebDriver webDriver)
+        public bool IsErrorOccured()
         {
-            return new EventPage(webDriver);
-        }
-
-        public bool isErrorOccured()
-        {
-            return _errorBlock.Displayed;
+            return ErrorBlock.Displayed;
         }
 
         public EventPage SelectAvailableSeat()
         {
-            _availableSeat.Click();
+            AvailableSeat.Click();
             Thread.Sleep(1000);
             return this;
         }
 
         public EventPage SelectReservedSeat()
         {
-            _reservedSeat.Click();
+            ReservedSeat.Click();
             Thread.Sleep(1000);
             return this;
         }
 
         public EventPage PressProceedToCheckoutButton()
         {
-            _proceedToCheckoutButton.Click();
+            ProceedToCheckoutButton.Click();
             return this;
         }
     }

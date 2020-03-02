@@ -66,9 +66,8 @@ namespace EpamNetProject.Integration.Tests
                     {Description = "new Description", CoordX = 10, CoordY = 20, LayoutId = 1};
 
                 var result = _venueService.CreateArea(area);
-                area.Id = result;
 
-                area.Should().BeEquivalentTo(_venueService.GetArea(result));
+                area.Should().BeEquivalentTo(_venueService.GetArea(result), options => options.Excluding(x=>x.Id));
             }
         }
 
@@ -93,9 +92,8 @@ namespace EpamNetProject.Integration.Tests
                     {Description = "Description", LayoutName = "new layout name", VenueId = 1};
 
                 var result = _venueService.CreateLayout(layout);
-                layout.Id = result;
 
-                layout.Should().BeEquivalentTo(_venueService.GetLayout(result));
+                layout.Should().BeEquivalentTo(_venueService.GetLayout(result), options => options.Excluding(x=>x.Id));
             }
         }
 
@@ -109,9 +107,8 @@ namespace EpamNetProject.Integration.Tests
                     {Number = 11, AreaId = 1, Row = 12};
 
                 var result = _venueService.CreateSeat(seat);
-                seat.Id = result;
 
-                seat.Should().BeEquivalentTo(_venueService.GetSeat(result));
+                seat.Should().BeEquivalentTo(_venueService.GetSeat(result), options => options.Excluding(x=>x.Id));
             }
         }
 
@@ -139,9 +136,8 @@ namespace EpamNetProject.Integration.Tests
                 };
 
                 var result = _venueService.CreateVenue(venue);
-                venue.Id = result;
 
-                venue.Should().BeEquivalentTo(_venueService.GetVenue(result));
+                venue.Should().BeEquivalentTo(_venueService.GetVenue(result), options => options.Excluding(x=>x.Id));
             }
         }
 

@@ -4,10 +4,10 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
-using EpamNetProject.PLL.Interfaces;
+using EpamNetProject.PLL.Utils.Interfaces;
 using Microsoft.AspNet.Identity;
 
-namespace EpamNetProject.PLL.Managers
+namespace EpamNetProject.PLL.Utils.Managers
 {
     public class MyUserStore : IUserStore<UserDTO, string>,
         IUserClaimStore<UserDTO, string>,
@@ -107,7 +107,7 @@ namespace EpamNetProject.PLL.Managers
 
         public async Task<UserDTO> FindByNameAsync(string userName)
         {
-            return await _userService.getUserByName(userName);
+            return await _userService.GetUserByName(userName);
         }
     }
 }

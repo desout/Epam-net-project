@@ -17,33 +17,30 @@ namespace EpamNetProject.AutomatedUITests
 
         private const string ManagerPassword = "Desoutside1";
 
-        public static bool LoginAsAdmin(IWebDriver driver)
+        public static bool LoginAsAdmin()
         {
-            return LoginPage
-                .GetPage(driver)
-                .GoToPage()
+            return new LandingPage()
+                .ClickLoginButton()
                 .TypeUserName(AdminLogin)
                 .TypePassword(AdminPassword)
                 .ClickLoginButton()
                 .CheckUserName(AdminLogin);
         }
 
-        public static bool LoginAsManager(IWebDriver driver)
+        public static bool LoginAsManager()
         {
-            return LoginPage
-                .GetPage(driver)
-                .GoToPage()
+            return new LandingPage()
+                .ClickLoginButton()
                 .TypeUserName(ManagerLogin)
                 .TypePassword(ManagerPassword)
                 .ClickLoginButton()
                 .CheckUserName(ManagerLogin);
         }
 
-        public static bool LoginAsUser(IWebDriver driver)
+        public static bool LoginAsUser()
         {
-            return LoginPage
-                .GetPage(driver)
-                .GoToPage()
+            return new LandingPage()
+                .ClickLoginButton()
                 .TypeUserName(UserLogin)
                 .TypePassword(UserPassword)
                 .ClickLoginButton()

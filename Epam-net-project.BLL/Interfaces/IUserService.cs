@@ -6,13 +6,13 @@ namespace EpamNetProject.BLL.Interfaces
 {
     public interface IUserService
     {
-        Task<OperationDetails> Create(UserDTO userDto, string passwordHash);
+        Task<UserDTO> Create(UserDTO userDto, string passwordHash);
 
-        UserProfileDTO getUserProfile(string userId);
+        UserProfileDTO GetUserProfile(string userId);
 
-        UserDTO getUserInfo(string userId);
+        UserDTO GetUserInfo(string userId);
 
-        decimal addBalance(string userId, decimal amount);
+        decimal AddBalance(string userId, decimal amount);
 
         bool UpdateUserInfo(UserDTO user, string passwordHash);
 
@@ -24,7 +24,7 @@ namespace EpamNetProject.BLL.Interfaces
 
         Task<UserDTO> GetUser(string userId);
 
-        Task<UserDTO> getUserByName(string userName);
+        Task<UserDTO> GetUserByName(string userName);
 
         Task<string> GetPasswordHashAsync(UserDTO user);
 

@@ -1,3 +1,4 @@
+using System.Data.Entity.Core;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -26,30 +27,30 @@ namespace EpamNetProject.BLL.Services
             _userRepository = userRepository;
         }
 
-        public async Task<OperationDetails> Create(UserDTO userDto, string passwordHash)
+        public async Task<UserDTO> Create(UserDTO userDto, string passwordHash)
         {
-            var user = (await _userRepository.GetAll()).FirstOrDefault(x => x.UserName == userDto.UserName);
+            var user = _userRepository.GetAll().FirstOrDefault(x => x.UserName == userDto.UserName);
             if (user != null)
             {
-                return new OperationDetails(false, "User with this name exist", "Email");
+                throw new EntityException();
             }
 
             user = new User {Email = userDto.Email, UserName = userDto.UserName, PasswordHash = passwordHash};
             await _userRepository.Create(user);
             userDto.UserProfile.UserId = user.Id;
             _userProfileRepository.Add(_mapper.Map<UserProfile>(userDto.UserProfile));
-            return new OperationDetails(true, "Register successful", "");
+            return userDto;
         }
 
-        public UserProfileDTO getUserProfile(string userId)
+        public UserProfileDTO GetUserProfile(string userId)
         {
             return _mapper.Map<UserProfileDTO>(_userProfileRepository.GetAll().FirstOrDefault(x => x.UserId == userId));
         }
 
 
-        public UserDTO getUserInfo(string userId)
+        public UserDTO GetUserInfo(string userId)
         {
-            var user = _userRepository.GetAll().Result.FirstOrDefault(x => x.Id == userId);
+            var user = _userRepository.GetAll().FirstOrDefault(x => x.Id == userId);
             var userProfile = _userProfileRepository.GetAll().FirstOrDefault(x => x.UserId == userId);
             if (user == null)
             {
@@ -66,7 +67,7 @@ namespace EpamNetProject.BLL.Services
 
         public bool UpdateUserInfo(UserDTO user, string passwordHash)
         {
-            var localUser = _userRepository.GetAll().Result.FirstOrDefault(x => x.Id == user.Id);
+            var localUser = _userRepository.GetAll().FirstOrDefault(x => x.Id == user.Id);
             if (passwordHash != "" || user.Email != localUser?.Email)
             {
                 if (passwordHash != "")
@@ -76,7 +77,7 @@ namespace EpamNetProject.BLL.Services
 
                 localUser.Email = user.Email;
                 _userRepository.Update(localUser);
-            }
+            } //
 
             var profile = _userProfileRepository.GetAll().FirstOrDefault(x => x.UserId == user.Id);
             profile.FirstName = user.UserProfile.FirstName;
@@ -108,9 +109,9 @@ namespace EpamNetProject.BLL.Services
             return _mapper.Map<UserDTO>(await _userRepository.Get(userId));
         }
 
-        public async Task<UserDTO> getUserByName(string userName)
+        public async Task<UserDTO> GetUserByName(string userName)
         {
-            return _mapper.Map<UserDTO>((await _userRepository.GetAll()).FirstOrDefault(x => x.UserName == userName));
+            return _mapper.Map<UserDTO>(_userRepository.GetAll().FirstOrDefault(x => x.UserName == userName));
         }
 
         public async Task<string> GetPasswordHashAsync(UserDTO user)
@@ -135,7 +136,7 @@ namespace EpamNetProject.BLL.Services
             _userProfileRepository.Add(_mapper.Map<UserProfile>(userProfile));
         }
 
-        public decimal addBalance(string userId, decimal amount)
+        public decimal AddBalance(string userId, decimal amount)
         {
             var userProfile = _userProfileRepository.GetAll().FirstOrDefault(x => x.UserId == userId);
             userProfile.Balance += amount;

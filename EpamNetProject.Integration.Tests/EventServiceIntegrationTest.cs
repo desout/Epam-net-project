@@ -85,9 +85,11 @@ namespace EpamNetProject.Integration.Tests
                 };
 
                 var result = _eventService.CreateEvent(sEvent);
-                sEvent.Id = result;
-                sEvent.EventAvailability = 100;
-                sEvent.Should().BeEquivalentTo(_eventService.GetEvent(result));
+                sEvent.Should().BeEquivalentTo(_eventService.GetEvent(result), options =>
+                {
+                    options.Excluding(x => x.EventAvailability);
+                    return options.Excluding(x => x.Id);
+                });
             }
         }
 

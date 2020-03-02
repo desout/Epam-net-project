@@ -8,12 +8,12 @@ using EpamNetProject.DAL;
 using EpamNetProject.DAL.Interfaces;
 using EpamNetProject.DAL.Models;
 using EpamNetProject.DAL.Repositories;
-using EpamNetProject.PLL.Interfaces;
-using EpamNetProject.PLL.Managers;
 using EpamNetProject.PLL.Services;
+using EpamNetProject.PLL.Utils.Interfaces;
+using EpamNetProject.PLL.Utils.Managers;
 using Microsoft.AspNet.Identity;
 
-namespace EpamNetProject.PLL.Infrastucture
+namespace EpamNetProject.PLL.Utils.Infrastucture
 {
     public static class RegisterHelper
     {

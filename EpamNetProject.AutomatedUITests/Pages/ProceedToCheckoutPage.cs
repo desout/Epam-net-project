@@ -1,10 +1,11 @@
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using OpenQA.Selenium;
 
 namespace EpamNetProject.AutomatedUITests.Pages
 {
-    public class ProceedToCheckoutPage
+    public class ProceedToCheckoutPage: BasePage
     {
         private const string CountOfTicketsId = "countOfTickets";
 
@@ -14,73 +15,40 @@ namespace EpamNetProject.AutomatedUITests.Pages
 
         private const string ErrorBlockTag = "h2";
 
-        private readonly IWebDriver _driver;
+        private const string ErrorBlockText = "Not enough money on balance";
+        private static IWebElement ErrorBlock => findElementBy(ErrorBlockTag, SelectorType.Id);
 
-        private readonly IWebElement _errorBlock;
+        private static IReadOnlyCollection<IWebElement> SelectedSeats => findElementsBy(SelectedSeatClassname, SelectorType.ClassName);
 
-        private readonly ReadOnlyCollection<IWebElement> _selectedSeats;
+        private static IWebElement SubmitButton => findElementBy(SubmitButtonClassname, SelectorType.ClassName);
 
-        private readonly IWebElement _submitButton;
-
-        private readonly IWebElement _ticketCountField;
+        private static IWebElement TicketCountField => findElementBy(CountOfTicketsId, SelectorType.Id);
 
 
-        private ProceedToCheckoutPage(IWebDriver driver)
+        public ProceedToCheckoutPage()
         {
-            _driver = driver;
-            try
-            {
-                _submitButton = _driver.FindElement(By.ClassName(SubmitButtonClassname));
-                _selectedSeats = _driver.FindElements(By.ClassName(SelectedSeatClassname));
-            }
-            catch
-            {
-                // ignored
-            }
-
-            try
-            {
-                _errorBlock = _driver.FindElement(By.TagName(ErrorBlockTag));
-            }
-            catch
-            {
-                // ignored
-            }
-
-            try
-            {
-                _ticketCountField = _driver.FindElement(By.Id(CountOfTicketsId));
-            }
-            catch
-            {
-                // ignored
-            }
+            
         }
-
-        public static ProceedToCheckoutPage GetPage(IWebDriver webDriver)
-        {
-            return new ProceedToCheckoutPage(webDriver);
-        }
-
+        
         public ProceedToCheckoutPage PressSubmitButton()
         {
-            _submitButton.Click();
+            SubmitButton.Click();
             return this;
         }
 
         public bool SelectedSeatsExists()
         {
-            return _selectedSeats.Any();
+            return SelectedSeats.Any();
         }
 
         public bool IsSuccessfulPageWithTicketsExists()
         {
-            return int.Parse(_ticketCountField.Text) > 0;
+            return int.Parse(TicketCountField.Text) > 0;
         }
 
         public bool IsErrorNotEnoughPageOpen()
         {
-            return "Not enough money on balance".Equals(_errorBlock.Text);
+            return ErrorBlockText.Equals(ErrorBlock.Text);
         }
     }
 }

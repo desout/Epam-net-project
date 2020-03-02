@@ -7,9 +7,9 @@ namespace EpamNetProject.DAL.Repositories
 {
     public class AsyncRepository<TEntity> : IAsyncRepository<TEntity> where TEntity : class
     {
-        internal MyContext _context;
+        private readonly MyContext _context;
 
-        internal DbSet<TEntity> _dbSet;
+        private readonly DbSet<TEntity> _dbSet;
 
         public AsyncRepository(MyContext context)
         {
@@ -40,7 +40,7 @@ namespace EpamNetProject.DAL.Repositories
             return _dbSet.FindAsync(id);
         }
 
-        public async Task<IQueryable<TEntity>> GetAll()
+        public IQueryable<TEntity> GetAll()
         {
             return _dbSet;
         }

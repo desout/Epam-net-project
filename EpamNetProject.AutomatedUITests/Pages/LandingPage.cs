@@ -1,59 +1,69 @@
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using OpenQA.Selenium;
 
 namespace EpamNetProject.AutomatedUITests.Pages
 {
-    public class LandingPage
+    public class LandingPage : BasePage
     {
-        private const string PageLink = "http://localhost:5000/";
+        private readonly string _pageLink;
 
         private const string EditEventsLinkSelector = ".navbar__navigation a[href='/Manager/EditEvent/EditEvents']";
+        
+        private const string LoginLinkSelector = ".navbar__navigation a[href='/User/Account/Login']";
+        
+        private const string EventsLinkSelector = ".navbar__navigation a[href='/Events/Events']";
 
         private const string UserNameTextFieldId = "userName-header";
 
-        private readonly IWebDriver _driver;
+        private static IReadOnlyCollection<IWebElement> EditEventsLink =>
+           findElementsBy(EditEventsLinkSelector,SelectorType.Css);
 
-        private readonly IReadOnlyCollection<IWebElement> _editEventsLink;
+        private static IWebElement EventsLink =>
+            findElementBy(EventsLinkSelector,SelectorType.Css);
 
-        private readonly IWebElement _userNameElement;
+        private static IWebElement LoginLink =>
+            findElementBy(LoginLinkSelector,SelectorType.Css);
 
-        private LandingPage(IWebDriver driver)
+        private static IWebElement UserNameElement => findElementBy(UserNameTextFieldId, SelectorType.Id);
+
+        public LandingPage()
         {
-            _driver = driver;
-            if (!driver.Url.Equals(PageLink))
-            {
-                return;
-            }
-
-            _userNameElement = _driver.FindElement(By.Id(UserNameTextFieldId));
-            _editEventsLink = _driver.FindElements(By.CssSelector(EditEventsLinkSelector));
-        }
-
-        public static LandingPage GetPage(IWebDriver webDriver)
-        {
-            return new LandingPage(webDriver);
-        }
-
-        public LandingPage GoToPage()
-        {
-            _driver.Navigate().GoToUrl(PageLink);
-            return this;
+            _pageLink = ConfigurationManager.AppSettings["rootUrl"];
         }
 
         public bool IsPageOpen()
         {
-            return _driver.Url.Equals(PageLink);
+            return Driver.Url.Equals(_pageLink);
         }
 
         public bool IsEditEventsLinkPresent()
         {
-            return _editEventsLink.Any();
+            return EditEventsLink.Any();
         }
 
         public bool CheckUserName(string userName)
         {
-            return _userNameElement.Text.Contains(userName);
+            return UserNameElement.Text.Contains(userName);
+        }
+
+        public LoginPage ClickLoginButton()
+        {
+           LoginLink.Click();
+           return new LoginPage();
+        }
+
+        public EventsPage ClickEventsLink()
+        {
+            EventsLink.Click();
+            return new EventsPage();
+        }
+
+        public EditEventsPage ClickEditEventsLink()
+        {
+            EditEventsLink.FirstOrDefault()?.Click();
+            return new EditEventsPage();
         }
     }
 }

@@ -47,6 +47,7 @@
   display: inline-block;
   position: absolute;
   cursor: cell;
+  margin: 0;
 }
 .seat[data-seat-status = "1"] {
   background-color: grey;
@@ -75,7 +76,12 @@
   }
 }
 .area{
+  position: absolute;
+  border: 1px solid #9d9d9d;
   &--description{
+    position: absolute;
+    top: -20px;
+    left: 20px;
     display:none;
   }
   &:hover{

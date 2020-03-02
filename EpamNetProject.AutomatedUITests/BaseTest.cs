@@ -1,6 +1,7 @@
 using System;
 using System.Configuration;
 using System.Data.SqlClient;
+using EpamNetProject.AutomatedUITests.Pages;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using TechTalk.SpecFlow;
@@ -10,29 +11,9 @@ namespace EpamNetProject.AutomatedUITests
     public class BaseTest : IDisposable
     {
         private const string TestDbName = "epam-net-project-db";
-
-        protected static IWebDriver Driver;
-
-        protected BaseTest()
-        {
-            if (Driver == null)
-            {
-                Driver = new ChromeDriver();
-                Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-                Driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(10);
-                Driver.Manage().Window.Maximize();
-                Driver.Navigate().GoToUrl("http://localhost:5000");
-            }
-        }
-
         public void Dispose()
         {
-            if (Driver != null)
-            {
-                Driver.Quit();
-                Driver.Dispose();
-                Driver = null;
-            }
+            BasePage.RemoveDriver();
         }
 
         [BeforeScenario]

@@ -1,47 +1,31 @@
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading;
 using OpenQA.Selenium;
 
 namespace EpamNetProject.AutomatedUITests.Pages
 {
-    public class EventsPage
+    public class EventsPage:BasePage
     {
-        private const string PageLink = "http://localhost:5000/Events/Events";
 
         private const string FirstEventClassName = "event--item__name";
 
-        private readonly IWebDriver _driver;
+        private static IWebElement FirstEvent => Driver.FindElement(By.ClassName(FirstEventClassName));
 
-        private readonly IWebElement _firstEvent;
-
-        private EventsPage(IWebDriver driver)
+        public EventsPage()
         {
-            _driver = driver;
-            _firstEvent = _driver.FindElement(By.ClassName(FirstEventClassName));
         }
-
-        public static EventsPage GetPage(IWebDriver webDriver)
+        public IReadOnlyCollection<IWebElement> GetEventsByName(string name)
         {
-            return new EventsPage(webDriver);
-        }
-
-        public EventsPage GoToPage()
-        {
-            _driver.Navigate().GoToUrl(PageLink);
-            return new EventsPage(_driver);
-        }
-
-        public ReadOnlyCollection<IWebElement> GetEventsByName(string name)
-        {
-            return _driver.FindElements(By.XPath($"//*[@class='event--item__name' and text()='{name}']"));
+            return findElementsBy($"//*[@class='event--item__name' and text()='{name}']", SelectorType.Xpath);
         }
 
 
         public EventPage SelectFirstEvent()
         {
-            _firstEvent.Click();
+            FirstEvent.Click();
             Thread.Sleep(1000);
-            return EventPage.GetPage(_driver);
+            return new EventPage();
         }
     }
 }

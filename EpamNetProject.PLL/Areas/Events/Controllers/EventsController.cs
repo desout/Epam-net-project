@@ -4,11 +4,11 @@ using System.Linq;
 using System.Web.Mvc;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
-using EpamNetProject.PLL.Extensions;
-using EpamNetProject.PLL.filters;
-using EpamNetProject.PLL.Helpers;
-using EpamNetProject.PLL.Jobs;
-using EpamNetProject.PLL.Models;
+using EpamNetProject.PLL.Utils.Extensions;
+using EpamNetProject.PLL.Utils.filters;
+using EpamNetProject.PLL.Utils.Helpers;
+using EpamNetProject.PLL.Utils.Jobs;
+using EpamNetProject.PLL.Utils.Models;
 
 namespace EpamNetProject.PLL.Areas.Events.Controllers
 {

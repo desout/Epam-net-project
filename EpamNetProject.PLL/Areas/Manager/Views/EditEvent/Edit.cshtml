@@ -1,5 +1,5 @@
 @using Resources
-@model EpamNetProject.PLL.Models.EditEventViewModel
+@model EpamNetProject.PLL.Utils.Models.EditEventViewModel
 
 @using (Html.BeginForm(Model.Id.HasValue ? "Update" : "Add", "EditEvent", FormMethod.Post, new {@class = "editEvent__form"}))
 {

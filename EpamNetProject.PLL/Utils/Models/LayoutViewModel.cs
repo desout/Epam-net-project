@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace EpamNetProject.PLL.Models
+namespace EpamNetProject.PLL.Utils.Models
 {
     public class LayoutViewModel
     {

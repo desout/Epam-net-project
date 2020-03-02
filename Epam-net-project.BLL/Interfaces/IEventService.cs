@@ -20,7 +20,7 @@ namespace EpamNetProject.BLL.Interfaces
 
         List<EventDto> GetAllEvents();
 
-        int GetAvailabilityPercentage(int layoutId);
+        int GetAvailabilityPercentage(int areaId);
 
         IEnumerable<EventAreaDto> GetAreasByEvent(int eventId);
 

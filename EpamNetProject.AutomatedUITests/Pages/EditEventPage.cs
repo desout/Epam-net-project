@@ -2,7 +2,7 @@ using OpenQA.Selenium;
 
 namespace EpamNetProject.AutomatedUITests.Pages
 {
-    public class EditEventPage
+    public class EditEventPage : BasePage
     {
         private const string NameTextFieldId = "Name";
 
@@ -18,80 +18,61 @@ namespace EpamNetProject.AutomatedUITests.Pages
 
         private const string SubmitButtonClassname = "button__submit";
 
-        private readonly IWebElement _descriptionTextField;
+        private static IWebElement DescriptionTextField => findElementBy(DescriptionTextFieldId, SelectorType.Id);
 
-        private readonly IWebDriver _driver;
+        private static IWebElement ImgUrlField => findElementBy(ImgUrlTextFieldId, SelectorType.Id);
 
-        private readonly IWebElement _imgUrlField;
+        private static IWebElement NameTextField => findElementBy(NameTextFieldId, SelectorType.Id);
 
-        private readonly IWebElement _nameTextField;
+        private static IWebElement SubmitButton => findElementBy(SubmitButtonClassname, SelectorType.ClassName);
 
-        private readonly IWebElement _submitButton;
+        private static IWebElement TimeTextField => findElementBy(TimeTextFieldId, SelectorType.Id);
 
-        private readonly IWebElement _timeTextField;
+        private static IWebElement TitleTextField => findElementBy(TitleTextFieldId, SelectorType.Id);
 
-        private readonly IWebElement _titleTextField;
-
-        private EditEventPage(IWebDriver driver)
+        public EditEventPage()
         {
-            _driver = driver;
-            _submitButton = _driver.FindElement(By.ClassName(SubmitButtonClassname));
-            _imgUrlField = _driver.FindElement(By.Id(ImgUrlTextFieldId));
-            _descriptionTextField = _driver.FindElement(By.Id(DescriptionTextFieldId));
-            _nameTextField = _driver.FindElement(By.Id(NameTextFieldId));
-            _timeTextField = _driver.FindElement(By.Id(TimeTextFieldId));
-            _titleTextField = _driver.FindElement(By.Id(TitleTextFieldId));
-        }
-
-        public static EditEventPage GetPage(IWebDriver webDriver)
-        {
-            return new EditEventPage(webDriver);
-        }
-
-        public EditEventPage GoToPage()
-        {
-            return this;
         }
 
         public EditEventPage TypeNameField(string name)
         {
-            FillField(_nameTextField, name);
+            FillField(NameTextField, name);
             return this;
         }
 
         public EditEventPage TypeTitleField(string name)
         {
-            FillField(_titleTextField, name);
+            FillField(TitleTextField, name);
             return this;
         }
 
         public EditEventPage TypeDescriptionField(string description)
         {
-            FillField(_descriptionTextField, description);
+            FillField(DescriptionTextField, description);
             return this;
         }
 
         public EditEventPage TypeTimeField(string time)
         {
-            FillField(_timeTextField, time);
+            FillField(TimeTextField, time);
             return this;
         }
 
         public EditEventPage TypeImgField(string img)
         {
-            FillField(_imgUrlField, img);
+            FillField(ImgUrlField, img);
             return this;
         }
 
         public EditEventPage CloseDatepicker()
         {
-            _driver.FindElement(By.ClassName(DatepickerCloseButtonClassname)).Click();
+            findElementBy(DatepickerCloseButtonClassname, SelectorType.ClassName).Click();
             return this;
         }
 
         public EditEventPage ClickSubmitButton()
         {
-            _submitButton.Click();
+            SubmitButton.Click();
             return this;
         }
 

@@ -109,7 +109,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.When("I enter  Username \'desout\' and Password \'Desoutside1\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 8
- testRunner.And("I press button with class \"button__submit\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I press submit button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 9
  testRunner.Then("main page will open", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -157,7 +157,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.When("I enter  Username \'desout1\' and Password \'Desoutside1\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 16
- testRunner.And("I press button with class \"button__submit\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I press submit button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 17
  testRunner.Then("main page will open", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -209,7 +209,7 @@ this.ScenarioInitialize(scenarioInfo);
   testRunner.When(string.Format("I enter  Username \'{0}\' and Password \'{1}\'", login, password), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 24
-  testRunner.And("I press button with class \"button__submit\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+  testRunner.And("I press submit button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 25
   testRunner.Then("I am stayed on login page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");

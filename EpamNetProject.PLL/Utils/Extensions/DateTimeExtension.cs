@@ -2,7 +2,7 @@ using System;
 using System.Configuration;
 using System.Web;
 
-namespace EpamNetProject.PLL.Extensions
+namespace EpamNetProject.PLL.Utils.Extensions
 {
     public static class DateTimeExtension
     {

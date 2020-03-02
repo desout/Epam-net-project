@@ -10,55 +10,55 @@ namespace EpamNetProject.AutomatedUITests.Authorization
         [Given(@"I am on login page")]
         public void GivenIAmOnLoginPage()
         {
-            LoginPage.GetPage(Driver).GoToPage();
+            new LandingPage().ClickLoginButton();
         }
 
         [When(@"I enter  Username '(.*)' and Password '(.*)'")]
         public void WhenIEnterUsernameAndPassword(string username, string password)
         {
-            LoginPage.GetPage(Driver).TypeUserName(username).TypePassword(password);
+            new LoginPage().TypeUserName(username).TypePassword(password);
         }
 
-        [When(@"I press button with class ""(.*)""")]
-        public void WhenIPressButtonWithClass(string p0)
+        [When(@"I press submit button")]
+        public void WhenIPressButtonWithClass()
         {
-            LoginPage.GetPage(Driver).ClickLoginButton();
+            new LoginPage().ClickLoginButton();
         }
 
         [Then(@"main page will open")]
         public void ThenMainPageWillOpen()
         {
-            Assert.IsTrue(LandingPage.GetPage(Driver).IsPageOpen());
+            Assert.IsTrue(new LandingPage().IsPageOpen());
         }
 
         [Then(@"I have possibility to select edit event menu")]
         public void ThenIHavePossibilityToSelectEditEventMenu()
         {
-            Assert.IsTrue(LandingPage.GetPage(Driver).IsEditEventsLinkPresent());
+            Assert.IsTrue(new LandingPage().IsEditEventsLinkPresent());
         }
 
         [Then(@"""(.*)"" name exist in header\.")]
         public void ThenNameExistInHeader_(string username)
         {
-            Assert.IsTrue(LandingPage.GetPage(Driver).CheckUserName(username));
+            Assert.IsTrue(new LandingPage().CheckUserName(username));
         }
 
         [Then(@"I have not possibility to select edit event menu")]
         public void ThenIHaveNotPossibilityToSelectEditEventMenu()
         {
-            Assert.IsTrue(!LandingPage.GetPage(Driver).IsEditEventsLinkPresent());
+            Assert.IsFalse(new LandingPage().IsEditEventsLinkPresent());
         }
 
         [Then(@"I am stayed on login page")]
         public void IAmStayedOnLoginPage()
         {
-            Assert.IsTrue(LoginPage.GetPage(Driver).IsPageOpen());
+            Assert.IsTrue(new LoginPage().IsPageOpen());
         }
 
         [Then(@"Error Occurred")]
         public void ThenErrorOccurred()
         {
-            Assert.IsTrue(LoginPage.GetPage(Driver).IsErrorOccured());
+            Assert.IsTrue(new LoginPage().IsErrorOccured());
         }
     }
 }

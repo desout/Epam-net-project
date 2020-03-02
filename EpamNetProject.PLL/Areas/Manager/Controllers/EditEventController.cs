@@ -1,10 +1,12 @@
 using System;
 using System.Linq;
 using System.Web.Mvc;
+using AutoMapper;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
-using EpamNetProject.PLL.Helpers;
-using EpamNetProject.PLL.Models;
+using EpamNetProject.PLL.Utils.Helpers;
+using EpamNetProject.PLL.Utils.Interfaces;
+using EpamNetProject.PLL.Utils.Models;
 
 namespace EpamNetProject.PLL.Areas.Manager.Controllers
 {
@@ -14,10 +16,12 @@ namespace EpamNetProject.PLL.Areas.Manager.Controllers
 
         private readonly IVenueService _venueService;
 
-        public EditEventController(IEventService eventService, IVenueService venueService)
+        private readonly IMapper _mapper;
+        public EditEventController(IEventService eventService, IVenueService venueService, IUserMapperConfigurationProvider userMapperConfigurationProvider)
         {
             _eventService = eventService;
             _venueService = venueService;
+            _mapper = userMapperConfigurationProvider.GetMapperConfig();
         }
 
         [HttpGet]
@@ -38,16 +42,7 @@ namespace EpamNetProject.PLL.Areas.Manager.Controllers
             }
 
             var eventDto = _eventService.GetEvent(id.Value);
-            return View(new EditEventViewModel
-            {
-                Id = eventDto.Id,
-                Name = eventDto.Name,
-                Description = eventDto.Description,
-                Time = eventDto.EventDate,
-                Title = eventDto.Name,
-                ImgUrl = eventDto.ImgUrl,
-                Layout = eventDto.LayoutId
-            });
+            return View(_mapper.Map<EditEventViewModel>(eventDto));
         }
 
         [HttpPost]
@@ -70,14 +65,7 @@ namespace EpamNetProject.PLL.Areas.Manager.Controllers
 
             try
             {
-                _eventService.CreateEvent(new EventDto
-                {
-                    Description = model.Description,
-                    EventDate = model.Time,
-                    Name = model.Title,
-                    LayoutId = model.Layout,
-                    ImgUrl = model.ImgUrl
-                });
+                _eventService.CreateEvent(_mapper.Map<EventDto>(model));
 
                 return RedirectToAction("EditEvents");
             }
@@ -101,15 +89,7 @@ namespace EpamNetProject.PLL.Areas.Manager.Controllers
 
             try
             {
-                _eventService.UpdateEvent(new EventDto
-                {
-                    Id = model.Id.Value,
-                    Description = model.Description,
-                    EventDate = model.Time,
-                    Name = model.Title,
-                    LayoutId = model.Layout,
-                    ImgUrl = model.ImgUrl
-                });
+                _eventService.UpdateEvent(_mapper.Map<EventDto>(model));
                 return RedirectToAction("EditEvents");
             }
             catch (Exception)

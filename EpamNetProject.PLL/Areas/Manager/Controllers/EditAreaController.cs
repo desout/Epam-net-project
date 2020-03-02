@@ -1,10 +1,12 @@
 using System;
 using System.Data.Entity.Core;
 using System.Web.Mvc;
+using AutoMapper;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
-using EpamNetProject.PLL.Helpers;
-using EpamNetProject.PLL.Models;
+using EpamNetProject.PLL.Utils.Helpers;
+using EpamNetProject.PLL.Utils.Interfaces;
+using EpamNetProject.PLL.Utils.Models;
 
 namespace EpamNetProject.PLL.Areas.Manager.Controllers
 {
@@ -13,11 +15,13 @@ namespace EpamNetProject.PLL.Areas.Manager.Controllers
         private readonly IEventService _eventService;
 
         private readonly IVenueService _venueService;
+        private readonly IMapper _mapper;
 
-        public EditAreaController(IEventService eventService, IVenueService venueService)
+        public EditAreaController(IEventService eventService, IVenueService venueService, IUserMapperConfigurationProvider userMapperConfigurationProvider)
         {
             _eventService = eventService;
             _venueService = venueService;
+            _mapper = userMapperConfigurationProvider.GetMapperConfig();
         }
 
         [Authorize(Roles = "Manager, Admin")]
@@ -28,11 +32,7 @@ namespace EpamNetProject.PLL.Areas.Manager.Controllers
                 return HttpResponseHelper.Error();
             }
 
-            var baseArea = _eventService.CreateEventArea(new EventAreaDto
-            {
-                Description = area.Description, Price = area.Price, CoordX = area.LeftCorner.X,
-                CoordY = area.LeftCorner.Y, EventId = area.EventId
-            });
+            var baseArea = _eventService.CreateEventArea(_mapper.Map<EventAreaDto>(area));
             return HttpResponseHelper.Ok(new {Area = baseArea});
         }
 
@@ -73,10 +73,7 @@ namespace EpamNetProject.PLL.Areas.Manager.Controllers
 
             try
             {
-                var baseSeat = _eventService.AddSeat(new EventSeatDto
-                {
-                    Row = model.Row, Number = model.Number, EventAreaId = model.AreaId
-                });
+                var baseSeat = _eventService.AddSeat(_mapper.Map<EventSeatDto>(model));
                 return HttpResponseHelper.Ok(new {Seat = baseSeat});
             }
             catch (EntityException e)
@@ -114,10 +111,7 @@ namespace EpamNetProject.PLL.Areas.Manager.Controllers
 
             try
             {
-                var baseSeat = _venueService.AddSeat(new SeatDto
-                {
-                    Row = model.Row, Number = model.Number, AreaId = model.AreaId
-                });
+                var baseSeat = _venueService.AddSeat(_mapper.Map<SeatDto>(model));
                 return HttpResponseHelper.Ok(new {Seat = baseSeat});
             }
             catch (EntityException e)
@@ -141,11 +135,7 @@ namespace EpamNetProject.PLL.Areas.Manager.Controllers
                 return HttpResponseHelper.Error();
             }
 
-            var baseArea = _venueService.CreateArea(new AreaDto
-            {
-                Description = area.Description, Price = area.Price, CoordX = area.LeftCorner.X,
-                CoordY = area.LeftCorner.Y, LayoutId = area.EventId
-            });
+            var baseArea = _venueService.CreateArea(_mapper.Map<AreaDto>(area));
             return HttpResponseHelper.Ok(new {Area = baseArea});
         }
     }

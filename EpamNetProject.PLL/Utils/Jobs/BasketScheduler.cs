@@ -1,7 +1,7 @@
 using System;
 using Quartz;
 
-namespace EpamNetProject.PLL.Jobs
+namespace EpamNetProject.PLL.Utils.Jobs
 {
     public class BasketScheduler
     {

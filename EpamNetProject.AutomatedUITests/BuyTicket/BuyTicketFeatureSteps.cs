@@ -8,76 +8,74 @@ namespace EpamNetProject.AutomatedUITests.BuyTicket
     public class BuyTicketFeatureSteps : BaseTest
     {
         [Given(@"I have logged in as manager")]
-        public void GivenIHaveLoggedInAsManager(string username, string password)
+        public void GivenIHaveLoggedInAsManager()
         {
-            LoginUtils.LoginAsManager(Driver);
+            LoginUtils.LoginAsManager();
         }
 
         [Given(@"I have logged in as user")]
         public void GivenIHaveLoggedInAsUser()
         {
-            LoginUtils.LoginAsUser(Driver);
+            LoginUtils.LoginAsUser();
         }
 
         [Given(@"I have logged in as admin")]
         public void GivenIHaveLoggedInAsAdmin()
         {
-            LoginUtils.LoginAsAdmin(Driver);
+            LoginUtils.LoginAsAdmin();
         }
 
         [When(@"I go to event and select seat")]
         public void WhenIGoToEventAndSelectSeat()
         {
-            EventsPage
-                .GetPage(Driver)
-                .GoToPage()
+            new LandingPage()
+                .ClickEventsLink()
                 .SelectFirstEvent()
                 .SelectAvailableSeat();
         }
 
-        [When(@"I press button ""(.*)""")]
-        public void WhenIPressButton(string p0)
+        [When(@"I press proceed to checkout button")]
+        public void WhenIPressButton()
         {
-            EventPage
-                .GetPage(Driver)
+            new EventPage()
                 .PressProceedToCheckoutButton();
         }
 
         [Then(@"Page with selected seats will open\.")]
         public void ThenPageWithSelectedSeatsWillOpen_()
         {
-            var page = ProceedToCheckoutPage.GetPage(Driver);
+            var page = new ProceedToCheckoutPage();
             Assert.IsTrue(page.SelectedSeatsExists());
         }
 
-        [Then(@"I press button ""(.*)""")]
-        public void ThenIPressButton(string p0)
+        [Then(@"I press buy button")]
+        public void ThenIPressButton()
         {
-            ProceedToCheckoutPage.GetPage(Driver).PressSubmitButton();
+            new ProceedToCheckoutPage().PressSubmitButton();
         }
 
         [Then(@"Successful payment page opened")]
         public void ThenSuccessfulPaymentPageOpened()
         {
-            Assert.IsTrue(ProceedToCheckoutPage.GetPage(Driver).IsSuccessfulPageWithTicketsExists());
+            Assert.IsTrue(new ProceedToCheckoutPage().IsSuccessfulPageWithTicketsExists());
         }
 
         [Then(@"Failure payment page opened")]
         public void ThenFailurePaymentPageOpened()
         {
-            Assert.IsTrue(ProceedToCheckoutPage.GetPage(Driver).IsErrorNotEnoughPageOpen());
+            Assert.IsTrue(new ProceedToCheckoutPage().IsErrorNotEnoughPageOpen());
         }
 
         [When(@"I go to event and select reserved seat")]
         public void WhenIGoToEventAndSelectReservedSeat()
         {
-            EventsPage.GetPage(Driver).GoToPage().SelectFirstEvent().SelectReservedSeat();
+            new LandingPage().ClickEventsLink().SelectFirstEvent().SelectReservedSeat();
         }
 
-        [Then(@"Error with classname ""(.*)"" is shown")]
-        public void ThenErrorWithClassnameIsShown(string p0)
+        [Then(@"Error is shown")]
+        public void ThenErrorWithClassnameIsShown()
         {
-            Assert.IsTrue(EventPage.GetPage(Driver).isErrorOccured());
+            Assert.IsTrue(new EventPage().IsErrorOccured());
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using EpamNetProject.BLL.Interfaces;
 using Quartz;
 
-namespace EpamNetProject.PLL.Jobs
+namespace EpamNetProject.PLL.Utils.Jobs
 {
     public class BasketJob : IJob
     {

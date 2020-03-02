@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -6,8 +8,8 @@ using AutoMapper;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.DAL.Models;
-using EpamNetProject.PLL.Interfaces;
-using EpamNetProject.PLL.Managers;
+using EpamNetProject.PLL.Utils.Interfaces;
+using EpamNetProject.PLL.Utils.Managers;
 using Microsoft.AspNet.Identity;
 
 namespace EpamNetProject.PLL.Services
@@ -45,45 +47,21 @@ namespace EpamNetProject.PLL.Services
             return claim;
         }
 
-        public async Task SetInitialData(List<UserDTO> users, List<string> roles)
-        {
-            foreach (var roleName in roles)
-            {
-                var role = await _applicationRoleManager.FindByNameAsync(roleName);
-                if (role == null)
-                {
-                    role = new UserRole {Name = roleName};
-                    await _applicationRoleManager.CreateAsync(role);
-                }
-            }
-
-            foreach (var user in users)
-            {
-                try
-                {
-                    var hashPassword = _applicationUserManager.PasswordHasher.HashPassword(user.Password);
-                    await _userService.Create(user, hashPassword);
-                    user.Id = (await _userService.getUserByName(user.UserName)).Id;
-                    _applicationUserManager.AddToRole(user.Id, user.Role);
-                }
-                catch
-                {
-                }
-            }
-        }
-
         public List<string> Register(UserDTO user)
         {
-            var operationDetails = _applicationUserManager.Create(user, user.Password);
-            if (operationDetails.Errors.Any())
+            try
             {
-                return operationDetails.Errors.ToList();
+                _applicationUserManager.Create(user, user.Password);
+                user.Id = _userService.GetUserByName(user.UserName).Result.Id;
+                _applicationUserManager.AddToRole(user.Id, user.Role);
+                _userService.AddUserProfile(user, user.UserProfile);
+                return new List<string>();
+            }
+            catch (EntityException e)
+            {
+                return e.Message.Select(x=>x.ToString()).ToList();
             }
 
-            user.Id = _userService.getUserByName(user.UserName).Result.Id;
-            _applicationUserManager.AddToRole(user.Id, user.Role);
-            _userService.AddUserProfile(user, user.UserProfile);
-            return new List<string>();
         }
     }
 }

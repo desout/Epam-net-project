@@ -13,6 +13,6 @@ namespace EpamNetProject.DAL.Interfaces
 
         Task<TEntity> Get(string id);
 
-        Task<IQueryable<TEntity>> GetAll();
+        IQueryable<TEntity> GetAll();
     }
 }

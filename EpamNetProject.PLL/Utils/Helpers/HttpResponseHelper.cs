@@ -1,6 +1,6 @@
 using System.Web.Mvc;
 
-namespace EpamNetProject.PLL.Helpers
+namespace EpamNetProject.PLL.Utils.Helpers
 {
     public static class HttpResponseHelper
     {

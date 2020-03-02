@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Web.Mvc;
 
-namespace EpamNetProject.PLL.filters
+namespace EpamNetProject.PLL.Utils.filters
 {
     public class ActionErrorLogAttribute : ActionFilterAttribute, IExceptionFilter
     {

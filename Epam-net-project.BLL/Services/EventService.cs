@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
+using System.Data.Entity;
 using System.Data.Entity.Core;
 using System.Linq;
 using AutoMapper;
@@ -58,6 +59,7 @@ namespace EpamNetProject.BLL.Services
                 return _eventRepository.Update(_mapper.Map<Event>(Event));
             }
 
+            //split to methods + check seats
             _eventAreaRepository.GetAll().Where(x => x.EventId == Event.Id)
                 .Map(x => _eventAreaRepository.Remove(x.Id));
             var areas = _areaRepository.GetAll().Where(x => x.LayoutId == Event.LayoutId).ToList();
@@ -116,8 +118,7 @@ namespace EpamNetProject.BLL.Services
 
             userProfile.BasketTime = null;
             _userProfileRepository.Update(userProfile);
-
-
+            
             return null;
         }
 
@@ -141,11 +142,7 @@ namespace EpamNetProject.BLL.Services
 
         public int CreateEvent(EventDto Event)
         {
-            var validationResult = ModelValidation.IsValidModel(Event);
-            if (validationResult != null)
-            {
-                throw new ArgumentException(validationResult);
-            }
+            ModelValidation.IsValidModel(Event);
 
             if (Event.EventDate.CompareTo(DateTime.Now) < 0)
             {
@@ -165,9 +162,9 @@ namespace EpamNetProject.BLL.Services
             return _eventRepository.Add(_mapper.Map<Event>(Event));
         }
 
-        public int GetAvailabilityPercentage(int layoutId)
+        public int GetAvailabilityPercentage(int areaId)
         {
-            var seats = _eventSeatRepository.GetAll().Where(x => x.EventAreaId == layoutId).ToList();
+            var seats = _eventSeatRepository.GetAll().Where(x => x.EventAreaId == areaId).ToList();
             var availableSeatsCount = seats.Count(x => x.State == 0);
             if (availableSeatsCount == 0 || !seats.Any())
             {
@@ -180,7 +177,7 @@ namespace EpamNetProject.BLL.Services
         public IEnumerable<EventAreaDto> GetAreasByEvent(int eventId)
         {
             return _mapper.Map<List<EventAreaDto>>(_eventAreaRepository.GetAll().Where(x => x.EventId == eventId)
-                .AsEnumerable());
+                .ToList());
         }
 
         public IEnumerable<EventSeatDto> GetSeatsByEvent(int eventId, string userId)
@@ -213,7 +210,7 @@ namespace EpamNetProject.BLL.Services
 
         public List<EventDto> GetUserPurchaseHistory(string userId)
         {
-            var events = _eventSeatRepository.GetAll().AsEnumerable().Where(x => x.UserId == userId).Join(
+            var events = _eventSeatRepository.GetAll().Where(x => x.UserId == userId).Join(
                 _eventAreaRepository.GetAll().AsEnumerable()
                     .Join(_eventRepository.GetAll(),
                         s => s.EventId,

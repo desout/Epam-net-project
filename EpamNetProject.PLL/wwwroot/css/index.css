@@ -118,7 +118,8 @@ footer {
 .seat {
   display: inline-block;
   position: absolute;
-  cursor: cell; }
+  cursor: cell;
+  margin: 0; }
 
 .seat[data-seat-status="1"] {
   background-color: grey; }
@@ -140,11 +141,16 @@ footer {
   .event__header__availability {
     height: 50px; }
 
-.area--description {
-  display: none; }
-
-.area:hover > .area--description {
-  display: block; }
+.area {
+  position: absolute;
+  border: 1px solid #9d9d9d; }
+  .area--description {
+    position: absolute;
+    top: -20px;
+    left: 20px;
+    display: none; }
+  .area:hover > .area--description {
+    display: block; }
 
 .editEvent__block {
   width: 700px; }

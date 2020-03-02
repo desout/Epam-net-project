@@ -1,6 +1,6 @@
-@using EpamNetProject.PLL.Statics
+@using EpamNetProject.PLL.Utils.Statics
 @using Resources
-@model EpamNetProject.PLL.Models.UserProfileViewModel
+@model EpamNetProject.PLL.Utils.Models.UserProfileViewModel
 <div class="editProfile__block">
     <h1 class="editProfile__TITLE">@Resource.ACCOUNT_EDIT_TITLE</h1>
     @using (Html.BeginForm("SaveProfile", "Account", new {@class = "editProfile__form"}))

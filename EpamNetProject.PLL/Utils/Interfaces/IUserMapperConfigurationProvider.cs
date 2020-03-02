@@ -1,6 +1,6 @@
 using AutoMapper;
 
-namespace EpamNetProject.PLL.Interfaces
+namespace EpamNetProject.PLL.Utils.Interfaces
 {
     public interface IUserMapperConfigurationProvider
     {

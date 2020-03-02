@@ -4,13 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
-using EpamNetProject.PLL.Extensions;
-using EpamNetProject.PLL.Helpers;
-using EpamNetProject.PLL.Interfaces;
-using EpamNetProject.PLL.Managers;
-using EpamNetProject.PLL.Models;
+using EpamNetProject.PLL.Utils.Extensions;
+using EpamNetProject.PLL.Utils.Helpers;
+using EpamNetProject.PLL.Utils.Interfaces;
+using EpamNetProject.PLL.Utils.Managers;
+using EpamNetProject.PLL.Utils.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using Resources;
@@ -27,13 +28,18 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
 
         private readonly IUserService _userService;
 
+        private readonly IMapper _mapper;
+
+
         public AccountController(IEventService eventService, ApplicationUserManager userManager,
-            IUserService userService, IPLLUserManager ipllUserManager)
+            IUserService userService, IPLLUserManager ipllUserManager,
+            IUserMapperConfigurationProvider userMapperConfigurationProvider)
         {
             _userService = userService;
             _ipllUserManager = ipllUserManager;
             _eventService = eventService;
             _userManager = userManager;
+            _mapper = userMapperConfigurationProvider.GetMapperConfig();
         }
 
         private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
@@ -42,7 +48,7 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
         [Authorize]
         public ActionResult Profile()
         {
-            var userProfile = _userService.getUserProfile(User.GetUserId());
+            var userProfile = _userService.GetUserProfile(User.GetUserId());
             return View(userProfile);
         }
 
@@ -50,16 +56,8 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
         [Authorize]
         public ActionResult Edit()
         {
-            var user = _userService.getUserInfo(User.GetUserId());
-            return View(new UserProfileViewModel
-            {
-                Email = user.Email,
-                FirstName = user.UserProfile.FirstName,
-                Surname = user.UserProfile.Surname,
-                TimeZone = user.UserProfile.TimeZone,
-                Language = user.UserProfile.Language,
-                UserId = user.UserProfile.UserId
-            });
+            var user = _userService.GetUserInfo(User.GetUserId());
+            return View(_mapper.Map<UserProfileViewModel>(user));
         }
 
         [Authorize]
@@ -70,19 +68,8 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
                 var hashPassword = string.IsNullOrEmpty(model.Password)
                     ? ""
                     : _userManager.PasswordHasher.HashPassword(model.Password);
-                _userService.UpdateUserInfo(new UserDTO
-                {
-                    Id = model.UserId,
-                    Email = model.Email,
-                    UserProfile = new UserProfileDTO
-                    {
-                        FirstName = model.FirstName,
-                        Language = model.Language,
-                        Surname = model.Surname,
-                        TimeZone = model.TimeZone
-                    }
-                }, hashPassword);
-                var user = _userService.getUserProfile(User.GetUserId());
+                _userService.UpdateUserInfo(_mapper.Map<UserDTO>(model), hashPassword);
+                var user = _userService.GetUserProfile(User.GetUserId());
                 var cookie = new HttpCookie("lang")
                     {HttpOnly = false, Value = user.Language, Expires = DateTime.Now.AddYears(1)};
                 Response.Cookies.Set(cookie);
@@ -124,7 +111,7 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
                     {
                         IsPersistent = true
                     }, claim);
-                    var user = _userService.getUserProfile(AuthenticationManager.AuthenticationResponseGrant.Identity
+                    var user = _userService.GetUserProfile(AuthenticationManager.AuthenticationResponseGrant.Identity
                         .GetUserId());
                     var cookie = new HttpCookie("lang")
                         {HttpOnly = false, Value = user.Language, Expires = DateTime.Now.AddYears(1)};
@@ -159,22 +146,7 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
                 ViewBag.Errors = new List<string>();
                 if (ModelState.IsValid)
                 {
-                    var userDto = new UserDTO
-                    {
-                        Email = model.Email,
-                        Password = model.Password,
-                        UserName = model.UserName,
-                        Role = "user",
-                        UserProfile = new UserProfileDTO
-                        {
-                            Balance = 0,
-                            FirstName = model.FirstName,
-                            Language = model.Language,
-                            basketTime = null,
-                            Surname = model.Surname,
-                            TimeZone = model.TimeZone
-                        }
-                    };
+                    var userDto = _mapper.Map<UserDTO>(model);
 
                     var errors = _ipllUserManager.Register(userDto);
                     if (!errors.Any())
@@ -198,7 +170,7 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
         [Authorize]
         public ActionResult AddToBalance(decimal count)
         {
-            var newBalance = _userService.addBalance(User.GetUserId(), count);
+            var newBalance = _userService.AddBalance(User.GetUserId(), count);
             return HttpResponseHelper.Ok(new {NewBalance = newBalance});
         }
 

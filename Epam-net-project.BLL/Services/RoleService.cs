@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using EpamNetProject.BLL.Interfaces;
@@ -40,12 +41,12 @@ namespace EpamNetProject.BLL.Services
 
         public Task<UserRole> FindByNameRole(string roleName)
         {
-            return Task.FromResult(_roleRepository.GetAll().Result.FirstOrDefault(x => x.Name == roleName));
+            return _roleRepository.GetAll().FirstOrDefaultAsync(x => x.Name == roleName);
         }
 
         public async Task AddToRole(UserDTO user, string roleName)
         {
-            var role = (await _roleRepository.GetAll()).FirstOrDefault(x => x.Name == roleName);
+            var role = await _roleRepository.GetAll().FirstOrDefaultAsync(x => x.Name == roleName);
             if (role != null)
             {
                 role.Users.Add(new IdentityUserRole {RoleId = role.Id, UserId = user.Id});
@@ -55,7 +56,7 @@ namespace EpamNetProject.BLL.Services
 
         public async Task RemoveFromRole(UserDTO user, string roleName)
         {
-            var role = (await _roleRepository.GetAll()).FirstOrDefault(x => x.Name == roleName);
+            var role = _roleRepository.GetAll().FirstOrDefault(x => x.Name == roleName);
             if (role != null)
             {
                 role.Users.Remove(new IdentityUserRole {RoleId = role.Id, UserId = user.Id});
@@ -65,14 +66,14 @@ namespace EpamNetProject.BLL.Services
 
         public async Task<IList<string>> GetRoles(UserDTO user)
         {
-            var roles = (await _roleRepository.GetAll()).AsEnumerable();
+            var roles = await _roleRepository.GetAll().ToListAsync();
             return roles.Where(x => x.Users.Contains(new IdentityUserRole {RoleId = x.Id, UserId = user.Id}))
                 .Select(x => x.Name).ToList();
         }
 
         public async Task<bool> IsInRole(UserDTO user, string roleName)
         {
-            var role = (await _roleRepository.GetAll()).FirstOrDefault(x => x.Name == roleName);
+            var role = await _roleRepository.GetAll().FirstOrDefaultAsync(x => x.Name == roleName);
             return role != null && role.Users.Contains(new IdentityUserRole {RoleId = role.Id, UserId = user.Id});
         }
     }

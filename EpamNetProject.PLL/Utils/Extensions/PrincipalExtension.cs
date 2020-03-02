@@ -1,7 +1,7 @@
 using System.Security.Principal;
 using Microsoft.AspNet.Identity;
 
-namespace EpamNetProject.PLL.Extensions
+namespace EpamNetProject.PLL.Utils.Extensions
 {
     public static class PrincipalExtenstion
     {

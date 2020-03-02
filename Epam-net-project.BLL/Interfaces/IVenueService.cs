@@ -19,9 +19,9 @@ namespace EpamNetProject.BLL.Interfaces
 
         int UpdateLayout(LayoutDto layout);
 
-        List<AreaDto> GetAreasByLayout(int id);
+        IEnumerable<AreaDto> GetAreasByLayout(int id);
 
-        List<SeatDto> GetSeatsByLayout(int id);
+        IEnumerable<SeatDto> GetSeatsByLayout(int id);
 
         int RemoveSeat(int id);
 

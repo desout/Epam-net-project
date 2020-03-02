@@ -117,7 +117,7 @@ this.ScenarioInitialize(scenarioInfo);
                         "y and time) - \"100\", Title- \"Automation test event title\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 10
- testRunner.Then("I press button with classname \"button__submit\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("I press submit button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 11
  testRunner.Then("I go to events page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -214,7 +214,7 @@ this.ScenarioInitialize(scenarioInfo);
                         " changed\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 26
- testRunner.Then("I press button with classname \"button__submit\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("I press submit button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 27
  testRunner.Then("I go to events page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");

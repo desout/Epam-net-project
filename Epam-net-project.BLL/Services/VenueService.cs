@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.Core;
 using System.Linq;
@@ -37,12 +36,7 @@ namespace EpamNetProject.BLL.Services
 
         public int CreateVenue(VenueDto venue)
         {
-            var validationResult = ModelValidation.IsValidModel(venue);
-            if (validationResult != null)
-            {
-                throw new ArgumentException(validationResult);
-            }
-
+            ModelValidation.IsValidModel(venue);
             if (IsVenueExist(venue))
             {
                 throw new ValidationException("Venue can't be created for this name");
@@ -59,11 +53,7 @@ namespace EpamNetProject.BLL.Services
 
         public int CreateLayout(LayoutDto layout)
         {
-            var validationResult = ModelValidation.IsValidModel(layout);
-            if (validationResult != null)
-            {
-                throw new ArgumentException(validationResult);
-            }
+            ModelValidation.IsValidModel(layout);
 
             if (IsLayoutExist(layout))
             {
@@ -75,12 +65,7 @@ namespace EpamNetProject.BLL.Services
 
         public int CreateSeat(SeatDto seat)
         {
-            var validationResult = ModelValidation.IsValidModel(seat);
-            if (validationResult != null)
-            {
-                throw new ArgumentException(validationResult);
-            }
-
+            ModelValidation.IsValidModel(seat);
             if (IsSeatExist(seat))
             {
                 throw new ValidationException("Seat can't be created with this seat and row");
@@ -104,12 +89,12 @@ namespace EpamNetProject.BLL.Services
             return _layoutRepository.Update(_mapper.Map<Layout>(layout));
         }
 
-        public List<AreaDto> GetAreasByLayout(int id)
+        public IEnumerable<AreaDto> GetAreasByLayout(int id)
         {
             return _mapper.Map<List<AreaDto>>(_areaRepository.GetAll().Where(x => x.LayoutId == id));
         }
 
-        public List<SeatDto> GetSeatsByLayout(int id)
+        public IEnumerable<SeatDto> GetSeatsByLayout(int id)
         {
             return _mapper.Map<List<SeatDto>>(_seatRepository.GetAll()
                 .Join(_areaRepository.GetAll().Where(x => x.LayoutId == id), x => x.AreaId, a => a.Id, (x, a) => x));
@@ -177,11 +162,7 @@ namespace EpamNetProject.BLL.Services
 
         public int CreateArea(AreaDto area)
         {
-            var validationResult = ModelValidation.IsValidModel(area);
-            if (validationResult != null)
-            {
-                throw new ArgumentException(validationResult);
-            }
+            ModelValidation.IsValidModel(area);
 
             if (IsAreaExist(area))
             {

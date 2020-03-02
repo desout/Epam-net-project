@@ -3,37 +3,24 @@ using OpenQA.Selenium;
 
 namespace EpamNetProject.AutomatedUITests.Pages
 {
-    public class EditEventsPage
+    public class EditEventsPage : BasePage
     {
-        private const string PageLink = "http://localhost:5000/Manager/EditEvent/EditEvents";
-
         private const string ParagraphClassname = "event--item__name";
 
+        private const string AddNewClassname = "editEvent__block__AddNew";
+        
         private const string BlockClassname = "event--item__actions";
 
-        private readonly IWebDriver _driver;
+        private static IWebElement AddNewButton => findElementBy(AddNewClassname, SelectorType.ClassName);
 
-        private EditEventsPage(IWebDriver driver)
-        {
-            _driver = driver;
-        }
 
-        public static EditEventsPage GetPage(IWebDriver webDriver)
+        public EditEventsPage()
         {
-            return new EditEventsPage(webDriver);
-        }
-
-        public EditEventsPage GoToPage()
-        {
-            _driver.Navigate().GoToUrl(PageLink);
-            return this;
         }
 
         public EditEventsPage ClickDeleteButtonOnEvent(string text)
         {
-            var element = _driver
-                .FindElement(By.XPath(
-                    $"//*[@class='{ParagraphClassname}' and text()='{text}']/following-sibling::div[@class='{BlockClassname}']"))
+            var element = findElementBy(GetEventXPathByText(text), SelectorType.Xpath)
                 .FindElement(By.TagName("button"));
             element.Click();
             Thread.Sleep(1000);
@@ -42,18 +29,23 @@ namespace EpamNetProject.AutomatedUITests.Pages
 
         public EditEventPage ClickEditLinkOnEvent(string text)
         {
-            var element = _driver
-                .FindElement(By.XPath(
-                    $"//*[@class='{ParagraphClassname}' and text()='{text}']/following-sibling::div[@class='{BlockClassname}']"))
+            var element = findElementBy(
+                    GetEventXPathByText(text), SelectorType.Xpath)
                 .FindElement(By.TagName("a"));
             element.Click();
-            return EditEventPage.GetPage(_driver);
+            return new EditEventPage();
         }
 
         public EditEventPage ClickAddNewButton()
         {
-            _driver.FindElement(By.ClassName("editEvent__block__AddNew")).Click();
-            return EditEventPage.GetPage(_driver);
+            AddNewButton.Click();
+            return new EditEventPage();
+        }
+
+        private static string GetEventXPathByText(string text)
+        {
+            return
+                $"//*[@class='{ParagraphClassname}' and text()='{text}']/following-sibling::div[@class='{BlockClassname}']";
         }
     }
 }

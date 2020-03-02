@@ -1,5 +1,5 @@
 ﻿using System.Web.Mvc;
-using EpamNetProject.PLL.filters;
+using EpamNetProject.PLL.Utils.filters;
 
 namespace EpamNetProject.PLL
 {
