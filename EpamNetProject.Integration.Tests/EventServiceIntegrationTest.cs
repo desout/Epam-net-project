@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Configuration;
 using System.Transactions;
-using EpamNetProject.BLL.Infrastucture;
+using EpamNetProject.BLL.Infrastructure;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.BLL.Services;

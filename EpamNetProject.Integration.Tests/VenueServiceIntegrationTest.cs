@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Configuration;
 using System.Transactions;
-using EpamNetProject.BLL.Infrastucture;
+using EpamNetProject.BLL.Infrastructure;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.BLL.Services;
@@ -67,7 +67,7 @@ namespace EpamNetProject.Integration.Tests
 
                 var result = _venueService.CreateArea(area);
 
-                area.Should().BeEquivalentTo(_venueService.GetArea(result), options => options.Excluding(x=>x.Id));
+                area.Should().BeEquivalentTo(_venueService.GetArea(result), options => options.Excluding(x => x.Id));
             }
         }
 
@@ -93,7 +93,8 @@ namespace EpamNetProject.Integration.Tests
 
                 var result = _venueService.CreateLayout(layout);
 
-                layout.Should().BeEquivalentTo(_venueService.GetLayout(result), options => options.Excluding(x=>x.Id));
+                layout.Should()
+                    .BeEquivalentTo(_venueService.GetLayout(result), options => options.Excluding(x => x.Id));
             }
         }
 
@@ -108,7 +109,7 @@ namespace EpamNetProject.Integration.Tests
 
                 var result = _venueService.CreateSeat(seat);
 
-                seat.Should().BeEquivalentTo(_venueService.GetSeat(result), options => options.Excluding(x=>x.Id));
+                seat.Should().BeEquivalentTo(_venueService.GetSeat(result), options => options.Excluding(x => x.Id));
             }
         }
 
@@ -137,7 +138,7 @@ namespace EpamNetProject.Integration.Tests
 
                 var result = _venueService.CreateVenue(venue);
 
-                venue.Should().BeEquivalentTo(_venueService.GetVenue(result), options => options.Excluding(x=>x.Id));
+                venue.Should().BeEquivalentTo(_venueService.GetVenue(result), options => options.Excluding(x => x.Id));
             }
         }
 

@@ -10,7 +10,7 @@ namespace EpamNetProject.AutomatedUITests.Authorization
         [Given(@"I am on login page")]
         public void GivenIAmOnLoginPage()
         {
-            new LandingPage().ClickLoginButton();
+            LandingPage.ClickLoginButton();
         }
 
         [When(@"I enter  Username '(.*)' and Password '(.*)'")]
@@ -22,7 +22,7 @@ namespace EpamNetProject.AutomatedUITests.Authorization
         [When(@"I press submit button")]
         public void WhenIPressButtonWithClass()
         {
-            new LoginPage().ClickLoginButton();
+            LoginPage.ClickLoginButton();
         }
 
         [Then(@"main page will open")]
@@ -34,19 +34,19 @@ namespace EpamNetProject.AutomatedUITests.Authorization
         [Then(@"I have possibility to select edit event menu")]
         public void ThenIHavePossibilityToSelectEditEventMenu()
         {
-            Assert.IsTrue(new LandingPage().IsEditEventsLinkPresent());
+            Assert.IsTrue(LandingPage.IsEditEventsLinkPresent());
         }
 
         [Then(@"""(.*)"" name exist in header\.")]
         public void ThenNameExistInHeader_(string username)
         {
-            Assert.IsTrue(new LandingPage().CheckUserName(username));
+            Assert.IsTrue(LandingPage.CheckUserName(username));
         }
 
         [Then(@"I have not possibility to select edit event menu")]
         public void ThenIHaveNotPossibilityToSelectEditEventMenu()
         {
-            Assert.IsFalse(new LandingPage().IsEditEventsLinkPresent());
+            Assert.IsFalse(LandingPage.IsEditEventsLinkPresent());
         }
 
         [Then(@"I am stayed on login page")]
@@ -58,7 +58,7 @@ namespace EpamNetProject.AutomatedUITests.Authorization
         [Then(@"Error Occurred")]
         public void ThenErrorOccurred()
         {
-            Assert.IsTrue(new LoginPage().IsErrorOccured());
+            Assert.IsTrue(LoginPage.IsErrorOccured());
         }
     }
 }

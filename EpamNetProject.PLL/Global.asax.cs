@@ -11,7 +11,7 @@ using Autofac;
 using Autofac.Extras.Quartz;
 using Autofac.Integration.Mvc;
 using EpamNetProject.BLL.Interfaces;
-using EpamNetProject.PLL.Utils.Infrastucture;
+using EpamNetProject.PLL.Utils.Infrastructure;
 using EpamNetProject.PLL.Utils.Jobs;
 
 namespace EpamNetProject.PLL

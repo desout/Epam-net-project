@@ -4,7 +4,7 @@ using EpamNetProject.DAL.Models;
 using EpamNetProject.PLL.Utils.Interfaces;
 using EpamNetProject.PLL.Utils.Models;
 
-namespace EpamNetProject.PLL.Utils.Infrastucture
+namespace EpamNetProject.PLL.Utils.Infrastructure
 {
     public class UserMapperConfigurationProvider : IUserMapperConfigurationProvider
     {

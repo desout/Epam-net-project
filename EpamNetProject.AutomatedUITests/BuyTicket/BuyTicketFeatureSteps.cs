@@ -28,9 +28,7 @@ namespace EpamNetProject.AutomatedUITests.BuyTicket
         [When(@"I go to event and select seat")]
         public void WhenIGoToEventAndSelectSeat()
         {
-            new LandingPage()
-                .ClickEventsLink()
-                .SelectFirstEvent()
+            EventsPage.SelectFirstEvent()
                 .SelectAvailableSeat();
         }
 
@@ -45,7 +43,7 @@ namespace EpamNetProject.AutomatedUITests.BuyTicket
         public void ThenPageWithSelectedSeatsWillOpen_()
         {
             var page = new ProceedToCheckoutPage();
-            Assert.IsTrue(page.SelectedSeatsExists());
+            Assert.IsTrue(ProceedToCheckoutPage.SelectedSeatsExists());
         }
 
         [Then(@"I press buy button")]
@@ -57,25 +55,25 @@ namespace EpamNetProject.AutomatedUITests.BuyTicket
         [Then(@"Successful payment page opened")]
         public void ThenSuccessfulPaymentPageOpened()
         {
-            Assert.IsTrue(new ProceedToCheckoutPage().IsSuccessfulPageWithTicketsExists());
+            Assert.IsTrue(ProceedToCheckoutPage.IsSuccessfulPageWithTicketsExists());
         }
 
         [Then(@"Failure payment page opened")]
         public void ThenFailurePaymentPageOpened()
         {
-            Assert.IsTrue(new ProceedToCheckoutPage().IsErrorNotEnoughPageOpen());
+            Assert.IsTrue(ProceedToCheckoutPage.IsErrorNotEnoughPageOpen());
         }
 
         [When(@"I go to event and select reserved seat")]
         public void WhenIGoToEventAndSelectReservedSeat()
         {
-            new LandingPage().ClickEventsLink().SelectFirstEvent().SelectReservedSeat();
+            EventsPage.SelectFirstEvent().SelectReservedSeat();
         }
 
         [Then(@"Error is shown")]
         public void ThenErrorWithClassnameIsShown()
         {
-            Assert.IsTrue(new EventPage().IsErrorOccured());
+            Assert.IsTrue(EventPage.IsErrorOccured());
         }
     }
 }

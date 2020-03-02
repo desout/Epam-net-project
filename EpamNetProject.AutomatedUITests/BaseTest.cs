@@ -2,8 +2,6 @@ using System;
 using System.Configuration;
 using System.Data.SqlClient;
 using EpamNetProject.AutomatedUITests.Pages;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 using TechTalk.SpecFlow;
 
 namespace EpamNetProject.AutomatedUITests
@@ -11,6 +9,7 @@ namespace EpamNetProject.AutomatedUITests
     public class BaseTest : IDisposable
     {
         private const string TestDbName = "epam-net-project-db";
+
         public void Dispose()
         {
             BasePage.RemoveDriver();

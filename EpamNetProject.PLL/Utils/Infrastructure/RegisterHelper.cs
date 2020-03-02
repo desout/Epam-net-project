@@ -1,6 +1,6 @@
 using System.Configuration;
 using Autofac;
-using EpamNetProject.BLL.Infrastucture;
+using EpamNetProject.BLL.Infrastructure;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.BLL.Services;
@@ -13,7 +13,7 @@ using EpamNetProject.PLL.Utils.Interfaces;
 using EpamNetProject.PLL.Utils.Managers;
 using Microsoft.AspNet.Identity;
 
-namespace EpamNetProject.PLL.Utils.Infrastucture
+namespace EpamNetProject.PLL.Utils.Infrastructure
 {
     public static class RegisterHelper
     {

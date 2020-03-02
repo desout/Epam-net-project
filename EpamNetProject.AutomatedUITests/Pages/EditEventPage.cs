@@ -30,10 +30,6 @@ namespace EpamNetProject.AutomatedUITests.Pages
 
         private static IWebElement TitleTextField => findElementBy(TitleTextFieldId, SelectorType.Id);
 
-        public EditEventPage()
-        {
-        }
-
         public EditEventPage TypeNameField(string name)
         {
             FillField(NameTextField, name);
@@ -76,7 +72,7 @@ namespace EpamNetProject.AutomatedUITests.Pages
             return this;
         }
 
-        private void FillField(IWebElement el, string field)
+        private static void FillField(IWebElement el, string field)
         {
             el.Clear();
             el.SendKeys(field);

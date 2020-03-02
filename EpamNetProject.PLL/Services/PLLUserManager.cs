@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core;
 using System.Linq;
@@ -7,7 +6,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
-using EpamNetProject.DAL.Models;
 using EpamNetProject.PLL.Utils.Interfaces;
 using EpamNetProject.PLL.Utils.Managers;
 using Microsoft.AspNet.Identity;
@@ -59,9 +57,8 @@ namespace EpamNetProject.PLL.Services
             }
             catch (EntityException e)
             {
-                return e.Message.Select(x=>x.ToString()).ToList();
+                return e.Message.Select(x => x.ToString()).ToList();
             }
-
         }
     }
 }

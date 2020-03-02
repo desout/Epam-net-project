@@ -205,8 +205,8 @@
     <Compile Include="Utils\filters\ActionErrorLogAttribute.cs" />
     <Compile Include="Utils\filters\ActionLogAttribute.cs" />
     <Compile Include="Utils\Helpers\HttpResponseHelper.cs" />
-    <Compile Include="Utils\Infrastucture\RegisterHelper.cs" />
-    <Compile Include="Utils\Infrastucture\UserMapperConfigurationProvider.cs" />
+    <Compile Include="Utils\Infrastructure\RegisterHelper.cs" />
+    <Compile Include="Utils\Infrastructure\UserMapperConfigurationProvider.cs" />
     <Compile Include="Utils\Interfaces\IPLLUserManager.cs" />
     <Compile Include="Utils\Interfaces\IUserMapperConfigurationProvider.cs" />
     <Compile Include="Utils\Jobs\BasketJob.cs" />

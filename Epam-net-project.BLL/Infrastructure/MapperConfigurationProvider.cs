@@ -3,7 +3,7 @@ using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.DAL.Models;
 
-namespace EpamNetProject.BLL.Infrastucture
+namespace EpamNetProject.BLL.Infrastructure
 {
     public class MapperConfigurationProvider : IMapperConfigurationProvider
     {

@@ -24,11 +24,11 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
 
         private readonly IPLLUserManager _ipllUserManager;
 
+        private readonly IMapper _mapper;
+
         private readonly ApplicationUserManager _userManager;
 
         private readonly IUserService _userService;
-
-        private readonly IMapper _mapper;
 
 
         public AccountController(IEventService eventService, ApplicationUserManager userManager,
@@ -63,20 +63,21 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
         [Authorize]
         public ActionResult SaveProfile(UserProfileViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var hashPassword = string.IsNullOrEmpty(model.Password)
-                    ? ""
-                    : _userManager.PasswordHasher.HashPassword(model.Password);
-                _userService.UpdateUserInfo(_mapper.Map<UserDTO>(model), hashPassword);
-                var user = _userService.GetUserProfile(User.GetUserId());
-                var cookie = new HttpCookie("lang")
-                    {HttpOnly = false, Value = user.Language, Expires = DateTime.Now.AddYears(1)};
-                Response.Cookies.Set(cookie);
-                return View("SaveProfileSuccess");
+                return View("Edit", model);
             }
 
-            return View("Edit", model);
+            var hashPassword = string.IsNullOrEmpty(model.Password)
+                ? ""
+                : _userManager.PasswordHasher.HashPassword(model.Password);
+            _userService.UpdateUserInfo(_mapper.Map<UserDTO>(model), hashPassword);
+            var user = _userService.GetUserProfile(User.GetUserId());
+            var cookie = new HttpCookie("lang")
+                {HttpOnly = false, Value = user.Language, Expires = DateTime.Now.AddYears(1)};
+            Response.Cookies.Set(cookie);
+            return View("SaveProfileSuccess");
+
         }
 
         [HttpGet]
@@ -96,28 +97,30 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var userDto = new UserDTO {UserName = model.UserName, Password = model.Password};
-                var claim = await _ipllUserManager.Authenticate(userDto);
-                if (claim == null)
+                return View(model);
+            }
+
+            var userDto = new UserDTO {UserName = model.UserName, Password = model.Password};
+            var claim = await _ipllUserManager.Authenticate(userDto);
+            if (claim == null)
+            {
+                ModelState.AddModelError(string.Empty, Resource.ACCOUNT_ERRORINCORRECTLOGINPASSWORD);
+            }
+            else
+            {
+                AuthenticationManager.SignOut();
+                AuthenticationManager.SignIn(new AuthenticationProperties
                 {
-                    ModelState.AddModelError(string.Empty, Resource.ACCOUNT_ERRORINCORRECTLOGINPASSWORD);
-                }
-                else
-                {
-                    AuthenticationManager.SignOut();
-                    AuthenticationManager.SignIn(new AuthenticationProperties
-                    {
-                        IsPersistent = true
-                    }, claim);
-                    var user = _userService.GetUserProfile(AuthenticationManager.AuthenticationResponseGrant.Identity
-                        .GetUserId());
-                    var cookie = new HttpCookie("lang")
-                        {HttpOnly = false, Value = user.Language, Expires = DateTime.Now.AddYears(1)};
-                    Response.Cookies.Set(cookie);
-                    return RedirectToAction("Index", "Home", new {area = ""});
-                }
+                    IsPersistent = true
+                }, claim);
+                var user = _userService.GetUserProfile(AuthenticationManager.AuthenticationResponseGrant.Identity
+                    .GetUserId());
+                var cookie = new HttpCookie("lang")
+                    {HttpOnly = false, Value = user.Language, Expires = DateTime.Now.AddYears(1)};
+                Response.Cookies.Set(cookie);
+                return RedirectToAction("Index", "Home", new {area = ""});
             }
 
             return View(model);

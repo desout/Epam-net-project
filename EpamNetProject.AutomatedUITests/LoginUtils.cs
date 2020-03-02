@@ -1,5 +1,4 @@
 using EpamNetProject.AutomatedUITests.Pages;
-using OpenQA.Selenium;
 
 namespace EpamNetProject.AutomatedUITests
 {
@@ -19,32 +18,17 @@ namespace EpamNetProject.AutomatedUITests
 
         public static bool LoginAsAdmin()
         {
-            return new LandingPage()
-                .ClickLoginButton()
-                .TypeUserName(AdminLogin)
-                .TypePassword(AdminPassword)
-                .ClickLoginButton()
-                .CheckUserName(AdminLogin);
+            return LandingPage.CheckUserName(AdminLogin);
         }
 
         public static bool LoginAsManager()
         {
-            return new LandingPage()
-                .ClickLoginButton()
-                .TypeUserName(ManagerLogin)
-                .TypePassword(ManagerPassword)
-                .ClickLoginButton()
-                .CheckUserName(ManagerLogin);
+            return LandingPage.CheckUserName(ManagerLogin);
         }
 
         public static bool LoginAsUser()
         {
-            return new LandingPage()
-                .ClickLoginButton()
-                .TypeUserName(UserLogin)
-                .TypePassword(UserPassword)
-                .ClickLoginButton()
-                .CheckUserName(UserLogin);
+            return LandingPage.CheckUserName(UserLogin);
         }
     }
 }

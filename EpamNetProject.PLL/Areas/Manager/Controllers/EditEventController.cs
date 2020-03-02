@@ -14,10 +14,12 @@ namespace EpamNetProject.PLL.Areas.Manager.Controllers
     {
         private readonly IEventService _eventService;
 
+        private readonly IMapper _mapper;
+
         private readonly IVenueService _venueService;
 
-        private readonly IMapper _mapper;
-        public EditEventController(IEventService eventService, IVenueService venueService, IUserMapperConfigurationProvider userMapperConfigurationProvider)
+        public EditEventController(IEventService eventService, IVenueService venueService,
+            IUserMapperConfigurationProvider userMapperConfigurationProvider)
         {
             _eventService = eventService;
             _venueService = venueService;
