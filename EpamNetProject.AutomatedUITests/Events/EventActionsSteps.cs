@@ -2,6 +2,7 @@
 using System.Linq;
 using EpamNetProject.AutomatedUITests.Pages;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
 using TechTalk.SpecFlow;
 
 namespace EpamNetProject.AutomatedUITests.Events
@@ -12,7 +13,7 @@ namespace EpamNetProject.AutomatedUITests.Events
         [Given(@"I am on edit event page")]
         public void GivenIAmOnEditEventPage()
         {
-            LandingPage.ClickEditEventsLink();
+            new LandingPage().ClickEditEventsLink();
         }
 
         [Then(@"I press submit button")]
@@ -24,7 +25,7 @@ namespace EpamNetProject.AutomatedUITests.Events
         [Then(@"I press add new button")]
         public void ThenIPressAddNewButton()
         {
-            EditEventsPage.ClickAddNewButton();
+            new EditEventsPage().ClickAddNewButton();
         }
 
         [Then(
@@ -44,13 +45,13 @@ namespace EpamNetProject.AutomatedUITests.Events
         [Then(@"I go to events page")]
         public void ThenIGoToEventsPage()
         {
-            LandingPage.ClickEventsLink();
+            new LandingPage().ClickEventsLink();
         }
 
         [Then(@"Event with Name ""(.*)"" exists")]
         public void ThenEventWithNameExists(string name)
         {
-            var items = EventsPage.GetEventsByName(name);
+            var items = new EventsPage().GetEventsByName(name);
             Assert.IsTrue(items.Any());
         }
 
@@ -63,20 +64,20 @@ namespace EpamNetProject.AutomatedUITests.Events
         [Then(@"Event with Name ""(.*)"" not exists")]
         public void ThenEventWithNameNotExists(string name)
         {
-            var items = EventsPage.GetEventsByName(name);
+            var items = new EventsPage().GetEventsByName(name);
             Assert.IsFalse(items.Any());
         }
 
         [Then(@"I press link in block with text ""(.*)""")]
         public void ThenIPressLinkInBlockWithText(string text)
         {
-            EditEventsPage.ClickEditLinkOnEvent(text);
+            new EditEventsPage().ClickEditLinkOnEvent(text);
         }
 
         [Then(@"fill name input on edit event page with data: Name - ""(.*)""")]
         public void ThenFillNameInputOnEditEventPageWithDataName_(string name)
         {
-            new EditEventPage().TypeTitleField(name).TypeImgField("img");
+           new EditEventPage().TypeTitleField(name).TypeImgField("img");
         }
     }
 }

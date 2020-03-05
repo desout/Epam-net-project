@@ -10,7 +10,7 @@ namespace EpamNetProject.AutomatedUITests.Pages
     {
         protected static IWebDriver Driver;
 
-        protected BasePage()
+        public BasePage()
         {
             if (Driver != null)
             {
@@ -30,14 +30,12 @@ namespace EpamNetProject.AutomatedUITests.Pages
 
         public static void RemoveDriver()
         {
-            if (Driver == null)
+            if (Driver != null)
             {
-                return;
+                Driver.Quit();
+                Driver.Dispose();
+                Driver = null;
             }
-
-            Driver.Quit();
-            Driver.Dispose();
-            Driver = null;
         }
 
         protected static IWebElement findElementBy(string selector, SelectorType type)

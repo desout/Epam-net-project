@@ -8,11 +8,15 @@ namespace EpamNetProject.AutomatedUITests.Pages
         private const string ParagraphClassname = "event--item__name";
 
         private const string AddNewClassname = "editEvent__block__AddNew";
-
+        
         private const string BlockClassname = "event--item__actions";
 
-
         private static IWebElement AddNewButton => findElementBy(AddNewClassname, SelectorType.ClassName);
+
+
+        public EditEventsPage()
+        {
+        }
 
         public EditEventsPage ClickDeleteButtonOnEvent(string text)
         {
@@ -23,7 +27,7 @@ namespace EpamNetProject.AutomatedUITests.Pages
             return this;
         }
 
-        public static EditEventPage ClickEditLinkOnEvent(string text)
+        public EditEventPage ClickEditLinkOnEvent(string text)
         {
             var element = findElementBy(
                     GetEventXPathByText(text), SelectorType.Xpath)
@@ -32,7 +36,7 @@ namespace EpamNetProject.AutomatedUITests.Pages
             return new EditEventPage();
         }
 
-        public static EditEventPage ClickAddNewButton()
+        public EditEventPage ClickAddNewButton()
         {
             AddNewButton.Click();
             return new EditEventPage();

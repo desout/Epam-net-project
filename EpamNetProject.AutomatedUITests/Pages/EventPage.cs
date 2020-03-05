@@ -3,7 +3,7 @@ using OpenQA.Selenium;
 
 namespace EpamNetProject.AutomatedUITests.Pages
 {
-    public class EventPage : BasePage
+    public class EventPage: BasePage
     {
         private const string ProceedToCheckoutId = "proceed-to-checkout";
 
@@ -13,7 +13,7 @@ namespace EpamNetProject.AutomatedUITests.Pages
 
         private const string ErrorBlockClassName = "validation-summary-errors";
 
-        private static IWebElement AvailableSeat => findElementBy(AvailableSeatSelector, SelectorType.Css);
+        private static IWebElement AvailableSeat => findElementBy(AvailableSeatSelector,SelectorType.Css);
 
         private static IWebElement ErrorBlock => findElementBy(ErrorBlockClassName, SelectorType.ClassName);
 
@@ -21,7 +21,10 @@ namespace EpamNetProject.AutomatedUITests.Pages
 
         private static IWebElement ReservedSeat => findElementBy(ReservedSeatSelector, SelectorType.Css);
 
-        public static bool IsErrorOccured()
+        public EventPage()
+        {
+        }
+        public bool IsErrorOccured()
         {
             return ErrorBlock.Displayed;
         }
