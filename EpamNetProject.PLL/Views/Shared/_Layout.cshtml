@@ -1,0 +1,153 @@
+﻿@using System.Configuration
+@using System.Globalization
+@using EpamNetProject.PLL.Utils.Statics
+@using Resources
+@{
+    var delay = int.Parse(ConfigurationManager.AppSettings["basketLeaveTime"]);
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Epam training application</title>
+    @Styles.Render("~/wwwroot/css/index.css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+</head>
+<body>
+<div class="modal">
+    <div>
+        <p>description: <input type="text" class="modal__input-areaDescription"></p>
+        <p>price: <input type="text" class="modal__input-areaPrice"></p>
+        <input type="text" hidden="hidden" class="modal__input-areaId-hidden">
+        <input type="text" hidden="hidden" class="modal__input-coordY-hidden">
+        <input type="text" hidden="hidden" class="modal__input-coordX-hidden">
+        <button type="button" id="modal-changeAreaPosition">Change area position</button>
+        <button type="button" id="modal-changeArea-submit">Change</button>
+    </div>
+
+</div>
+
+<div class="modal-seat">
+    <div>
+        <p>row: <input type="text" class="modal-seat__input-row"></p>
+        <p>number: <input type="text" class="modal-seat__input-number"></p>
+        <input type="text" hidden="hidden" class="modal-seat__input-areaId-hidden">
+        <button type="button" id="modal-seat-addSeat-submit">Add</button>
+    </div>
+</div>
+
+<div class="navbar">
+    <div class="navbar__appName">
+        @Html.ActionLink(Resource.ApplicationName, "Index", "Home", new {area = ""}, new {@class = "navbar__brand"})
+    </div>
+    <div class="navbar__basket">
+        <p> @Resource.MAIN_BASKETTIME</p>
+        <p class="navbar__basket--time"></p>
+    </div>
+    <ul class="navbar__navigation">
+        <li>@Html.Action("Basket", "Account", new {area = "User"})</li>
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <li>@Html.ActionLink(Resource.MAIN_LOGIN, "Login", "Account", new {area = "User"}, null)</li>
+            <li>@Html.ActionLink(Resource.MAIN_REGISTER, "Register", "Account", new {area = "User"}, null)</li>
+        }
+        else
+        {
+            <li id="userName-header">@Context.User.Identity.Name</li>
+            <li>@Html.ActionLink(Resource.MAIN_PROFILE, "Profile", "Account", new {area = "User"}, null)</li>
+            <li>@Html.ActionLink(Resource.MAIN_LOGOUT, "Logout", "Account", new {area = "User"}, null)</li>
+            if (Context.User.IsInRole("Manager") || Context.User.IsInRole("Admin"))
+            {
+                <li>@Html.ActionLink(Resource.MAIN_EDITEVENTS, "EditEvents", "EditEvent", new {area = "Manager"}, null)</li>
+            }
+            if (Context.User.IsInRole("Manager") || Context.User.IsInRole("Admin"))
+            {
+                <li>@Html.ActionLink(Resource.MAIN_EDITLAYOUTS, "EditLayouts", "EditLayout", new {area = "Manager"}, null)</li>
+            }
+        }
+        <li>@Html.ActionLink(Resource.MAIN_EVENTS, "Index", "Events", new {area = "Events"}, null)</li>
+        <li>
+            @using (Html.BeginForm("ChangeCulture", "Home", FormMethod.Post))
+            {
+                @Html.DropDownList("newCulture", new SelectList(StaticData.Languages, "Code", "Description", Culture))
+            }
+        </li>
+    </ul>
+</div>
+<main>
+    <div class="container">
+        <div class="body-content">
+            @RenderBody()
+        </div>
+    </div>
+</main>
+<footer>
+    <p>&copy; @DateTime.Now.2019 - Epam training application</p>
+</footer>
+@Scripts.Render("~/bundles/CookieChecker")
+@RenderSection("scripts", false)
+<script >
+    $('#newCulture').change(function() {
+     $(this).closest('form').submit();
+    })
+</script>
+@Scripts.Render("~/bundles/jqueryval")
+@Styles.Render("~/Content/themes/base/css")
+@Scripts.Render("~/bundles/jqueryui")
+@Scripts.Render("~/bundles/jquery.datetimepicker")
+<script>
+ var cookieChecker = cookieCheckerInit(@(delay));
+    $(document).ready(function () {
+    $(function () {
+        $.datepicker.regional['ru'] =  $.datepicker.regional['by'] = {
+            prevText: 'Пред',
+            nextText: 'След',
+            monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+            'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+            monthNamesShort: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн',
+            'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
+            dayNames: ['воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота'],
+            dayNamesShort: ['вск', 'пнд', 'втр', 'срд', 'чтв', 'птн', 'сбт'],
+            dayNamesMin: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+            weekHeader: 'Не',
+            dateFormat: 'dd/mm/yy',
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: ''
+        };
+        $.datepicker.setDefaults($.datepicker.regional['@CultureInfo.CurrentCulture.Name']);
+        $("[datetime-picker]")
+            .datetimepicker()
+            .get(0).setAttribute("type", "text");
+        if('@CultureInfo.CurrentCulture.Name' === "ru" || '@CultureInfo.CurrentCulture.Name' === "by")
+        {
+            $.validator.addMethod('date',
+            function (value, element) {
+            var ok = true;
+            try {
+                    $.datepicker.parseDate('dd/mm/yy', value);
+            }
+            catch (err) {
+                ok = false;
+            }
+            return ok;
+        });
+        }
+       
+    });
+      cookieChecker.checkCookie();
+       });
+
+$(document).on('click',function (e) {
+ var el = '.modal,.modal-seat';
+ if ($(e.target).is(el)) {
+ 	$('.modal,.modal-seat').hide();
+}
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+.login__form, .register__form, .editProfile__form{
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  & p {
+    margin: 10px 0 0 10px;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+  & input,select {
+    display: block;
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  }
+}
+.register__form, .editProfile__form .button__submit{
+  width: 140px;
+}
+.login__block, .register__block, .editProfile__block{
+  width: 500px;
+}
+
+.REGISTER__TITLE .editProfile__TITLE {
+  text-align: center;
+}

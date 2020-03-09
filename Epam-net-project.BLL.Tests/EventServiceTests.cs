@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using EpamNetProject.BLL.Infrastructure;
+using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.BLL.Services;
 using EpamNetProject.DAL.Interfaces;
-using EpamNetProject.DAL.models;
+using EpamNetProject.DAL.Models;
 using Moq;
 using NUnit.Framework;
 
@@ -13,21 +16,17 @@ namespace EpamNetProject.BLL.Tests
     [TestFixture]
     public class EventServiceTests
     {
-        private const int ReturnId = 10;
-        private Mock<IAreaRepository> _areaRepository;
-        private Mock<IEventRepository> _eventRepository;
-        private EventService _eventService;
-        private Mock<ILayoutRepository> _layoutRepository;
-        private Mock<ISeatRepository> _seatRepository;
-
         [SetUp]
         public void SetUp()
         {
             _eventRepository = new Mock<IEventRepository>();
-            _layoutRepository = new Mock<ILayoutRepository>();
-            _areaRepository = new Mock<IAreaRepository>();
-            _seatRepository = new Mock<ISeatRepository>();
-
+            _layoutRepository = new Mock<IRepository<Layout>>();
+            _areaRepository = new Mock<IRepository<Area>>();
+            _seatRepository = new Mock<IRepository<Seat>>();
+            _eventSeatRepository = new Mock<IRepository<EventSeat>>();
+            _eventAreaRepository = new Mock<IRepository<EventArea>>();
+            _userProfileRepository = new Mock<IRepository<UserProfile>>();
+            _mapper = new MapperConfigurationProvider();
             _eventRepository.Setup(x => x.GetAll())
                 .Returns(new List<Event>
                 {
@@ -85,7 +84,7 @@ namespace EpamNetProject.BLL.Tests
                     new Layout {Id = 1, Description = "Description", LayoutName = "1 layout name", VenueId = 1},
                     new Layout {Id = 2, Description = "Description", LayoutName = "2 layout name", VenueId = 2},
                     new Layout {Id = 3, Description = "Description", LayoutName = "3 layout name", VenueId = 3}
-                });
+                }.AsQueryable());
             _areaRepository.Setup(x => x.GetAll())
                 .Returns(new List<Area>
                 {
@@ -95,7 +94,7 @@ namespace EpamNetProject.BLL.Tests
                     new Area {Id = 4, Description = "Description", CoordX = 40, CoordY = 50, LayoutId = 1},
                     new Area {Id = 5, Description = "Description", CoordX = 50, CoordY = 60, LayoutId = 3},
                     new Area {Id = 6, Description = "Description", CoordX = 60, CoordY = 70, LayoutId = 3}
-                });
+                }.AsQueryable());
             _seatRepository.Setup(x => x.GetAll())
                 .Returns(new List<Seat>
                 {
@@ -109,24 +108,45 @@ namespace EpamNetProject.BLL.Tests
                     new Seat {Id = 8, Number = 80, AreaId = 1, Row = 8},
                     new Seat {Id = 9, Number = 90, AreaId = 1, Row = 9},
                     new Seat {Id = 10, Number = 110, AreaId = 1, Row = 10}
-                });
+                }.AsQueryable());
 
             _eventService = new EventService(_eventRepository.Object, _layoutRepository.Object,
-                _areaRepository.Object, _seatRepository.Object);
+                _areaRepository.Object, _seatRepository.Object, _eventSeatRepository.Object,
+                _eventAreaRepository.Object, _userProfileRepository.Object, 15, _mapper);
         }
 
+        private const int ReturnId = 10;
+
+        private Mock<IRepository<Area>> _areaRepository;
+
+        private Mock<IRepository<EventArea>> _eventAreaRepository;
+
+        private Mock<IEventRepository> _eventRepository;
+
+        private Mock<IRepository<EventSeat>> _eventSeatRepository;
+
+        private EventService _eventService;
+
+        private Mock<IRepository<Layout>> _layoutRepository;
+
+        private IMapperConfigurationProvider _mapper;
+
+        private Mock<IRepository<Seat>> _seatRepository;
+
+        private Mock<IRepository<UserProfile>> _userProfileRepository;
+
         [Test]
-        public void CreateEvent_WhenModelValid_ShouldReturnNewId()
+        public void CreateEvent_WhenEventWithDateInPast_ShouldReturnDateInPastValidationException()
         {
             var sEvent = new EventDto
             {
                 Name = "New Event", Description = "Description", LayoutId = 1,
-                EventDate = DateTime.Today.Add(TimeSpan.FromDays(1))
+                EventDate = DateTime.Today.Subtract(TimeSpan.FromDays(20))
             };
 
-            var result = _eventService.CreateEvent(sEvent);
+            var exception = Assert.Throws<ValidationException>(() => _eventService.CreateEvent(sEvent));
 
-            Assert.AreEqual(result, ReturnId);
+            Assert.AreEqual("Event can't be added in past", exception.Message);
         }
 
         [Test]
@@ -144,17 +164,32 @@ namespace EpamNetProject.BLL.Tests
         }
 
         [Test]
-        public void CreateEvent_WhenEventWithDateInPast_ShouldReturnDateInPastValidationException()
+        public void CreateEvent_WhenModelNotValid_ShouldReturnArgumentException()
+        {
+            var sEvent = new EventDto
+            {
+                Name = null,
+                Description = "Description",
+                LayoutId = 3,
+                EventDate = DateTime.Today.Add(TimeSpan.FromDays(1))
+            };
+
+            Assert.Throws<ArgumentException>(() => _eventService.CreateEvent(sEvent));
+        }
+
+        [Test]
+        public void CreateEvent_WhenModelValid_ShouldReturnNewId()
         {
             var sEvent = new EventDto
             {
                 Name = "New Event", Description = "Description", LayoutId = 1,
-                EventDate = DateTime.Today.Subtract(TimeSpan.FromDays(20))
+                EventDate = DateTime.Today.Add(TimeSpan.FromDays(1)),
+                ImgUrl = "img url"
             };
 
-            var exception = Assert.Throws<ValidationException>(() => _eventService.CreateEvent(sEvent));
+            var result = _eventService.CreateEvent(sEvent);
 
-            Assert.AreEqual("Event can't be added in past", exception.Message);
+            Assert.AreEqual(result, ReturnId);
         }
 
         [Test]
@@ -169,20 +204,6 @@ namespace EpamNetProject.BLL.Tests
             var exception = Assert.Throws<ValidationException>(() => _eventService.CreateEvent(sEvent));
 
             Assert.AreEqual("Event can't be created due to no seats exist", exception.Message);
-        }
-
-        [Test]
-        public void CreateEvent_WhenModelNotValid_ShouldReturnArgumentException()
-        {
-            var sEvent = new EventDto
-            {
-                Name= null,
-                Description = "Description",
-                LayoutId = 3,
-                EventDate = DateTime.Today.Add(TimeSpan.FromDays(1))
-            };
-
-            Assert.Throws<ArgumentException>(() => _eventService.CreateEvent(sEvent));
         }
     }
 }

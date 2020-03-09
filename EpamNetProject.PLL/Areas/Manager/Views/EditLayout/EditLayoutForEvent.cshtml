@@ -1,0 +1,81 @@
+@using System.Web.Script.Serialization
+@using Resources
+@model EpamNetProject.PLL.Utils.Models.EventViewModel
+<span>
+    Legend <br/>
+    left click on area - add seat<br/>
+    right click on area - edit area<br/>
+</span>
+<span class="tooltip"></span>
+<button data-id="button-create-area">@Resource.LAYOUT_CREATEAREA</button>
+<div id="ISM__MAP" style="position: relative; height: 200px; width: 300px;align-self: center; border: 1px solid beige"></div>
+
+@Scripts.Render("~/bundles/ISM_EDIT")
+<script>
+    @{
+        var js = new JavaScriptSerializer();
+        var areasString = js.Serialize(Model.EventAreas);
+        var seatsString = js.Serialize(Model.EventSeats);
+    }
+    var areasLocal = JSON.parse('@areasString'.replace(/&quot;/g, '"'));
+    var seatsLocal = JSON.parse('@seatsString'.replace(/&quot;/g, '"'));
+    generateSim(areasLocal,seatsLocal, '@Url.Action("RemoveSeat", "EditArea")','EventAreaId')
+</script>
+<script>
+	function changeAreaFunc(ev) {
+		var eventId = @Model.Event.Id;
+		var description = $('.modal__input-areaDescription').val();
+		var price = $('.modal__input-areaPrice').val();
+		var id = $('.modal__input-areaId-hidden').val();
+		var coordX = $('.modal__input-coordX-hidden').val();
+		var coordY = $('.modal__input-coordY-hidden').val();
+		ev.stopPropagation();
+		if(id !== '-1'){
+			$.ajax({
+				url: '@Url.Action("ChangeArea", "EditArea")',
+				method: "POST",
+				data: {Description: description, Price: price, Id: id, EventId: eventId, CoordX: coordX, CoordY: coordY}
+			}).done(function (data) {
+				if (data.Success) {
+					$('.modal').hide();
+				}
+			})
+		} else {
+			createArea({X:coordX,Y:coordY}, description, price);
+	
+		}
+	}
+	function addSeatFunc(ev) {
+		var number = $('.modal-seat__input-number').val();
+		var row = $('.modal-seat__input-row').val();
+		var id = $('.modal-seat__input-areaId-hidden').val();
+		ev.stopPropagation();
+		$.ajax({
+			url: '@Url.Action("AddSeat", "EditArea")',
+			method: "POST",
+			data: {Number: number, Row: row, AreaId: id}
+		}).done(function (data) {
+			if (data.Success) {
+				$('.modal-seat').hide();
+			}
+		})
+	}
+	function createArea(leftCorner,description,price) {
+		$.ajax({
+			url: '@Url.Action("AddArea", "EditArea")',
+			method: "POST",
+			data: {EventId: @Model.Event.Id, LeftCorner: leftCorner, Description: description, Price: price}
+	})
+	.done(function (data) {
+			if (data.Success) {
+				var option = document.createElement('option');
+				option.value = data.Area.Id;
+				option.innerText = data.Area.Description;
+				$('#areaSelected').append($(option));
+				$('.modal').hide();
+			}
+		})
+	
+	}
+	generateEventHandlersEdit({addSeatFunc: addSeatFunc, changeAreaFunc:changeAreaFunc});
+</script>

@@ -1,0 +1,22 @@
+@using Resources
+@model EpamNetProject.BLL.Models.UserProfileDto
+
+<p>@Html.ActionLink(Resource.ACCOUNT_EDITPROFILE, "Edit", "Account")</p>
+<p>@Resource.ACCOUNT_BALANCE - <span id="Balance">@Model.Balance</span></p>
+<input type="number" id="BalanceCount"/>
+<button onclick="add()">@Resource.ACCOUNT_ADDTOBALANCE</button>
+@Html.Action("PurchaseHistory")
+<script>
+function add() {
+    var count = $('#BalanceCount').val();
+      $.ajax({
+      url:'@Url.Action("AddToBalance")',
+      method: "POST",
+      data: {count: count}
+      }).done(function(data){
+      	if(data.Success){
+      		$('#Balance').val(data.NewBalance);
+      	}
+      })
+}
+</script>

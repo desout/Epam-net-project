@@ -1,0 +1,33 @@
+@using EpamNetProject.PLL.Utils.Statics
+@using Resources
+@model EpamNetProject.PLL.Utils.Models.RegisterModel
+
+<div class="register__block">
+    <h2 class="REGISTER__TITLE">@Resource.ACCOUNT_REGISTERTITLE</h2>
+
+    @foreach (var error in ViewBag.Errors)
+    {
+        <h4>@error</h4>
+    }
+    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new {@class = "register__form"}))
+    {
+        @Html.AntiForgeryToken()
+        <label>
+            <p>@Resource.ACCOUNT_REGISTER_USERNAME</p> @Html.EditorFor(x => x.UserName)</label>
+        <label>
+            <p>@Resource.ACCOUNT_REGISTER_EMAIL</p> @Html.EditorFor(x => x.Email)</label>
+        <label>
+            <p>@Resource.ACCOUNT_REGISTER_PASSWORD</p> @Html.EditorFor(x => x.Password)</label>
+        <label>
+            <p>@Resource.ACCOUNT_REGISTER_CONFIRMPASSWORD</p> @Html.EditorFor(x => x.ConfirmPassword)</label>
+        <label>
+            <p>@Resource.ACCOUNT_REGISTER_FIRSTNAME</p> @Html.EditorFor(x => x.FirstName)</label>
+        <label>
+            <p>@Resource.ACCOUNT_REGISTER_SURNAME</p> @Html.EditorFor(x => x.Surname)</label>
+        <label>
+            <p>@Resource.ACCOUNT_REGISTER_LANGUAGE</p> @Html.DropDownListFor(x => x.Language, new SelectList(StaticData.Languages, "Code", "Description"))</label>
+        <label>
+            <p>@Resource.ACCOUNT_REGISTER_TIMEZONE</p> @Html.DropDownListFor(x => x.TimeZone, new SelectList(TimeZoneInfo.GetSystemTimeZones(), "StandardName", "DisplayName"))</label>
+        <button type="submit" class="button__submit">@Resource.ACCOUNT_REGISTER_SUBMIT</button>
+    }
+</div>

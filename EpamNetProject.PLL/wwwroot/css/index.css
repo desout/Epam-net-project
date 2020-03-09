@@ -1,0 +1,225 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 90px;
+  border-bottom: 1px solid lightgrey; }
+  .navbar__navigation {
+    display: flex; }
+    .navbar__navigation li {
+      list-style-type: none;
+      margin-right: 10px; }
+      .navbar__navigation li a {
+        text-decoration: none; }
+  .navbar__basket {
+    display: none; }
+    .navbar__basket > p {
+      display: inline-block;
+      margin: 0;
+      font-size: 16px; }
+  .navbar__brand {
+    text-decoration: none;
+    font-size: 30px; }
+
+main {
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); }
+  main .container {
+    display: flex;
+    width: 85%;
+    justify-content: center;
+    margin-top: 10px; }
+
+.button__submit {
+  margin-top: 10px;
+  width: 100px;
+  height: 24px;
+  border: 1px solid #07b400;
+  border-radius: 10px;
+  background-color: #07b400;
+  text-align: center;
+  font-size: 12px;
+  color: #dce0ff; }
+
+p {
+  margin: 0; }
+
+footer {
+  margin-top: 10px; }
+
+.login__form, .register__form, .editProfile__form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px; }
+  .login__form p, .register__form p, .editProfile__form p {
+    margin: 10px 0 0 10px;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5; }
+  .login__form input, .login__form select, .register__form input, .register__form select, .editProfile__form input, .editProfile__form select {
+    display: block;
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out; }
+
+.register__form, .editProfile__form .button__submit {
+  width: 140px; }
+
+.login__block, .register__block, .editProfile__block {
+  width: 500px; }
+
+.REGISTER__TITLE .editProfile__TITLE {
+  text-align: center; }
+
+.events__block, .event__block {
+  width: 900px; }
+
+.events__block .event--item {
+  display: flex;
+  margin-top: 20px;
+  justify-content: space-between; }
+  .events__block .event--item a {
+    font-size: 1.5em;
+    text-decoration: none; }
+  .events__block .event--item p {
+    margin: 0; }
+
+.events__title {
+  text-align: center; }
+
+.event__block {
+  display: flex;
+  align-content: center;
+  flex-direction: column; }
+  .event__block h3 {
+    align-self: center; }
+  .event__block .proceedPayment {
+    align-self: center;
+    width: 200px;
+    height: 50px;
+    background-color: #4cae4c;
+    color: #d9edf7;
+    text-decoration: none;
+    text-align: center;
+    font-size: 24px;
+    line-height: 50px;
+    border-radius: 10px; }
+
+.seat {
+  display: inline-block;
+  position: absolute;
+  cursor: cell;
+  margin: 0; }
+
+.seat[data-seat-status="1"] {
+  background-color: grey; }
+
+.seat[data-seat-status="2"] {
+  background-color: red; }
+
+.event__header {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: space-evenly;
+  border-bottom: 1px solid lightgrey; }
+  .event__header__image {
+    width: 50px;
+    height: 50px; }
+  .event__header__eventInfo {
+    height: 50px; }
+  .event__header__availability {
+    height: 50px; }
+
+.area {
+  position: absolute;
+  border: 1px solid #9d9d9d; }
+  .area--description {
+    position: absolute;
+    top: -20px;
+    left: 20px;
+    display: none; }
+  .area:hover > .area--description {
+    display: block; }
+
+.editEvent__block {
+  width: 700px; }
+  .editEvent__block .event--item {
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-between; }
+    .editEvent__block .event--item__name {
+      font-size: 1.5em; }
+    .editEvent__block .event--item__actions a {
+      margin-right: 10px; }
+  .editEvent__block__AddNew {
+    text-decoration: none;
+    font-size: 2em;
+    text-decoration-color: #FFFFFF;
+    width: 50px;
+    height: 15px;
+    background-color: #4cae4c; }
+
+.editEvent__form {
+  width: 700px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px; }
+  .editEvent__form p {
+    margin: 10px 0 0 10px;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5; }
+  .editEvent__form input, .editEvent__form select {
+    display: block;
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out; }
+
+.tooltip {
+  display: none;
+  position: fixed;
+  overflow: hidden; }
+
+.modal, .modal-seat {
+  position: absolute;
+  display: none;
+  width: 100%;
+  height: 100%;
+  z-index: 8;
+  background: rgba(16, 16, 16, 0.2);
+  align-items: center;
+  align-content: center;
+  justify-content: center; }
+  .modal div, .modal-seat div {
+    width: 400px;
+    height: 500px;
+    position: absolute;
+    z-index: 10;
+    background-color: whitesmoke;
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 0 10px 10px #313131; }
+    .modal div > p, .modal-seat div > p {
+      margin-top: 10px; }

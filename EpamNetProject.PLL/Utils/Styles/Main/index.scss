@@ -1,0 +1,66 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 90px;
+  border-bottom: 1px solid lightgrey;
+
+  &__navigation {
+    display: flex;
+
+    & li {
+      list-style-type: none;
+      margin-right: 10px;
+
+      & a {
+        text-decoration: none;
+      }
+    }
+  }
+  &__basket{
+    display: none;
+    & > p{
+      display: inline-block;
+      margin: 0;
+      font-size: 16px;
+    }
+  }
+  &__brand {
+
+    text-decoration: none;
+    font-size: 30px;
+  }
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+
+  & .container {
+    display: flex;
+    width: 85%;
+    justify-content: center;
+    margin-top: 10px;
+  }
+}
+
+
+.button__submit {
+  margin-top: 10px;
+  width: 100px;
+  height: 24px;
+  border: 1px solid #07b400;
+  border-radius: 10px;
+  background-color: #07b400;
+  text-align: center;
+  font-size: 12px;
+  color: #dce0ff;
+}
+
+p {
+  margin: 0;
+}
+footer{
+  margin-top: 10px;
+}

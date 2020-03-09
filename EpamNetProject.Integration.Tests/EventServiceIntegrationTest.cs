@@ -1,11 +1,14 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Configuration;
-using System.Linq;
 using System.Transactions;
+using EpamNetProject.BLL.Infrastructure;
+using EpamNetProject.BLL.Interfaces;
 using EpamNetProject.BLL.Models;
 using EpamNetProject.BLL.Services;
+using EpamNetProject.DAL;
 using EpamNetProject.DAL.Interfaces;
+using EpamNetProject.DAL.Models;
 using EpamNetProject.DAL.Repositories;
 using FluentAssertions;
 using NUnit.Framework;
@@ -15,47 +18,32 @@ namespace EpamNetProject.Integration.Tests
     [TestFixture]
     public class EventServiceIntegrationTest
     {
-        private IAreaRepository _areaRepository;
-        private IEventRepository _eventRepository;
-        private EventService _eventService;
-        private ILayoutRepository _layoutRepository;
-        private ISeatRepository _seatRepository;
         [SetUp]
         public void SetUp()
         {
             var sqlConnectionString =
                 ConfigurationManager.ConnectionStrings["SqlConnectionString"].ConnectionString;
+            var context = new MyContext(sqlConnectionString);
 
-            _eventRepository = new EventRepository(sqlConnectionString);
-            _layoutRepository = new LayoutRepository(sqlConnectionString);
-            _areaRepository = new AreaRepository(sqlConnectionString);
-            _seatRepository = new SeatRepository(sqlConnectionString);
-
-            _eventService = new EventService(_eventRepository, _layoutRepository,
-                _areaRepository, _seatRepository);
+            var eventRepository = new EventRepository(context);
+            var layoutRepository = new Repository<Layout>(context);
+            var areaRepository = new Repository<Area>(context);
+            var seatRepository = new Repository<Seat>(context);
+            var eventSeatRepository = new Repository<EventSeat>(context);
+            var eventAreaRepository = new Repository<EventArea>(context);
+            var userProfileRepository = new Repository<UserProfile>(context);
+            var mapper = new MapperConfigurationProvider();
+            _eventService = new EventService(eventRepository, layoutRepository,
+                areaRepository, seatRepository, eventSeatRepository, eventAreaRepository, userProfileRepository,
+                15, mapper);
         }
 
-        [Test]
-        public void CreateEvent_WhenModelValid_ShouldInsertNewEvent()
-        {
-            using (var scope = new TransactionScope())
-            {
-                var sEvent = new EventDto
-                {
-                    Name = "New Event", Description = "Description", LayoutId = 1,
-                    EventDate = DateTime.Today.Add(TimeSpan.FromDays(23))
-                };
-
-                var result = _eventService.CreateEvent(sEvent);
-                sEvent.Id = result;
-                sEvent.Should().BeEquivalentTo(_eventService.GetEvent(result));
-            }
-        }
+        private EventService _eventService;
 
         [Test]
         public void CreateEvent_WhenEventWithSameTimeExists_ShouldReturnSameTimeValidationException()
         {
-            using (var scope = new TransactionScope())
+            using (new TransactionScope())
             {
                 var sEvent = new EventDto
                 {
@@ -70,9 +58,29 @@ namespace EpamNetProject.Integration.Tests
         }
 
         [Test]
+        public void CreateEvent_WhenModelValid_ShouldInsertNewEvent()
+        {
+            using (new TransactionScope())
+            {
+                var sEvent = new EventDto
+                {
+                    Name = "New Event", Description = "Description", LayoutId = 1,
+                    EventDate = DateTime.Today.Add(TimeSpan.FromDays(23)), ImgUrl = ""
+                };
+
+                var result = _eventService.CreateEvent(sEvent);
+                sEvent.Should().BeEquivalentTo(_eventService.GetEvent(result), options =>
+                {
+                    options.Excluding(x => x.EventAvailability);
+                    return options.Excluding(x => x.Id);
+                });
+            }
+        }
+
+        [Test]
         public void CreateEvent_WhenSeatsNotExists_ShouldReturnNoSeatsValidationException()
         {
-            using (var scope = new TransactionScope())
+            using (new TransactionScope())
             {
                 var sEvent = new EventDto
                 {

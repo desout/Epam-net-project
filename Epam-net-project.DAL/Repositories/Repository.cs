@@ -1,91 +1,52 @@
-﻿using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
+﻿using System.Data.Entity;
+using System.Linq;
 using EpamNetProject.DAL.Interfaces;
+using EpamNetProject.DAL.Models;
 
 namespace EpamNetProject.DAL.Repositories
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
     {
-        protected readonly string SqlConnectionString;
-        protected readonly string TableName;
+        internal MyContext Context;
 
-        protected Repository(string sqlConnectionString)
+        internal DbSet<TEntity> DbSet;
+
+        public Repository(MyContext context)
         {
-            SqlConnectionString = sqlConnectionString;
-            TableName = typeof(TEntity).ToString();
+            Context = context;
+            DbSet = Context.Set<TEntity>();
         }
 
         public int Add(TEntity entity)
         {
-            using (var conn = new SqlConnection(SqlConnectionString))
-            using (var command = new SqlCommand("InsertProc", conn)
-            {
-                CommandType = CommandType.StoredProcedure
-            })
-            {
-                conn.Open();
-                command.Parameters.Add(new SqlParameter("@Table_Name", TableName));
-                command.Parameters.Add(new SqlParameter("@Values", entity.ToString()));
-                command.ExecuteNonQuery();
-            }
-
-            return -1;
+            var item = DbSet.Add(entity);
+            Context.SaveChanges();
+            return item.Id;
         }
 
         public TEntity Get(int id)
         {
-            using (var conn = new SqlConnection(SqlConnectionString))
-            using (var command = new SqlCommand("SelectById", conn)
-            {
-                CommandType = CommandType.StoredProcedure
-            })
-            {
-                conn.Open();
-                command.Parameters.Add(new SqlParameter("@Table_Name", TableName));
-                command.Parameters.Add(new SqlParameter("@Id", id));
-                command.ExecuteNonQuery();
-            }
-
-            return null;
+            return DbSet.Find(id);
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public IQueryable<TEntity> GetAll()
         {
-            using (var conn = new SqlConnection(SqlConnectionString))
-            using (var command = new SqlCommand("SelectAll", conn)
-            {
-                CommandType = CommandType.StoredProcedure
-            })
-            {
-                conn.Open();
-                command.Parameters.Add(new SqlParameter("@Table_Name", TableName));
-                command.ExecuteNonQuery();
-            }
-
-            return null;
+            return DbSet;
         }
 
         public int Remove(int id)
         {
-            using (var conn = new SqlConnection(SqlConnectionString))
-            using (var command = new SqlCommand("RemoveById", conn)
-            {
-                CommandType = CommandType.StoredProcedure
-            })
-            {
-                conn.Open();
-                command.Parameters.Add(new SqlParameter("@Table_Name", TableName));
-                command.Parameters.Add(new SqlParameter("@Id", id));
-                command.ExecuteNonQuery();
-            }
-
-            return -1;
+            var item = DbSet.Find(id);
+            var deletedItem = DbSet.Remove(item);
+            Context.SaveChanges();
+            return deletedItem.Id;
         }
 
         public int Update(TEntity entity)
         {
-            throw new System.NotImplementedException();
+            Context.Entry(entity).State = EntityState.Modified;
+            Context.SaveChanges();
+            return entity.Id;
         }
     }
 }

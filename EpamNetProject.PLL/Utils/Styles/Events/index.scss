@@ -1,0 +1,92 @@
+.events__block, .event__block {
+  width: 900px;
+}
+
+.events__block {
+  & .event--item {
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-between;
+
+    & a {
+      font-size: 1.5em;
+      text-decoration: none;
+    }
+
+    & p {
+      margin: 0;
+    }
+  }
+}
+
+.events__title {
+  text-align: center;
+}
+
+.event__block {
+  display: flex;
+  align-content: center;
+  flex-direction: column;
+  & h3 {
+    align-self: center;
+  }
+  & .proceedPayment {
+    align-self: center;
+    width: 200px;
+    height: 50px;
+    background-color: #4cae4c;
+    color: #d9edf7;
+    text-decoration: none;
+    text-align: center;
+    font-size: 24px;
+    line-height: 50px;
+    border-radius: 10px;
+  }
+}
+.seat{
+  display: inline-block;
+  position: absolute;
+  cursor: cell;
+  margin: 0;
+}
+.seat[data-seat-status = "1"] {
+  background-color: grey;
+}
+.seat[data-seat-status = "2"] {
+  background-color: red;
+}
+.event__header {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: space-evenly;
+  border-bottom: 1px solid lightgrey;
+
+  &__image {
+    width: 50px;
+    height: 50px;
+  }
+
+  &__eventInfo {
+    height: 50px;
+  }
+
+  &__availability {
+    height: 50px;
+  }
+}
+.area{
+  position: absolute;
+  border: 1px solid #9d9d9d;
+  &--description{
+    position: absolute;
+    top: -20px;
+    left: 20px;
+    display:none;
+  }
+  &:hover{
+    & > .area--description {
+      display: block;
+    }
+  }
+}

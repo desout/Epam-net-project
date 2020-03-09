@@ -1,25 +1,28 @@
-﻿CREATE PROCEDURE [dbo].[EventInsert] @Name varchar(50), @Descr varchar(50), @EventDate DateTime, @LayoutId int
+﻿CREATE PROCEDURE [dbo].[EventInsert] @Name varchar(50), @Descr varchar(50), @EventDate DateTime, @LayoutId int, @ImgUrl varchar(50)
 AS
-	DECLARE @OutputId int
+	declare @ID table (Id int)
+	declare @OutputId int
 
-	INSERT INTO [dbo].[Event]
+	INSERT INTO [dbo].[Events]
            ([Name]
            ,[Description]
 		   ,[EventDate]
-           ,[LayoutId])
-	OUTPUT inserted.Id 
+           ,[LayoutId]
+		   ,[ImgUrl])
+	OUTPUT inserted.Id INTO @ID
     VALUES
-          (@Name, @Descr, @EventDate, @LayoutId)
-	SELECT @OutputId
+          (@Name, @Descr, @EventDate, @LayoutId, @ImgUrl)
+	
+	SELECT @OutputId = (SELECT TOP 1 Id FROM @ID)
 
-	INSERT INTO dbo.EventArea(EventId,Description, CoordX,CoordY,Price) 
+	INSERT INTO dbo.EventAreas(EventId,Description, CoordX,CoordY,Price) 
 	SELECT @OutputId, Description, CoordX, CoordY, 0
-	FROM dbo.Area
+	FROM dbo.Areas
 	WHERE LayoutId = @LayoutId
 
-	INSERT INTO dbo.EventSeat(EventAreaId, Row, Number, State)
+	INSERT INTO dbo.EventSeats(EventAreaId, Row, Number, State)
 	SELECT AreaId, Row, Number, 0
-	FROM dbo.Seat
-	INNER JOIN dbo.Area ON LayoutId = @LayoutId
-	RETURN @OutputId
+	FROM dbo.Seats
+	INNER JOIN dbo.Areas ON LayoutId = @LayoutId
+	SELECT @OutputId
 

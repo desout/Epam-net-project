@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[Venue](
+﻿CREATE TABLE [dbo].[Venues](
 	[Id] [int] IDENTITY(1,1),
 	[Name] [varchar](50) NOT NULL,
 	[Description] [varchar](50) NOT NULL,

@@ -1,0 +1,31 @@
+@using Resources
+@model List<EpamNetProject.BLL.Models.EventDto>
+<div class="editEvent__block">
+    <h2 class="editEvent__title">@Resource.MANAGER_EDIT_EVENTSTITLE</h2>
+    @foreach (var item in Model)
+    {
+        <div data-eventId="@item.Id" class="event--item">
+            <p class="event--item__name">@item.Name</p>
+            <div class="event--item__actions">
+                <a href="@Url.Action("Edit", new {id = item.Id})">@Resource.MANAGER_EDIT_EDIT</a>
+                <button onclick="deleteEvent(@item.Id)">@Resource.MANAGER_EDIT_DELETEEVENT</button>
+            </div>
+
+        </div>
+    }
+    <a class="editEvent__block__AddNew" href="@Url.Action("Edit")">Add</a>
+</div>
+
+<script>
+    function deleteEvent(id) {
+      $.ajax({
+      url:'@Url.Action("DeleteEvent")',
+      method: "POST",
+      data: {id:id}
+      }).done(function(result) {
+        if(result){
+        	$("[data-eventId="+id+"]").remove();
+        }
+      })
+    }
+</script>
