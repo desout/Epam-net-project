@@ -7,45 +7,45 @@ namespace EpamNetProject.DAL.Repositories
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
     {
-        internal MyContext _context;
+        internal MyContext Context;
 
-        internal DbSet<TEntity> _dbSet;
+        internal DbSet<TEntity> DbSet;
 
         public Repository(MyContext context)
         {
-            _context = context;
-            _dbSet = _context.Set<TEntity>();
+            Context = context;
+            DbSet = Context.Set<TEntity>();
         }
 
         public int Add(TEntity entity)
         {
-            var item = _dbSet.Add(entity);
-            _context.SaveChanges();
+            var item = DbSet.Add(entity);
+            Context.SaveChanges();
             return item.Id;
         }
 
         public TEntity Get(int id)
         {
-            return _dbSet.Find(id);
+            return DbSet.Find(id);
         }
 
         public IQueryable<TEntity> GetAll()
         {
-            return _dbSet;
+            return DbSet;
         }
 
         public int Remove(int id)
         {
-            var item = _dbSet.Find(id);
-            var deletedItem = _dbSet.Remove(item);
-            _context.SaveChanges();
+            var item = DbSet.Find(id);
+            var deletedItem = DbSet.Remove(item);
+            Context.SaveChanges();
             return deletedItem.Id;
         }
 
         public int Update(TEntity entity)
         {
-            _context.Entry(entity).State = EntityState.Modified;
-            _context.SaveChanges();
+            Context.Entry(entity).State = EntityState.Modified;
+            Context.SaveChanges();
             return entity.Id;
         }
     }

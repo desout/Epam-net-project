@@ -11,7 +11,7 @@ namespace EpamNetProject.AutomatedUITests.Pages
         
         private const string BlockClassname = "event--item__actions";
 
-        private static IWebElement AddNewButton => findElementBy(AddNewClassname, SelectorType.ClassName);
+        private static IWebElement AddNewButton => FindElementByClassName(AddNewClassname);
 
 
         public EditEventsPage()
@@ -20,7 +20,7 @@ namespace EpamNetProject.AutomatedUITests.Pages
 
         public EditEventsPage ClickDeleteButtonOnEvent(string text)
         {
-            var element = findElementBy(GetEventXPathByText(text), SelectorType.Xpath)
+            var element = FindElementByXPath(GetEventXPathByText(text))
                 .FindElement(By.TagName("button"));
             element.Click();
             Thread.Sleep(1000);
@@ -29,8 +29,8 @@ namespace EpamNetProject.AutomatedUITests.Pages
 
         public EditEventPage ClickEditLinkOnEvent(string text)
         {
-            var element = findElementBy(
-                    GetEventXPathByText(text), SelectorType.Xpath)
+            var element = FindElementByXPath(
+                    GetEventXPathByText(text))
                 .FindElement(By.TagName("a"));
             element.Click();
             return new EditEventPage();

@@ -1,9 +1,8 @@
 using EpamNetProject.AutomatedUITests.Pages;
-using OpenQA.Selenium;
 
-namespace EpamNetProject.AutomatedUITests
+namespace EpamNetProject.AutomatedUITests.Services
 {
-    public static class LoginUtils
+    public static class LoginService
     {
         private const string AdminLogin = "desout";
 

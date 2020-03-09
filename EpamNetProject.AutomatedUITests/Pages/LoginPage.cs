@@ -17,13 +17,13 @@ namespace EpamNetProject.AutomatedUITests.Pages
 
         private const string LoginButtonClassname = "button__submit";
 
-        private static IWebElement LoginButton => findElementBy(LoginButtonClassname, SelectorType.ClassName);
+        private static IWebElement LoginButton => FindElementByClassName(LoginButtonClassname);
 
-        private static IWebElement PasswordTextField => findElementBy(PasswordTextFieldId, SelectorType.Id);
+        private static IWebElement PasswordTextField => FindElementById(PasswordTextFieldId);
 
-        private static IWebElement UserNameTextField => findElementBy(UserNameTextFieldId, SelectorType.Id);
+        private static IWebElement UserNameTextField => FindElementById(UserNameTextFieldId);
 
-        private static IReadOnlyCollection<IWebElement> ValidationErrors => findElementsBy(ValidationSummarySelector, SelectorType.Css);
+        private static IReadOnlyCollection<IWebElement> ValidationErrors => FindElementsByCss(ValidationSummarySelector);
 
         public LoginPage()
         {

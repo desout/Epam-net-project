@@ -18,18 +18,19 @@ namespace EpamNetProject.AutomatedUITests.Pages
 
         private const string SubmitButtonClassname = "button__submit";
 
-        private static IWebElement DescriptionTextField => findElementBy(DescriptionTextFieldId, SelectorType.Id);
+        private static IWebElement DescriptionTextField => FindElementById(DescriptionTextFieldId);
 
-        private static IWebElement ImgUrlField => findElementBy(ImgUrlTextFieldId, SelectorType.Id);
+        private static IWebElement ImgUrlField => FindElementById(ImgUrlTextFieldId);
 
-        private static IWebElement NameTextField => findElementBy(NameTextFieldId, SelectorType.Id);
+        private static IWebElement NameTextField => FindElementById(NameTextFieldId);
 
-        private static IWebElement SubmitButton => findElementBy(SubmitButtonClassname, SelectorType.ClassName);
+        private static IWebElement SubmitButton => FindElementByClassName(SubmitButtonClassname);
 
-        private static IWebElement TimeTextField => findElementBy(TimeTextFieldId, SelectorType.Id);
+        private static IWebElement TimeTextField => FindElementById(TimeTextFieldId);
 
-        private static IWebElement TitleTextField => findElementBy(TitleTextFieldId, SelectorType.Id);
+        private static IWebElement TitleTextField => FindElementById(TitleTextFieldId);
 
+        private static IWebElement DatePickerCloseButton => FindElementByClassName(DatepickerCloseButtonClassname);
         public EditEventPage()
         {
         }
@@ -66,7 +67,7 @@ namespace EpamNetProject.AutomatedUITests.Pages
 
         public EditEventPage CloseDatepicker()
         {
-            findElementBy(DatepickerCloseButtonClassname, SelectorType.ClassName).Click();
+            DatePickerCloseButton.Click();
             return this;
         }
 

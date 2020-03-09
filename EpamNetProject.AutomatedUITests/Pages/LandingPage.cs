@@ -18,15 +18,15 @@ namespace EpamNetProject.AutomatedUITests.Pages
         private const string UserNameTextFieldId = "userName-header";
 
         private static IReadOnlyCollection<IWebElement> EditEventsLink =>
-           findElementsBy(EditEventsLinkSelector,SelectorType.Css);
+           FindElementsByCss(EditEventsLinkSelector);
 
         private static IWebElement EventsLink =>
-            findElementBy(EventsLinkSelector,SelectorType.Css);
+            FindElementByCss(EventsLinkSelector);
 
         private static IWebElement LoginLink =>
-            findElementBy(LoginLinkSelector,SelectorType.Css);
+            FindElementByCss(LoginLinkSelector);
 
-        private static IWebElement UserNameElement => findElementBy(UserNameTextFieldId, SelectorType.Id);
+        private static IWebElement UserNameElement => FindElementById(UserNameTextFieldId);
 
         public LandingPage()
         {

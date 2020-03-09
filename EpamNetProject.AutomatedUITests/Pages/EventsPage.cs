@@ -10,14 +10,14 @@ namespace EpamNetProject.AutomatedUITests.Pages
 
         private const string FirstEventClassName = "event--item__name";
 
-        private static IWebElement FirstEvent => Driver.FindElement(By.ClassName(FirstEventClassName));
+        private static IWebElement FirstEvent => FindElementByClassName(FirstEventClassName);
 
         public EventsPage()
         {
         }
         public IReadOnlyCollection<IWebElement> GetEventsByName(string name)
         {
-            return findElementsBy($"//*[@class='event--item__name' and text()='{name}']", SelectorType.Xpath);
+            return FindElementsByXPath($"//*[@class='event--item__name' and text()='{name}']");
         }
 
 

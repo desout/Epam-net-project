@@ -1,4 +1,5 @@
 ﻿using EpamNetProject.AutomatedUITests.Pages;
+using EpamNetProject.AutomatedUITests.Services;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 
@@ -10,19 +11,19 @@ namespace EpamNetProject.AutomatedUITests.BuyTicket
         [Given(@"I have logged in as manager")]
         public void GivenIHaveLoggedInAsManager()
         {
-            LoginUtils.LoginAsManager();
+            LoginService.LoginAsManager();
         }
 
         [Given(@"I have logged in as user")]
         public void GivenIHaveLoggedInAsUser()
         {
-            LoginUtils.LoginAsUser();
+            LoginService.LoginAsUser();
         }
 
         [Given(@"I have logged in as admin")]
         public void GivenIHaveLoggedInAsAdmin()
         {
-            LoginUtils.LoginAsAdmin();
+            LoginService.LoginAsAdmin();
         }
 
         [When(@"I go to event and select seat")]

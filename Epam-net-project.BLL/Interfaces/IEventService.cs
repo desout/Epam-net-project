@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using EpamNetProject.BLL.Models;
 
 namespace EpamNetProject.BLL.Interfaces
@@ -8,7 +9,7 @@ namespace EpamNetProject.BLL.Interfaces
     {
         int CreateEvent(EventDto Event);
 
-        int UpdateEvent(EventDto Event);
+        Task<int> UpdateEvent(EventDto Event);
 
         int UpdateEventArea(EventAreaDto area);
 

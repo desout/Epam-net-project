@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
+using System.Data.Entity;
 using System.Data.Entity.Core;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using EpamNetProject.BLL.Infrastructure;
 using EpamNetProject.BLL.Interfaces;
@@ -51,7 +53,7 @@ namespace EpamNetProject.BLL.Services
             _basketLeaveTime = basketLeaveTime;
         }
 
-        public int UpdateEvent(EventDto Event)
+        public async Task<int> UpdateEvent(EventDto Event)
         {
             if (_eventRepository.Get(Event.Id).LayoutId == Event.LayoutId)
             {
@@ -59,12 +61,12 @@ namespace EpamNetProject.BLL.Services
             }
 
             //split to methods + check seats
-            _eventAreaRepository.GetAll().Where(x => x.EventId == Event.Id)
-                .Map(x => _eventAreaRepository.Remove(x.Id));
+            await _eventAreaRepository.GetAll().Where(x => x.EventId == Event.Id)
+                .ForEachAsync(x => _eventAreaRepository.Remove(x.Id));
             var areas = _areaRepository.GetAll().Where(x => x.LayoutId == Event.LayoutId).ToList();
-            areas.Map(x => _eventAreaRepository.Add(_mapper.Map<EventArea>(x)));
-            _seatRepository.GetAll().Join(areas, x => x.AreaId, a => a.Id, (x, a) => x)
-                .Map(x => _eventSeatRepository.Add(_mapper.Map<EventSeat>(x)));
+            areas.ForEach(x => _eventAreaRepository.Add(_mapper.Map<EventArea>(x)));
+            await _seatRepository.GetAll().Join(areas, x => x.AreaId, a => a.Id, (x, a) => x)
+                .ForEachAsync(x => _eventSeatRepository.Add(_mapper.Map<EventSeat>(x)));
 
             return _eventRepository.Update(_mapper.Map<Event>(Event));
         }

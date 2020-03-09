@@ -9,19 +9,19 @@ namespace EpamNetProject.DAL.Repositories
 {
     public class EventRepository : IEventRepository
     {
-        internal MyContext _context;
+        internal MyContext Context;
 
-        internal DbSet<Event> _dbSet;
+        internal DbSet<Event> DbSet;
 
         public EventRepository(MyContext context)
         {
-            _context = context;
-            _dbSet = _context.Set<Event>();
+            Context = context;
+            DbSet = Context.Set<Event>();
         }
 
         public int Add(Event entity)
         {
-            var returnedId = _context.Database.SqlQuery<int>(
+            var returnedId = Context.Database.SqlQuery<int>(
                     "EventInsert @Name, @Descr, @EventDate, @LayoutId, @ImgUrl",
                     new SqlParameter("@Name", entity.Name),
                     new SqlParameter("@Descr", entity.Description),
@@ -29,37 +29,37 @@ namespace EpamNetProject.DAL.Repositories
                     new SqlParameter("@LayoutId", entity.LayoutId),
                     new SqlParameter("@ImgUrl", entity.ImgUrl))
                 .FirstOrDefault();
-            _context.SaveChanges();
+            Context.SaveChanges();
             return returnedId;
         }
 
         public Event Get(int id)
         {
-            return _context.Database.SqlQuery<Event>("EventSelectById @Id", new SqlParameter("@Id", id)).First();
+            return Context.Database.SqlQuery<Event>("EventSelectById @Id", new SqlParameter("@Id", id)).First();
         }
 
         public IEnumerable<Event> GetAll()
         {
-            return _context.Database.SqlQuery<Event>("EventSelectAll");
+            return Context.Database.SqlQuery<Event>("EventSelectAll");
         }
 
         public int Remove(int id)
         {
-            _context.Database.ExecuteSqlCommand("EXEC EventDeleteById @Id", new SqlParameter("@Id", id));
-            _context.SaveChanges();
+            Context.Database.ExecuteSqlCommand("EXEC EventDeleteById @Id", new SqlParameter("@Id", id));
+            Context.SaveChanges();
             return id;
         }
 
         public int Update(Event entity)
         {
-            _context.Database.ExecuteSqlCommand("EXEC EventUpdate @Name, @Descr, @EventDate, @LayoutId, @Id, @ImgUrl",
+            Context.Database.ExecuteSqlCommand("EXEC EventUpdate @Name, @Descr, @EventDate, @LayoutId, @Id, @ImgUrl",
                 new SqlParameter("@Name", entity.Name),
                 new SqlParameter("@Descr", entity.Description),
                 new SqlParameter("@EventDate", entity.EventDate),
                 new SqlParameter("@LayoutId", entity.LayoutId),
                 new SqlParameter("@Id", entity.Id),
                 new SqlParameter("@ImgUrl", entity.ImgUrl));
-            _context.SaveChanges();
+            Context.SaveChanges();
             return entity.Id;
         }
     }

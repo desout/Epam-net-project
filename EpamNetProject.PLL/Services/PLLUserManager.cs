@@ -12,7 +12,7 @@ using Microsoft.AspNet.Identity;
 
 namespace EpamNetProject.PLL.Services
 {
-    public class PLLUserManager : IPLLUserManager
+    public class PllUserManager : IPllUserManager
     {
         private readonly ApplicationUserRoleManager _applicationRoleManager;
 
@@ -22,7 +22,7 @@ namespace EpamNetProject.PLL.Services
 
         private readonly IUserService _userService;
 
-        public PLLUserManager(IUserService userService, ApplicationUserRoleManager applicationRoleManager,
+        public PllUserManager(IUserService userService, ApplicationUserRoleManager applicationRoleManager,
             ApplicationUserManager applicationUserManager,
             IUserMapperConfigurationProvider userMapperConfigurationProvider)
         {
@@ -32,7 +32,7 @@ namespace EpamNetProject.PLL.Services
             _mapper = userMapperConfigurationProvider.GetMapperConfig();
         }
 
-        public async Task<ClaimsIdentity> Authenticate(UserDTO userDto)
+        public async Task<ClaimsIdentity> Authenticate(UserDto userDto)
         {
             ClaimsIdentity claim = null;
             var user = await _applicationUserManager.FindAsync(userDto.UserName, userDto.Password);
@@ -45,7 +45,7 @@ namespace EpamNetProject.PLL.Services
             return claim;
         }
 
-        public List<string> Register(UserDTO user)
+        public List<string> Register(UserDto user)
         {
             try
             {

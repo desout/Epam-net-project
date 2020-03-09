@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EpamNetProject.BLL.Models
 {
-    public class UserProfileDTO
+    public class UserProfileDto
     {
         [Required]
         public decimal Balance { get; set; }
@@ -26,6 +26,6 @@ namespace EpamNetProject.BLL.Models
         [Required]
         public string UserId { get; set; }
 
-        public DateTime? basketTime { get; set; }
+        public DateTime? BasketTime { get; set; }
     }
 }

@@ -17,12 +17,12 @@ namespace EpamNetProject.BLL.Interfaces
 
         Task<UserRole> FindByNameRole(string roleName);
 
-        Task AddToRole(UserDTO user, string roleName);
+        Task AddToRole(UserDto user, string roleName);
 
-        Task RemoveFromRole(UserDTO user, string roleName);
+        Task RemoveFromRole(UserDto user, string roleName);
 
-        Task<IList<string>> GetRoles(UserDTO user);
+        Task<IList<string>> GetRoles(UserDto user);
 
-        Task<bool> IsInRole(UserDTO user, string roleName);
+        Task<bool> IsInRole(UserDto user, string roleName);
     }
 }

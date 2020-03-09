@@ -2,12 +2,12 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace EpamNetProject.BLL.Models
 {
-    public class UserDTO : IdentityUser
+    public class UserDto : IdentityUser
     {
         public string Password { get; set; }
 
         public string Role { get; set; }
 
-        public UserProfileDTO UserProfile { get; set; }
+        public UserProfileDto UserProfile { get; set; }
     }
 }

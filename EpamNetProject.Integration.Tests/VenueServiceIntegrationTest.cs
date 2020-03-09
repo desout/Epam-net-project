@@ -23,24 +23,14 @@ namespace EpamNetProject.Integration.Tests
             var sqlConnectionString =
                 ConfigurationManager.ConnectionStrings["SqlConnectionString"].ConnectionString;
             var context = new MyContext(sqlConnectionString);
-            _venueRepository = new Repository<Venue>(context);
-            _layoutRepository = new Repository<Layout>(context);
-            _areaRepository = new Repository<Area>(context);
-            _seatRepository = new Repository<Seat>(context);
-            _mapper = new MapperConfigurationProvider();
-            _venueService = new VenueService(_seatRepository, _layoutRepository,
-                _venueRepository, _areaRepository, _mapper);
+            var venueRepository = new Repository<Venue>(context);
+            var layoutRepository = new Repository<Layout>(context);
+            var areaRepository = new Repository<Area>(context);
+            var seatRepository = new Repository<Seat>(context);
+            var mapper = new MapperConfigurationProvider();
+            _venueService = new VenueService(seatRepository, layoutRepository,
+                venueRepository, areaRepository, mapper);
         }
-
-        private IRepository<Area> _areaRepository;
-
-        private IRepository<Layout> _layoutRepository;
-
-        private IMapperConfigurationProvider _mapper;
-
-        private IRepository<Seat> _seatRepository;
-
-        private IRepository<Venue> _venueRepository;
 
         private VenueService _venueService;
 

@@ -25,41 +25,25 @@ namespace EpamNetProject.Integration.Tests
                 ConfigurationManager.ConnectionStrings["SqlConnectionString"].ConnectionString;
             var context = new MyContext(sqlConnectionString);
 
-            _eventRepository = new EventRepository(context);
-            _layoutRepository = new Repository<Layout>(context);
-            _areaRepository = new Repository<Area>(context);
-            _seatRepository = new Repository<Seat>(context);
-            _eventSeatRepository = new Repository<EventSeat>(context);
-            _eventAreaRepository = new Repository<EventArea>(context);
-            _userProfileRepository = new Repository<UserProfile>(context);
-            _mapper = new MapperConfigurationProvider();
-            _eventService = new EventService(_eventRepository, _layoutRepository,
-                _areaRepository, _seatRepository, _eventSeatRepository, _eventAreaRepository, _userProfileRepository,
-                15, _mapper);
+            var eventRepository = new EventRepository(context);
+            var layoutRepository = new Repository<Layout>(context);
+            var areaRepository = new Repository<Area>(context);
+            var seatRepository = new Repository<Seat>(context);
+            var eventSeatRepository = new Repository<EventSeat>(context);
+            var eventAreaRepository = new Repository<EventArea>(context);
+            var userProfileRepository = new Repository<UserProfile>(context);
+            var mapper = new MapperConfigurationProvider();
+            _eventService = new EventService(eventRepository, layoutRepository,
+                areaRepository, seatRepository, eventSeatRepository, eventAreaRepository, userProfileRepository,
+                15, mapper);
         }
 
-        private IRepository<Area> _areaRepository;
-
-        private IRepository<EventArea> _eventAreaRepository;
-
-        private IEventRepository _eventRepository;
-
-        private IRepository<EventSeat> _eventSeatRepository;
-
         private EventService _eventService;
-
-        private IRepository<Layout> _layoutRepository;
-
-        private IMapperConfigurationProvider _mapper;
-
-        private IRepository<Seat> _seatRepository;
-
-        private IRepository<UserProfile> _userProfileRepository;
 
         [Test]
         public void CreateEvent_WhenEventWithSameTimeExists_ShouldReturnSameTimeValidationException()
         {
-            using (var scope = new TransactionScope())
+            using (new TransactionScope())
             {
                 var sEvent = new EventDto
                 {
@@ -76,7 +60,7 @@ namespace EpamNetProject.Integration.Tests
         [Test]
         public void CreateEvent_WhenModelValid_ShouldInsertNewEvent()
         {
-            using (var scope = new TransactionScope())
+            using (new TransactionScope())
             {
                 var sEvent = new EventDto
                 {
@@ -96,7 +80,7 @@ namespace EpamNetProject.Integration.Tests
         [Test]
         public void CreateEvent_WhenSeatsNotExists_ShouldReturnNoSeatsValidationException()
         {
-            using (var scope = new TransactionScope())
+            using (new TransactionScope())
             {
                 var sEvent = new EventDto
                 {

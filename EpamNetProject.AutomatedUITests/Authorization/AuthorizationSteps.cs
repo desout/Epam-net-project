@@ -50,7 +50,7 @@ namespace EpamNetProject.AutomatedUITests.Authorization
         }
 
         [Then(@"I am stayed on login page")]
-        public void IAmStayedOnLoginPage()
+        public void AmStayedOnLoginPage()
         {
             Assert.IsTrue(new LoginPage().IsPageOpen());
         }

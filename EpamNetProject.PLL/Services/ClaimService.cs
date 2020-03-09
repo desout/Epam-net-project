@@ -19,7 +19,7 @@ namespace EpamNetProject.PLL.Services
             _claimRepository = claimRepository;
         }
 
-        public async Task RemoveClaim(UserDTO user, Claim claim)
+        public async Task RemoveClaim(UserDto user, Claim claim)
         {
             if (user == null)
             {
@@ -41,7 +41,7 @@ namespace EpamNetProject.PLL.Services
             Task.FromResult(0);
         }
 
-        public Task AddClaim(UserDTO user, Claim claim)
+        public Task AddClaim(UserDto user, Claim claim)
         {
             if (user == null)
             {

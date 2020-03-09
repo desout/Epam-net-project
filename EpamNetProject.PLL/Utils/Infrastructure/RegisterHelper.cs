@@ -45,17 +45,17 @@ namespace EpamNetProject.PLL.Utils.Infrastructure
                 .InstancePerLifetimeScope();
             builder.RegisterType<RoleService>().As<IRoleService>()
                 .InstancePerLifetimeScope();
-            builder.RegisterType<PLLUserManager>().As<IPLLUserManager>()
+            builder.RegisterType<PllUserManager>().As<IPllUserManager>()
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<MyRoleStore>()
                 .As<IRoleStore<UserRole, string>>()
                 .InstancePerLifetimeScope();
             builder.RegisterType<MyUserStore>()
-                .As<IUserStore<UserDTO, string>>()
-                .As<IUserClaimStore<UserDTO, string>>()
-                .As<IUserPasswordStore<UserDTO, string>>()
-                .As<IUserRoleStore<UserDTO, string>>()
+                .As<IUserStore<UserDto, string>>()
+                .As<IUserClaimStore<UserDto, string>>()
+                .As<IUserPasswordStore<UserDto, string>>()
+                .As<IUserRoleStore<UserDto, string>>()
                 .SingleInstance()
                 .InstancePerLifetimeScope();
 

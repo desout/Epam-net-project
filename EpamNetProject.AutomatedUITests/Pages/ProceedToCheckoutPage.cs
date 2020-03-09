@@ -16,13 +16,13 @@ namespace EpamNetProject.AutomatedUITests.Pages
         private const string ErrorBlockTag = "h2";
 
         private const string ErrorBlockText = "Not enough money on balance";
-        private static IWebElement ErrorBlock => findElementBy(ErrorBlockTag, SelectorType.Id);
+        private static IWebElement ErrorBlock => FindElementById(ErrorBlockTag);
 
-        private static IReadOnlyCollection<IWebElement> SelectedSeats => findElementsBy(SelectedSeatClassname, SelectorType.ClassName);
+        private static IReadOnlyCollection<IWebElement> SelectedSeats => FindElementsByClassName(SelectedSeatClassname);
 
-        private static IWebElement SubmitButton => findElementBy(SubmitButtonClassname, SelectorType.ClassName);
+        private static IWebElement SubmitButton => FindElementByClassName(SubmitButtonClassname);
 
-        private static IWebElement TicketCountField => findElementBy(CountOfTicketsId, SelectorType.Id);
+        private static IWebElement TicketCountField => FindElementById(CountOfTicketsId);
 
 
         public ProceedToCheckoutPage()

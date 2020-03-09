@@ -1,3 +1,4 @@
+using System.Data.Entity;
 using System.Data.Entity.Core;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,45 +27,45 @@ namespace EpamNetProject.BLL.Services
             _userRepository = userRepository;
         }
 
-        public async Task<UserDTO> Create(UserDTO userDto, string passwordHash)
+        public async Task<UserDto> Create(UserDto userDto, string passwordHash)
         {
-            var user = _userRepository.GetAll().FirstOrDefault(x => x.UserName == userDto.UserName);
-            if (user != null)
+            if (await _userRepository.GetAll().AnyAsync(x => x.UserName == userDto.UserName))
             {
                 throw new EntityException();
             }
 
-            user = new User {Email = userDto.Email, UserName = userDto.UserName, PasswordHash = passwordHash};
+            var user = new User {Email = userDto.Email, UserName = userDto.UserName, PasswordHash = passwordHash};
             await _userRepository.Create(user);
             userDto.UserProfile.UserId = user.Id;
             _userProfileRepository.Add(_mapper.Map<UserProfile>(userDto.UserProfile));
             return userDto;
         }
 
-        public UserProfileDTO GetUserProfile(string userId)
+        public UserProfileDto GetUserProfile(string userId)
         {
-            return _mapper.Map<UserProfileDTO>(_userProfileRepository.GetAll().FirstOrDefault(x => x.UserId == userId));
+            return _mapper.Map<UserProfileDto>(_userProfileRepository.GetAll().FirstOrDefault(x => x.UserId == userId));
         }
 
 
-        public UserDTO GetUserInfo(string userId)
+        public UserDto GetUserInfo(string userId)
         {
             var user = _userRepository.GetAll().FirstOrDefault(x => x.Id == userId);
-            var userProfile = _userProfileRepository.GetAll().FirstOrDefault(x => x.UserId == userId);
             if (user == null)
             {
-                return new UserDTO();
+                return new UserDto();
             }
-
-            var returnedUser = new UserDTO
+            
+            var userProfile = _userProfileRepository.GetAll().FirstOrDefault(x => x.UserId == userId);
+            var returnedUser = new UserDto
             {
                 Email = user.Email,
-                UserProfile = _mapper.Map<UserProfileDTO>(userProfile)
+                UserProfile = _mapper.Map<UserProfileDto>(userProfile)
             };
+            
             return returnedUser;
         }
 
-        public bool UpdateUserInfo(UserDTO user, string passwordHash)
+        public bool UpdateUserInfo(UserDto user, string passwordHash)
         {
             var localUser = _userRepository.GetAll().FirstOrDefault(x => x.Id == user.Id);
             if (passwordHash != "" || user.Email != localUser?.Email)
@@ -88,48 +89,48 @@ namespace EpamNetProject.BLL.Services
             return true;
         }
 
-        public Task CreateUser(UserDTO user)
+        public Task CreateUser(UserDto user)
         {
             return _userRepository.Create(_mapper.Map<User>(user));
         }
 
-        public Task UpdateUser(UserDTO user)
+        public Task UpdateUser(UserDto user)
         {
             return _userRepository.Update(_mapper.Map<User>(user));
         }
 
-        public Task DeleteUser(UserDTO user)
+        public Task DeleteUser(UserDto user)
         {
             return _userRepository.Delete(_mapper.Map<User>(user));
         }
 
-        public async Task<UserDTO> GetUser(string userId)
+        public async Task<UserDto> GetUser(string userId)
         {
-            return _mapper.Map<UserDTO>(await _userRepository.Get(userId));
+            return _mapper.Map<UserDto>(await _userRepository.Get(userId));
         }
 
-        public async Task<UserDTO> GetUserByName(string userName)
+        public async Task<UserDto> GetUserByName(string userName)
         {
-            return _mapper.Map<UserDTO>(_userRepository.GetAll().FirstOrDefault(x => x.UserName == userName));
+            return _mapper.Map<UserDto>(_userRepository.GetAll().FirstOrDefault(x => x.UserName == userName));
         }
 
-        public async Task<string> GetPasswordHashAsync(UserDTO user)
+        public async Task<string> GetPasswordHashAsync(UserDto user)
         {
             return (await _userRepository.Get(user.Id)).PasswordHash;
         }
 
-        public async Task<bool> HasPasswordAsync(UserDTO user)
+        public async Task<bool> HasPasswordAsync(UserDto user)
         {
             return string.IsNullOrEmpty((await _userRepository.Get(user.Id)).PasswordHash);
         }
 
-        public Task SetPasswordHashAsync(UserDTO user, string passwordHash)
+        public Task SetPasswordHashAsync(UserDto user, string passwordHash)
         {
             user.PasswordHash = passwordHash;
             return _userRepository.Update(_mapper.Map<User>(user));
         }
 
-        public void AddUserProfile(UserDTO userDto, UserProfileDTO userProfile)
+        public void AddUserProfile(UserDto userDto, UserProfileDto userProfile)
         {
             userProfile.UserId = userDto.Id;
             _userProfileRepository.Add(_mapper.Map<UserProfile>(userProfile));

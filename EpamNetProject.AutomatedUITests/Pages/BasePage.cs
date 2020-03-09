@@ -38,58 +38,39 @@ namespace EpamNetProject.AutomatedUITests.Pages
             }
         }
 
-        protected static IWebElement findElementBy(string selector, SelectorType type)
+        protected static IWebElement FindElementById(string selector)
         {
-            switch (type)
-            {
-                case SelectorType.Css:
-                    return Driver.FindElement(By.CssSelector(selector));
-                    break;
-                case SelectorType.Id:
-                    return Driver.FindElement(By.Id(selector));
-                    break;
-                case SelectorType.Tag:
-                    return Driver.FindElement(By.TagName(selector));
-                    break;
-                case SelectorType.Xpath:
-                    return Driver.FindElement(By.XPath(selector));
-                    break;
-                case SelectorType.Name:
-                    return Driver.FindElement(By.Name(selector));
-                    break;
-                case SelectorType.ClassName:
-                    return Driver.FindElement(By.ClassName(selector));
-                    break;
-                default:
-                    return null;
-            }
+            return Driver.FindElement(By.Id(selector));
         }
 
-        protected static IReadOnlyCollection<IWebElement> findElementsBy(string selector, SelectorType type)
+        protected static IWebElement FindElementByCss(string selector)
         {
-            switch (type)
-            {
-                case SelectorType.Css:
-                    return Driver.FindElements(By.CssSelector(selector));
-                    break;
-                case SelectorType.Id:
-                    return Driver.FindElements(By.Id(selector));
-                    break;
-                case SelectorType.Tag:
-                    return Driver.FindElements(By.TagName(selector));
-                    break;
-                case SelectorType.Xpath:
-                    return Driver.FindElements(By.XPath(selector));
-                    break;
-                case SelectorType.Name:
-                    return Driver.FindElements(By.Name(selector));
-                    break;
-                case SelectorType.ClassName:
-                    return Driver.FindElements(By.ClassName(selector));
-                    break;
-                default:
-                    return null;
-            }
+            return Driver.FindElement(By.CssSelector(selector));
+        }
+
+        protected static IWebElement FindElementByClassName(string selector)
+        {
+            return Driver.FindElement(By.ClassName(selector));
+        }
+
+        protected static IWebElement FindElementByXPath(string selector)
+        {
+            return Driver.FindElement(By.XPath(selector));
+        }
+
+        protected static IReadOnlyCollection<IWebElement> FindElementsByXPath(string selector)
+        {
+            return Driver.FindElements(By.XPath(selector));
+        }
+
+        protected static IReadOnlyCollection<IWebElement> FindElementsByCss(string selector)
+        {
+            return Driver.FindElements(By.CssSelector(selector));
+        }
+
+        protected static IReadOnlyCollection<IWebElement> FindElementsByClassName(string selector)
+        {
+            return Driver.FindElements(By.ClassName(selector));
         }
     }
 }

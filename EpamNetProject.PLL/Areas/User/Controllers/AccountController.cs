@@ -22,7 +22,7 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
     {
         private readonly IEventService _eventService;
 
-        private readonly IPLLUserManager _ipllUserManager;
+        private readonly IPllUserManager _ipllUserManager;
 
         private readonly IMapper _mapper;
 
@@ -32,7 +32,7 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
 
 
         public AccountController(IEventService eventService, ApplicationUserManager userManager,
-            IUserService userService, IPLLUserManager ipllUserManager,
+            IUserService userService, IPllUserManager ipllUserManager,
             IUserMapperConfigurationProvider userMapperConfigurationProvider)
         {
             _userService = userService;
@@ -71,7 +71,7 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
             var hashPassword = string.IsNullOrEmpty(model.Password)
                 ? ""
                 : _userManager.PasswordHasher.HashPassword(model.Password);
-            _userService.UpdateUserInfo(_mapper.Map<UserDTO>(model), hashPassword);
+            _userService.UpdateUserInfo(_mapper.Map<UserDto>(model), hashPassword);
             var user = _userService.GetUserProfile(User.GetUserId());
             var cookie = new HttpCookie("lang")
                 {HttpOnly = false, Value = user.Language, Expires = DateTime.Now.AddYears(1)};
@@ -102,7 +102,7 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
                 return View(model);
             }
 
-            var userDto = new UserDTO {UserName = model.UserName, Password = model.Password};
+            var userDto = new UserDto {UserName = model.UserName, Password = model.Password};
             var claim = await _ipllUserManager.Authenticate(userDto);
             if (claim == null)
             {
@@ -149,7 +149,7 @@ namespace EpamNetProject.PLL.Areas.User.Controllers
                 ViewBag.Errors = new List<string>();
                 if (ModelState.IsValid)
                 {
-                    var userDto = _mapper.Map<UserDTO>(model);
+                    var userDto = _mapper.Map<UserDto>(model);
 
                     var errors = _ipllUserManager.Register(userDto);
                     if (!errors.Any())

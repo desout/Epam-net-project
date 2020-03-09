@@ -6,8 +6,8 @@ namespace EpamNetProject.BLL.Interfaces
 {
     public interface IClaimService
     {
-        Task RemoveClaim(UserDTO user, Claim claim);
+        Task RemoveClaim(UserDto user, Claim claim);
 
-        Task AddClaim(UserDTO user, Claim claim);
+        Task AddClaim(UserDto user, Claim claim);
     }
 }

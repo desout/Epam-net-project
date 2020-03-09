@@ -12,7 +12,7 @@ namespace EpamNetProject.PLL.Utils.Infrastructure
         {
             var mapper = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<UserDTO, User>()
+                cfg.CreateMap<UserDto, User>()
                     .ConvertUsing(s => new User {Email = s.Email, UserName = s.UserName});
                 cfg.CreateMap<AddAreaModel, EventAreaDto>()
                     .ConvertUsing(area => new EventAreaDto
@@ -60,7 +60,7 @@ namespace EpamNetProject.PLL.Utils.Infrastructure
                     .ForMember(x => x.EventDate, opt => opt.MapFrom(src => src.Time))
                     .ForMember(x => x.Name, opt => opt.MapFrom(src => src.Title))
                     .ForMember(x => x.LayoutId, opt => opt.MapFrom(src => src.Layout));
-                cfg.CreateMap<UserDTO, UserProfileViewModel>()
+                cfg.CreateMap<UserDto, UserProfileViewModel>()
                     .ConvertUsing(user => new UserProfileViewModel
                     {
                         Email = user.Email,
@@ -70,12 +70,12 @@ namespace EpamNetProject.PLL.Utils.Infrastructure
                         Language = user.UserProfile.Language,
                         UserId = user.UserProfile.UserId
                     });
-                cfg.CreateMap<UserProfileViewModel, UserDTO>()
-                    .ConvertUsing(model => new UserDTO
+                cfg.CreateMap<UserProfileViewModel, UserDto>()
+                    .ConvertUsing(model => new UserDto
                     {
                         Id = model.UserId,
                         Email = model.Email,
-                        UserProfile = new UserProfileDTO
+                        UserProfile = new UserProfileDto
                         {
                             FirstName = model.FirstName,
                             Language = model.Language,
@@ -83,25 +83,25 @@ namespace EpamNetProject.PLL.Utils.Infrastructure
                             TimeZone = model.TimeZone
                         }
                     });
-                cfg.CreateMap<RegisterModel, UserDTO>()
-                    .ConvertUsing(model => new UserDTO
+                cfg.CreateMap<RegisterModel, UserDto>()
+                    .ConvertUsing(model => new UserDto
                     {
                         Email = model.Email,
                         Password = model.Password,
                         UserName = model.UserName,
                         Role = "user",
-                        UserProfile = new UserProfileDTO
+                        UserProfile = new UserProfileDto
                         {
                             Balance = 0,
                             FirstName = model.FirstName,
                             Language = model.Language,
-                            basketTime = null,
+                            BasketTime = null,
                             Surname = model.Surname,
                             TimeZone = model.TimeZone
                         }
                     });
-                cfg.CreateMap<UserProfile, UserProfileDTO>();
-                cfg.CreateMap<UserProfileDTO, UserProfile>();
+                cfg.CreateMap<UserProfile, UserProfileDto>();
+                cfg.CreateMap<UserProfileDto, UserProfile>();
             }).CreateMapper();
             return mapper;
         }

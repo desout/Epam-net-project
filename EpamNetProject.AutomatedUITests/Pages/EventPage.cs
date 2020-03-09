@@ -13,13 +13,13 @@ namespace EpamNetProject.AutomatedUITests.Pages
 
         private const string ErrorBlockClassName = "validation-summary-errors";
 
-        private static IWebElement AvailableSeat => findElementBy(AvailableSeatSelector,SelectorType.Css);
+        private static IWebElement AvailableSeat => FindElementByCss(AvailableSeatSelector);
 
-        private static IWebElement ErrorBlock => findElementBy(ErrorBlockClassName, SelectorType.ClassName);
+        private static IWebElement ErrorBlock => FindElementByClassName(ErrorBlockClassName);
 
-        private static IWebElement ProceedToCheckoutButton => findElementBy(ProceedToCheckoutId, SelectorType.Id);
+        private static IWebElement ProceedToCheckoutButton => FindElementById(ProceedToCheckoutId);
 
-        private static IWebElement ReservedSeat => findElementBy(ReservedSeatSelector, SelectorType.Css);
+        private static IWebElement ReservedSeat => FindElementByCss(ReservedSeatSelector);
 
         public EventPage()
         {
