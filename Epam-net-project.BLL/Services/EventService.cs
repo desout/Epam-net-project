@@ -183,19 +183,23 @@ namespace EpamNetProject.BLL.Services
 
         public IEnumerable<EventSeatDto> GetSeatsByEvent(int eventId, string userId)
         {
-            return _mapper.Map<List<EventSeatDto>>(_eventSeatRepository.GetAll().Join(
-                _eventAreaRepository.GetAll().Where(a => a.EventId == eventId),
-                s => s.EventAreaId,
-                a => a.Id,
-                (s, a) => s).AsEnumerable()).Select(s =>
-            {
-                if (s.State == SeatStatus.Reserved)
-                {
-                    s.State = s.UserId == userId ? SeatStatus.Reserved : SeatStatus.Bought;
-                }
+            var eventSeats = from eventSeat in _eventSeatRepository.GetAll()
+                             join eventArea in (from eventArea in _eventAreaRepository.GetAll()
+                                                where eventArea.EventId == eventId
+                                                select eventArea) on eventSeat.EventAreaId equals
+                                 eventArea.Id
+                             select eventSeat;
+            eventSeats.ToList().ForEach(x => ReservedSeatCleaner(x, userId));
 
-                return s;
-            });
+            return _mapper.Map<List<EventSeatDto>>(eventSeats);
+        }
+
+        private static void ReservedSeatCleaner(EventSeat eventSeat, string userId)
+        {
+            if (eventSeat.State == SeatStatus.Reserved)
+            {
+                eventSeat.State = eventSeat.UserId == userId ? SeatStatus.Reserved : SeatStatus.Bought;
+            }
         }
 
         public IEnumerable<EventSeatDto> GetSeatsByUser(string userId)
@@ -211,17 +215,12 @@ namespace EpamNetProject.BLL.Services
 
         public List<EventDto> GetUserPurchaseHistory(string userId)
         {
-            var events = _eventSeatRepository.GetAll().Where(x => x.UserId == userId).Join(
-                _eventAreaRepository.GetAll().AsEnumerable()
-                    .Join(_eventRepository.GetAll(),
-                        s => s.EventId,
-                        a => a.Id,
-                        (s, a) => a),
-                s => s.EventAreaId,
-                a => a.Id,
-                (s, a) => a).ToList();
-
-            return _mapper.Map<List<EventDto>>(events);
+            var events = from eventSeat in _eventSeatRepository.GetAll()
+                         where eventSeat.UserId == userId
+                         join eventArea in _eventAreaRepository.GetAll() on eventSeat.EventAreaId equals eventArea.Id
+                         join @event in _eventRepository.GetAll() on eventArea.EventId equals @event.Id
+                         select @event;
+            return _mapper.Map<List<EventDto>>(events.ToList());
         }
 
         public int ChangeStatusToBuy(string userId, decimal totalAmount)
@@ -261,15 +260,14 @@ namespace EpamNetProject.BLL.Services
         {
             var seats = _eventSeatRepository.GetAll().Where(x => x.State == SeatStatus.Reserved && x.UserId == userId);
             var events = _eventRepository.GetAll().ToList();
-            return _eventAreaRepository.GetAll().Join(seats, x => x.Id, c => c.EventAreaId,
-                (x, c) => new
-                {
-                    Seat = c, x.Price, AreaName = x.Description, x.EventId
-                }).AsEnumerable().Select(x => new PriceSeat
-            {
-                Seat = _mapper.Map<EventSeatDto>(x.Seat), Price = x.Price, AreaName = x.AreaName,
-                EventName = events.Find(e => e.Id == x.EventId).Name
-            }).ToList();
+
+            return (from eventArea in _eventAreaRepository.GetAll()
+                    join eventSeat in seats on eventArea.Id equals eventSeat.EventAreaId
+                    select new PriceSeat
+                    {
+                        Seat = _mapper.Map<EventSeatDto>(eventSeat), Price = eventArea.Price,
+                        AreaName = eventArea.Description, EventName = events.Find(e => e.Id == eventArea.EventId).Name
+                    }).ToList();
         }
 
         public void CheckReservation(string userId)
