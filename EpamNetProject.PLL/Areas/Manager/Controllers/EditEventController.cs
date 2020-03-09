@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using AutoMapper;
 using EpamNetProject.BLL.Interfaces;
@@ -82,7 +83,7 @@ namespace EpamNetProject.PLL.Areas.Manager.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Manager, Admin")]
-        public ActionResult Update(EditEventViewModel model)
+        public async Task<ActionResult> Update(EditEventViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -91,7 +92,7 @@ namespace EpamNetProject.PLL.Areas.Manager.Controllers
 
             try
             {
-                _eventService.UpdateEvent(_mapper.Map<EventDto>(model));
+                await _eventService.UpdateEvent(_mapper.Map<EventDto>(model));
                 return RedirectToAction("EditEvents");
             }
             catch (Exception)
